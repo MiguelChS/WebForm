@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="checklist_header">
+        <item>Problema Electrico</item>
+        <item>Problema de Site</item>
+        <item>Problema de comunicaciones</item>
+        <item>Problema operativo</item>
+        <item>Problema de vandalismo</item>
+        <item>Otros Problemas</item>
+    </string-array>
+
+    <string-array name="Site">
+        <item>Suciedad</item>
+        <item>Goteras</item>
+        <item>Plagas</item>
+        <item>Exposicion directa al sol</item>
+    </string-array>
+    
+    <string-array name="comunicaciones">
+        <item>Causa</item>
+    </string-array>
+
+    <string-array name="operativo">
+        <item>Sin insumos</item>
+        <item>Sin billetes</item>
+        <item>Mala calidad billetes</item>
+        <item>Mala calidad de insumos</item>
+    </string-array>
+    <string-array name="vandalismo">
+        <item>Problema de vandalismo</item>
+    </string-array>
+    
+    <string-array name="otros">
+        <item>Otros</item>
+    </string-array>
+
+</resources>

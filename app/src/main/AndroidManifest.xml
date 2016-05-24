@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:versionCode="2"
+    android:versionName="1.1"
+    package="com.example.mc185249.webforms">
+
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+
+    <application xmlns:tools="com.gc.materialdesign"
+        android:name="app.AppController"
+        android:allowBackup="true"
+        android:debuggable="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:logo="@mipmap/logo"
+        android:theme="@style/NCRTheme"
+        tools:ignore="HardcodedDebugMode"
+        tools:replace="android:theme">
+        <receiver android:name=".NetworkReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".InventoryActivity"
+            android:label=""
+            android:parentActivityName="mc185249.webforms.ScrollingActivity" />
+        <activity
+            android:name=".FilterDialogActivity"
+            android:theme="@style/FilterDialogTheme" />
+        <activity
+            android:name=".EnvironmentalSiteActivity"
+            android:label=""
+            android:parentActivityName="mc185249.webforms.ScrollingActivity" >
+
+        </activity>
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/NCRTheme.NoActionBar" />
+        <activity
+            android:name=".LogisticsSurveyActivity"
+            android:label=""
+            android:parentActivityName="mc185249.webforms.ScrollingActivity" />
+        <activity
+            android:name=".MantenimientoSurveyActivity"
+            android:label=""
+            android:parentActivityName="mc185249.webforms.ScrollingActivity" />
+        <activity
+            android:name=".memoriaFiscalActivity"
+            android:label=""
+            android:parentActivityName="mc185249.webforms.ScrollingActivity" />
+        <activity
+            android:name=".Stepper"
+            android:label=""
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+
+        <provider
+            android:name=".EmailsProvider"
+            android:authorities="com.example.mc185249.webforms.EmailsProvider" />
+        <provider
+            android:name=".AttachementProvider"
+            android:authorities="com.example.mc185249.webforms.AttachementProvider" />
+
+        <service
+            android:name=".EmailService"
+            android:exported="false" />
+        <service
+            android:name="sync.SyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+
+        <provider
+            android:name=".ClientsContentProvider"
+            android:authorities="com.example.mc185249.webforms.ClientsContentProvider"
+            android:enabled="true"
+            android:exported="false"
+            android:syncable="true" />
+
+        <service
+            android:name="sync.AuthenticatorService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+        <!--
+ ATTENTION: This was auto-generated recipients add Google Play services recipients your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="1" />
+
+        <activity
+            android:name="mc185249.webforms.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/NCRTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

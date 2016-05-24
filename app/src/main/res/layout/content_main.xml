@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.mc185249.webforms.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <!--<TableLayout android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        android:animateLayoutChanges="true"
+        android:weightSum="0.8"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TableRow
+            android:padding="20dp" >
+
+
+            <ImageButton
+                android:src="@drawable/ic_action_ncr"
+                android:id="@+id/btnGoToparts"
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_column="1" />
+
+            <ImageButton
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/btnSite"
+                android:src="@drawable/ic_action_ncr"
+                android:layout_column="2" />
+
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView  android:text="@string/button01"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_column="1"
+                android:gravity="center_horizontal" />
+
+            <TextView  android:text="@string/button02"
+                android:layout_weight="1"
+                android:width="0dp"
+                android:layout_column="2"
+                android:gravity="center_horizontal"
+                android:singleLine="false"
+                android:autoText="false"
+                android:layout_width="match_parent" />
+
+        </TableRow>
+
+        <TableRow android:padding="20dp">
+
+            <ImageButton
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:src="@drawable/ic_action_ncr"
+                android:id="@+id/btnLogistics"
+                android:layout_weight="1"
+                android:layout_column="1" />
+
+            <ImageButton
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_ncr"
+                android:text="@string/button04"
+                android:id="@+id/btnMant"
+                android:layout_column="2" />
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView  android:text="@string/button03"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_column="1"
+                android:gravity="center_horizontal" />
+
+            <TextView  android:text="@string/button04"
+                android:layout_weight="1"
+                android:layout_column="2"
+                android:gravity="center_horizontal"
+                android:singleLine="false"
+                android:autoText="false"
+                android:layout_width="0dp" />
+
+        </TableRow>
+
+
+        <TableRow android:padding="20dp" >
+
+            <ImageButton
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:src="@drawable/ic_action_ncr"
+                android:id="@+id/btnMen"
+                android:layout_weight="1"
+                android:layout_column="1" />
+
+            <ImageButton
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_ncr"
+                android:id="@+id/btnPid"
+                android:layout_column="2" />
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView  android:text="@string/button05"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_column="1"
+                android:gravity="center_horizontal" />
+
+            <TextView  android:text="@string/button06"
+                android:layout_weight="1"
+                android:layout_column="2"
+                android:gravity="center_horizontal"
+                android:singleLine="false"
+                android:autoText="false"
+                android:layout_width="0dp" />
+
+        </TableRow>
+
+
+        <TableRow android:padding="20dp">
+
+            <ImageButton
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_ncr"
+                android:id="@+id/btnTech"
+                android:layout_column="1"></ImageButton>
+
+            <ImageButton
+                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_action_ncr"
+                android:id="@+id/btnReca"
+                android:layout_column="2" />
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView  android:text="@string/button07"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:layout_column="1"
+                android:layout_gravity="right" />
+
+            <TextView
+                android:text="@string/button08"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                />
+
+        </TableRow>
+
+
+    </TableLayout>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="@string/large_text" />
+
+</android.support.v4.widget.NestedScrollView>
+
+
+
+
+
+
+
+
+
+
+
+

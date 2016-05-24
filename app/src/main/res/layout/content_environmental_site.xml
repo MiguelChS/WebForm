@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:id="@+id/viewA"
+    >
+
+<ScrollView
+    android:scrollbars="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fragmentWorkOrder"
+            android:name="com.example.mc185249.webforms.WorkOrderFragment"
+            tools:layout="@layout/fragment_work_order"></fragment>
+
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:entries="@array/spinnerClientes"
+            android:id="@+id/cliente"></Spinner>
+
+        <EditText
+            android:hint="Contacto"
+            android:id="@+id/editText_contacto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="#Parte"
+            android:id="@+id/editText_parte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="Comentario"
+            android:id="@+id/editText_comentario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ExpandableListView
+            android:layout_marginTop="30dp"
+            android:layout_gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:descendantFocusability="blocksDescendants"
+            android:id="@+id/expandableListView"
+            android:choiceMode="multipleChoice" />
+
+
+    </LinearLayout>
+
+</ScrollView>
+</RelativeLayout>

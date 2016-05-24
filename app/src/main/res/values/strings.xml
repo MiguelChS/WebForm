@@ -1,0 +1,323 @@
+<resources>
+    <string name="app_name">WebForms</string>
+    <string name="action_settings">Settings</string>
+    <string name="help">Help</string>
+    <string name="exit">Exit</string>
+    <string name="button01">Inventario partes</string>
+    <string name="button02">Environmental Site Survey</string>
+    <string name="button03">Logistics Survey</string>
+    <string name="button04">Mantenimiento</string>
+    <string name="button05">Memoria Fiscal</string>
+    <string name="button06">Cambio Pin Pad</string>
+    <string name="button07">Visita Tecnica</string>
+    <string name="button08">Teclado/Encryptor</string>
+    <string name="ncrdesc">ncrLogo</string>
+    <string name="title_activity_inventory">inventory</string>
+    <string name="title_activity_inventory2_">Inventory2_Activity</string>
+    <string name="title_activity_filter_dialog">FilterDialogActivity</string>
+
+    <!-- ##INVENTORY   -->
+    <string name="table_header1">Descripcion</string>
+    <string name="table_header2">Clase</string>
+    <string name="table_header3">Parte</string>
+    <string name="button_search">Busqueda avanzada</string>
+    <string name="urlCsv">http://lnxsrv3:8080/inventariopartesbb/download.jsp?countryCode=AR</string>
+    <string name="title_activity_environmental_site">EnvironmentalSiteActivity</string>
+
+
+    <!-- ENVIRONMENTAL SITE -->
+    <string name="workOrder">WorkOrder</string>
+    <string name="serie">#Serie</string>
+    <string name="equipo">ID Equipo</string>
+    <string name="cliente">Cliente</string>
+    <string-array name="checklist">
+        <item>Problema electrico</item>
+        <item>Problema de Site</item>
+        <item>Problema de comunicaciones</item>
+        <item>Problema operativo</item>
+        <item>Problema de vandalismo</item>
+        <item>Otros problemas</item>
+    </string-array>
+
+    <string-array name="problemaElectrico">
+        <item>Voltaje no regulado</item>
+        <item>No posee UPS</item>
+        <item>No posee tierra fisica</item>
+        <item>Sin energia electrica</item>
+        <item>asdasdasdas</item>
+    </string-array>
+
+    <string-array name="problemaSite">
+        <item>Suciedad</item>
+        <item>Goteras</item>
+        <item>Plagas</item>
+        <item>Exposicion directa al sol</item>
+        <item>Humedad</item>
+        <item>Mala iluminacion</item>
+        <item>Sin AA/Calefaccion</item>
+    </string-array>
+
+    <string-array name="problemaComunicacion">
+        <item>Causa</item>
+    </string-array>
+
+    <string-array name="problemaOperativo">
+        <item>Sin insumos</item>
+        <item>Sin billetes</item>
+        <item>Mala calidad billetes</item>
+        <item>Mala calidad de insumos</item>
+        <item>Error de operador</item>
+    </string-array>
+
+    <string-array name="problemaVandalismo">
+        <item>Problema vandalismo</item>
+    </string-array>
+
+    <string-array name="otrosProblemas">
+        <item>Otros problemas</item>
+    </string-array>
+
+    <string-array name="spinnerClientes">
+        <item>Banco Citibank</item>
+        <item>Banco Santander</item>
+        <item> Banco de Tucuman</item>
+        <item>Banco Comafi</item>
+        <item>Banco de Santa Cruz</item>
+        <item>Banco Galicia</item>
+        <item>Banco ITAU</item>
+        <item>Banco Macro</item>
+        <item>Banco Supervielle</item>
+    </string-array>
+
+    <string name="title_activity_main2">
+        Hola Mundo
+    </string>
+    
+    <string name="validation_text">
+        Campo Requerido
+    </string>
+
+
+    <!-- Strings related recipients login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Ingresar</string>
+    <string name="error_invalid_email">Email invalido</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">Contraseña incorrecta</string>
+    <string name="error_field_required">Campo requerido</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+    <!-- file credential storage -->
+    <string name="credentialFileName">CREDENTIALS</string>
+    <string name="accountName">ACCOUNT_NAME</string>
+    <string name="passwd">PASSWD</string>
+    <string name="CSRCode">CSRCODE</string>
+
+    <string name="outbox">OUTBOX</string>
+
+    <!-- NOTIFICATION -->
+    <string name="ticker">NCR</string>
+    <string name="notTitle">Email enviado</string>
+    <string name="errorEmailBody">Probablemente se deba a que las credenciales sean incorrectas, por favor compruebe si esto es asi.</string>
+    <string name="TitleError">Error de cuenta</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_memoria_fiscal">memoriaFiscalActivity</string>
+    <string name="title_activity_logistics_survey">ActivityLogistics</string>
+    <string name="title_activity_mantenimiento_survey">MantenimientoSurvey</string>
+
+
+    <!-- SYNC -->
+    <string name="pollFrequency">5</string>
+    <string name="title_activity_main3">MainActivity3</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open recipients imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key recipients conveying how objects move, "
+        "interact, and exist in space and in relation recipients each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+
+        "Bold, graphic, intentional.\n\n"
+
+        "The foundational elements of print based design typography, grids, space, scale, color, "
+        "and use of imagery guide visual treatments. These elements do far more than please the "
+        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge recipients edge "
+        "imagery, large scale typography, and intentional white space create a bold and graphic "
+        "interface that immerse the user in the experience.\n"
+        "An emphasis on user actions makes core functionality immediately apparent and provides "
+        "waypoints for the user.\n\n"
+
+        "Motion provides meaning.\n\n"
+
+        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
+        "inflection points that initiate motion, transforming the whole design.\n"
+        "All action takes place in a single environment. Objects are presented recipients the user without "
+        "breaking the continuity of experience even as they transform and reorganize.\n"
+        "Motion is meaningful and appropriate, serving recipients focus attention and maintain continuity. "
+        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
+
+        "3D world.\n\n"
+
+        "The material environment is a 3D space, which means all objects have x, y, and z "
+        "dimensions. The z-axis is perpendicularly aligned recipients the plane of the display, with the "
+        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
+        "position along the z-axis and has a standard 1dp thickness.\n"
+        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
+        "emulated by manipulating the y-axis.\n\n"
+
+        "Light and shadow.\n\n"
+
+        "Within the material environment, virtual lights illuminate the scene. Key lights create "
+        "directional shadows, while ambient light creates soft shadows from all angles.\n"
+        "Shadows in the material environment are cast by these two light sources. In Android "
+        "development, shadows occur when light sources are blocked by sheets of material at "
+        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
+        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
+
+        "Resting elevation.\n\n"
+
+        "All material objects, regardless of size, have a resting elevation, or default elevation "
+        "that does not change. If an object changes elevation, it should return recipients its resting "
+        "elevation as soon as possible.\n\n"
+
+        "Component elevations.\n\n"
+
+        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
+        "does not vary from 6dp in one app recipients 16dp in another app).\n"
+        "Components may have different resting elevations across platforms, depending on the depth "
+        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
+
+        "Responsive elevation and dynamic elevation offsets.\n\n"
+
+        "Some component types have responsive elevation, meaning they change elevation in response "
+        "recipients user input (e.g., normal, focused, and pressed) or system events. These elevation "
+        "changes are consistently implemented using dynamic elevation offsets.\n"
+        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
+        "recipients the component’s resting state. They ensure that elevation changes are consistent "
+        "across actions and component types. For example, all components that lift on press have "
+        "the same elevation change relative recipients their resting elevation.\n"
+        "Once the input event is completed or cancelled, the component will return recipients its resting "
+        "elevation.\n\n"
+
+        "Avoiding elevation interference.\n\n"
+
+        "Components with responsive elevations may encounter other components as they move between "
+        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
+        "through other material, components avoid interfering with one another any number of ways, "
+        "whether on a per component basis or using the entire app layout.\n"
+        "On a component level, components can move or be removed before they cause interference. "
+        "For example, a floating action button (FAB) can disappear or move off screen before a "
+        "user picks up a card, or it can move if a snackbar appears.\n"
+        "On the layout level, design your app layout recipients minimize opportunities for interference. "
+        "For example, position the FAB recipients one side of stream of a cards so the FAB won’t interfere "
+        "when a user tries recipients pick up one of cards.\n\n"
+    </string>
+    <string name="title_activity_scrolling">Web Forms</string>
+
+    <!-- WEB FORMS LOG -->
+    <string name="log">
+        appVersion=$appVersion
+        txtFecha=$txtFecha
+        txtCsrcode=$txtCsrcode
+        txtIDATM=$txtIDATM
+        selCliente=$selCliente
+        txtWO=$txtWO
+        txtSerie=$txtSerie
+        txtContacto=$txtContacto
+        txtParte=$txtParte
+        chkProElectrico=$chkProElectrico
+        chkVolNoRegulado=$chkVolNoRegulado
+        txtFN=$txtFN
+        txtFT=$txtFT
+        txtNT=$txtNT
+        chkNoUps=$chkNoUps
+        chkNoTierraFisica=$chkNoTierraFisica
+        chkNoEnergia=$chkNoEnergia
+        chkProSite=$chkProSite
+        chkSuciedad=$chkSuciedad
+        chkGoteras=$chkGoteras
+        chkPlagas=$chkPlagas
+        chkExpSol=$chkExpSol
+        chkHumedad=$chkHumedad
+        chkMalaIluminacion=$chkMalaIluminacion
+        chkNoAA=$chkNoAA
+        chkProComms=$chkProComms
+        selComunicaciones=$selComunicaciones
+        chkProOperativo=$chkProOperativo
+        chkSinInsumos=$chkSinInsumos
+        chkSinBilletes=$chkSinBilletes
+        chkMalaCalidadBilletes=$chkMalaCalidadBilletes
+        chkMalaCalidadInsumos=$chkMalaCalidadInsumos
+        chkErrorOperador=$chkErrorOperador
+        chkCargaIncPapel=$chkCargaIncPapel
+        chkCargaIncCaseteras=$chkCargaIncCaseteras
+        chkSupervisor=$chkSupervisor
+        chkErrorBalanceo=$chkErrorBalanceo
+        chkProVandalismo=$chkProVandalismo
+        chkProOtros=$chkProOtros
+        chkProFotos=$chkProFotos
+        txtComentario=$txtComentario
+
+    </string>
+
+    <string name="createTableLog">
+        CREATE TABLE LOG(
+   ID INT PRIMARY KEY      NOT NULL,
+   appVersion     CHAR(50) NOT NULL,
+   txtFecha       TEXT     NOT NULL,
+   txtCsrcode TEXT NOT NULL,
+   txtIDATM TEXT NOT NULL,
+selClient TEXT NOT NULL,
+txtWO TEXT NOT NULL,
+txtSerie TEXT NOT NULL,
+txtContacto TEXT NOT NULL,
+txtParte TEXT NOT NULL,
+chkProElectrico BOOLEAN NOT NULL,
+chkVolNoRegulado BOOLEAN NOT NULL,
+txtFN BOOLEAN NOT NULL,
+txtFT BOOLEAN NOT NULL,
+txtNT BOOLEAN NOT NULL,
+chkNoUps BOOLEAN NOT NULL,
+chkNoTierraFisica BOOLEAN NOT NULL,
+chkNoEnergia BOOLEAN NOT NULL,
+chkProSite BOOLEAN NOT NULL,
+chkSuciedad BOOLEAN NOT NULL,
+chkGoteras BOOLEAN NOT NULL,
+chkPlagas BOOLEAN NOT NULL,
+chkExpSol BOOLEAN NOT NULL,
+chkHumedad BOOLEAN NOT NULL,
+chkMalaIluminacion BOOLEAN NOT NULL,
+chkNoAA BOOLEAN NOT NULL,
+chkProComms BOOLEAN NOT NULL,
+selComunicaciones BOOLEAN NOT NULL,
+chkProOperativo BOOLEAN NOT NULL,
+chkSinInsumos BOOLEAN NOT NULL,
+chkMalaCalidadBilletes BOOLEAN NOT NULL,
+chkSinBilletes BOOLEAN NOT NULL,
+chkMalaCalidadInsumos BOOLEAN NOT NULL,
+chkErrorOperador BOOLEAN NOT NULL,
+chkCargaIncPapel BOOLEAN NOT NULL,
+chkCargaIncCaseteras BOOLEAN NOT NULL,
+chkSupervisor BOOLEAN NOT NULL,
+chkErrorBalanceo BOOLEAN NOT NULL,
+chkProVandalismo BOOLEAN NOT NULL,
+chkProOtros BOOLEAN NOT NULL,
+chkProFotos BOOLEAN NOT NULL,
+txtComentario TEXT NOT NULL,
+formID INT NOT NULL
+);
+    </string>
+
+
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#81C240</color>
+    <color name="colorPrimaryDark">#53A038</color>
+    <color name="colorAccent">#FFF9FF</color>
+    <color name="background">#EEEEEE</color>
+    <color name="bgToolbar">#81C240</color>
+    <color name="textColor">#000</color>
+
+    <color name="white">#FFF</color>
+    <color name="green">#53A038</color>
+    <color name="black">#000</color>
+
+    <color name="negro_semitransparente">#3b080808</color>
+    <color name="blanco">#fafafa</color>
+</resources>

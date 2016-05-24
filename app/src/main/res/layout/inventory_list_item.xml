@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Descripcion:"
+            android:id="@+id/textView"
+            android:textColor="@color/abc_input_method_navigation_guard" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Procesaro Intel Atom"
+            android:id="@+id/textView_descripcion"
+            android:layout_weight="1"
+            android:typeface="monospace" />
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_marginTop="5dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:maxLength="9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Clase:"
+        android:id="@+id/pepe"
+        android:textColor="@color/abc_primary_text_disable_only_material_light" />
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_width="89dp"
+        android:layout_height="wrap_content"
+        android:text="FT-9999"
+        android:id="@+id/textView_clase"
+        android:typeface="monospace" />
+
+    <TextView
+        android:maxLength="9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Parte:"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/a"
+        android:textColor="@color/abc_primary_text_disable_only_material_light" />
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FT-0000"
+        android:id="@+id/textView_parte"
+        android:typeface="monospace" />
+</LinearLayout>
+
+
+</LinearLayout>
