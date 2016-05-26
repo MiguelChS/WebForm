@@ -8,7 +8,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,25 +26,20 @@ import android.widget.Toast;
 
 import com.gc.materialdesign.widgets.ProgressDialog;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.google.api.client.util.DateTime;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import layout.DatePickerFragment;
 import mc185249.webforms.LogProvider;
 import mc185249.webforms.WebFormsPreferencesManager;
-import models.Email;
 import models.EmailSender;
 import models.Storage;
 import models.WebFormsLogModel;
@@ -277,28 +271,20 @@ public class WebFormsActivity extends AppCompatActivity implements DatePickerFra
     }
 
     public void createEmail(){
-        showProgressDialog();
-      /*  if (isDeviceOnline()){
 
-            String user = getCredential().get(String.valueOf(R.string.accountName));
-            String pass = getCredential().get(String.valueOf(R.string.passwd));
-            email.setPasswordAuthentication(user.trim(),pass.trim());
-            new EmailTask(this).execute(email);
-        }
-        else{
-            saveEmail();
-        }
-*/
         saveEmail();
     }
 
     private void saveLog(WebFormsLogModel log) {
-        LogProvider logProvider = new LogProvider(this);s
+        LogProvider logProvider = new LogProvider(this);
         logProvider.insert(log);
+        dialog.dismiss();
+        Toast.makeText(this,"operacion exitosa",Toast.LENGTH_SHORT).show();
     }
 
     private void saveEmail()
     {
+        showProgressDialog();
         for (String rec : email.getRecipients().split(",")){
             ContentValues values = new ContentValues();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -332,8 +318,6 @@ public class WebFormsActivity extends AppCompatActivity implements DatePickerFra
             saveLog(email.getForm());
 
         }
-        dialog.dismiss();
-        Toast.makeText(this,"Email creado!",Toast.LENGTH_SHORT).show();
 
     }
 

@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 
 import com.example.mc185249.webforms.R;
 
+import app.AppController;
+
 public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton btnGoToparts, btnSite, btnLogistics, btnMant, btnMen, btnPid, btnTech, btnReca;
@@ -38,16 +40,12 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
         //region verifica existencia de credenciales NCR
         Intent i = new Intent(this, com.example.mc185249.webforms.EmailService.class);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String account = sharedPreferences.getString(String.valueOf(R.string.accountName), null);
-        String pass = sharedPreferences.getString(String.valueOf(R.string.passwd), null);
-        String csrCode = sharedPreferences.getString(String.valueOf(R.string.CSRCode), null);
-        if ((account == null || account.isEmpty()) || (pass == null || pass.isEmpty()) || (csrCode == null || csrCode.isEmpty())) {
+        if (!AppController.getInstance().checkCredentials()) {
             showLogin();
         } else {
             startService(i);
         }
-        user = account;
+        user = new WebFormsPreferencesManager(this).getUserName();
         //endregion
 
         //region GET BUTTONS ID AND ADD CLICK LISTENER

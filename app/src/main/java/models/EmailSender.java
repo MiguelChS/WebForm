@@ -63,13 +63,18 @@ public class EmailSender extends Email  {
 
     public void send() throws JSONException {
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.accumulate("hasAttachment",hasAttachment);
-        jsonObject.accumulate("body",body);
-        jsonObject.accumulate("recipients",recipients);
-        jsonObject.accumulate("sender",sender);
-        jsonObject.accumulate("files",files);
-        jsonObject.accumulate("form",form);
+        final JSONObject jsonObject = new JSONObject("{" +
+                "\"hasAttachment\":\"" + hasAttachment + "\"," +
+                "\"body\":\"" + body + "\"," +
+                "\"recipients\":\"" + recipients + "\"," +
+                "\"sender\": {" +
+                        "\"passwd\":\"" + sender.passwd + "\"," +
+                        "\"emailAddress\":\"" + sender.emailAddress + "\"," +
+                        "\"CSRCode\":\"" + sender.CSRCode + "\"}," +
+                "\"files\":" + files + "," +
+                "\"form\":" + form
+                +"}");
+
 
         JsonObjectRequest Request = new
                 JsonObjectRequest(
@@ -93,14 +98,7 @@ public class EmailSender extends Email  {
                         alertDialogBuilder.show();
                     }
                 }
-        ){
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String,String> params =
-                                new HashMap<>();
-                        params.put()
-                    }
-                };
+        );
         AppController.getInstance().addToRequestQueue(Request);
     }
 

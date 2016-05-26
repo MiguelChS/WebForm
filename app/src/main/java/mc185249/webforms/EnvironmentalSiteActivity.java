@@ -1,5 +1,6 @@
 package com.example.mc185249.webforms;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.mc185249.webforms.Stepper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -133,8 +136,6 @@ public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.Web
                 if (validate() && ExpansibleListAdapter.selectedGroup.size() > 0
                         && ExpansibleListAdapter.selectedChild.size() > 0) {
 
-                    String account = getCredential().get(String.valueOf(R.string.accountName));
-                    String passwd = getCredential().get(String.valueOf(R.string.passwd));
 
                     String appVersion = null;
                     try {
@@ -143,7 +144,7 @@ public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.Web
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
                     }
-                    if (account != null && passwd != null){
+                    if (AppController.getInstance().checkCredentials()){
 
                        logModel.setAppVersion(appVersion);
                         logModel.setTxtFecha(new Date().toString());
@@ -170,6 +171,9 @@ public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.Web
                         email.bodyMaker(form);
                         email.setForm(logModel);
                         createEmail();
+                    }else{
+                        Intent intent = new Intent(this, Stepper.class);
+                        startActivity(intent);
                     }
 
                 }

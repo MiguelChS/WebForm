@@ -207,7 +207,6 @@ public class EmailService extends Service implements EmailTask.AsyncResponse {
                     }
             );
         }else{
-            notificationTitle = e.getCause().toString();
             notificationText = e.getMessage();
         }
 

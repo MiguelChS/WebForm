@@ -8,6 +8,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import mc185249.webforms.WebFormsPreferencesManager;
+
 /**
  * Created by jn185090 on 5/20/2016.
  */
@@ -52,5 +54,10 @@ public class AppController extends Application {
                         ,0
                 ).versionName;
 
+    }
+
+    public boolean checkCredentials(){
+        WebFormsPreferencesManager pref = new WebFormsPreferencesManager(this);
+        return (pref.getUserName() != null && pref.getPasswd() != null);
     }
 }
