@@ -1,7 +1,10 @@
 package app;
 
 import android.app.Application;
+import android.app.Notification;
 import android.content.pm.PackageManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -17,6 +20,7 @@ public class AppController extends Application {
     private static AppController mInstance;
     private static String TAG = "WebForms";
     private RequestQueue mRequestQueue;
+    NotificationManagerCompat notificationManagerCompat;
     public static synchronized AppController getInstance(){
         return mInstance;
     }
@@ -25,6 +29,8 @@ public class AppController extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        notificationManagerCompat =
+                NotificationManagerCompat.from(this);
     }
 
     public RequestQueue getmRequestQueue(){
@@ -59,5 +65,21 @@ public class AppController extends Application {
     public boolean checkCredentials(){
         WebFormsPreferencesManager pref = new WebFormsPreferencesManager(this);
         return (pref.getUserName() != null && pref.getPasswd() != null);
+    }
+
+    public void notify(String title, String content,String group,String summaryText,String bigContentTitle){
+        Notification notification = new NotificationCompat
+                .Builder(this)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setStyle(new NotificationCompat.InboxStyle()
+                        .setBigContentTitle(bigContentTitle)
+                        .setSummaryText(summaryText))
+                .setSmallIcon(android.support.design.R.drawable.notification_template_icon_bg)
+                .setGroup(group)
+                .setGroupSummary(true)
+                .build();
+
+        notificationManagerCompat.notify(1, notification);
     }
 }

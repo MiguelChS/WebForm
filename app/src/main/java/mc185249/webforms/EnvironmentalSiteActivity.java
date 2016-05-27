@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,10 +18,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mc185249.webforms.Stepper;
+import com.innodroid.expandablerecycler.ExpandableRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import adapters.CheckListAdapter;
 import adapters.ExpansibleListAdapter;
 import adapters.ExpansibleListViewDataAdapter;
 import app.AppController;
@@ -31,7 +36,6 @@ import models.WebFormsLogModel;
 
 public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.WebFormsActivity
         implements com.example.mc185249.webforms.WorkOrderFragment.OnFragmentInteractionListener, MenuItem.OnMenuItemClickListener, ExpandableListView.OnChildClickListener {
-
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expandableListView;
@@ -114,8 +118,9 @@ public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.Web
         serie.setOnFocusChangeListener(this);
         WorkOrder.setOnFocusChangeListener(this);
         super.initializeFab();
-
     }
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -154,6 +159,7 @@ public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.Web
                         logModel.setTxtContacto(editText_contacto.getText().toString());
                         logModel.setTxtComentario(editText_comentario.getText().toString());
                         logModel.setTxtParte(editText_parte.getText().toString());
+                        logModel.setTxtSerie(serie.getText().toString());
                         logModel.setFormID("Environmental Site");
 
 

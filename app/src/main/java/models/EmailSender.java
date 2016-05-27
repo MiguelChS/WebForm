@@ -62,7 +62,7 @@ public class EmailSender extends Email  {
     }
 
     public void send() throws JSONException {
-
+/*
         final JSONObject jsonObject = new JSONObject("{" +
                 "\"hasAttachment\":\"" + hasAttachment + "\"," +
                 "\"body\":\"" + body + "\"," +
@@ -74,28 +74,38 @@ public class EmailSender extends Email  {
                 "\"files\":" + files + "," +
                 "\"form\":" + form
                 +"}");
+  */
+        HashMap<String,Object> jsonObject = new HashMap<>();
+        jsonObject.put("hasAttachment",String.valueOf(hasAttachment));
+        jsonObject.put("body",body);
+        jsonObject.put("recipients",recipients);
+        jsonObject.put("sender",sender);
+        jsonObject.put("files",files);
+        jsonObject.put("form",form);
 
-
-        JsonObjectRequest Request = new
+       JsonObjectRequest Request = new
                 JsonObjectRequest(
                 com.android.volley.Request.Method.POST,
                 (Api.SERVER + Api.EXCHANGE),
-                jsonObject,
+                new JSONObject(jsonObject),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        return;
+                        AppController.getInstance().notify(
+                                "Mensaje enviado",form.getFormID(),
+                                "EMAIL",new WebFormsPreferencesManager(mContext).getUserName()
+                                ,form.getFormID()
+                        );
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        AlertDialog.Builder alertDialogBuilder =
-                                new AlertDialog.Builder(mContext,R.style.alertDialog);
-                        alertDialogBuilder.create();
-                        alertDialogBuilder.setMessage(error.getMessage());
-                        alertDialogBuilder.setTitle("Error");
-                        alertDialogBuilder.show();
+                        AppController.getInstance().notify(
+                                "Error",form.getFormID(),
+                                "EMAIL",new WebFormsPreferencesManager(mContext).getUserName()
+                                ,form.getFormID()
+                        );
                     }
                 }
         );

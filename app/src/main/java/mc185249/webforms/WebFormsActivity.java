@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +48,8 @@ import models.WebFormsLogModel;
 /**
  * Created by mc185249 on 4/11/2016.
  */
-public class WebFormsActivity extends AppCompatActivity implements DatePickerFragment.FragmentListener, View.OnFocusChangeListener, View.OnClickListener, MenuItem.OnMenuItemClickListener {
+public class WebFormsActivity extends AppCompatActivity implements DatePickerFragment.FragmentListener,
+        View.OnFocusChangeListener, View.OnClickListener, MenuItem.OnMenuItemClickListener {
 
     EmailSender email = null;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -277,7 +279,8 @@ public class WebFormsActivity extends AppCompatActivity implements DatePickerFra
 
     private void saveLog(WebFormsLogModel log) {
         LogProvider logProvider = new LogProvider(this);
-        logProvider.insert(log);
+        long count = logProvider.insert(log);
+        Log.v("NCR","log insertado = " + count);
         dialog.dismiss();
         Toast.makeText(this,"operacion exitosa",Toast.LENGTH_SHORT).show();
     }

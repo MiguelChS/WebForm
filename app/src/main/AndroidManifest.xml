@@ -83,18 +83,6 @@
         <service
             android:name=".EmailService"
             android:exported="false" />
-        <service
-            android:name="sync.SyncService"
-            android:exported="true"
-            android:process=":sync">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
-        </service>
 
         <provider
             android:name=".ClientsContentProvider"
@@ -103,18 +91,6 @@
             android:exported="false"
             android:syncable="true" />
 
-        <service
-            android:name="sync.AuthenticatorService"
-            android:exported="true"
-            android:process=":sync">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
         <!--
  ATTENTION: This was auto-generated recipients add Google Play services recipients your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -133,6 +109,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="sync.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
     </application>
 
 </manifest>

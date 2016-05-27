@@ -7,47 +7,29 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
+
 import models.EmailSender;
 
 /**
  * Created by mc185249 on 3/31/2016.
  */
-public class EmailTask extends AsyncTask<EmailSender,Integer,Boolean> {
-
-    public interface  AsyncResponse {
-        void processFinish(Boolean output,Exception e);
-    }
+public class EmailTask extends AsyncTask<EmailSender,Integer,Void> {
 
     private Exception exception = null;
-    public AsyncResponse delegate = null;
-
-    public EmailTask(AsyncResponse delegate) {
-        this.delegate = delegate;
-    }
 
     @Override
-    protected Boolean doInBackground(EmailSender... params) {
+    protected Void doInBackground(EmailSender... params) {
         EmailSender emailSender = params[0];
+
         try {
             emailSender.send();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-         catch (Exception e) {
-             exception = e;
-           return false;
-        }
-        return true;
+        return null;
     }
-
-    @Override
-    protected void onPostExecute(Boolean aBoolean) {
-        super.onPostExecute(aBoolean);
-        this.delegate.processFinish(aBoolean,exception);
-    }
-
-
-
-
-    @Override
+     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
     }

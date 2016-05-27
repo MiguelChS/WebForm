@@ -15,7 +15,7 @@ public abstract class WebFormsProvider extends ContentProvider {
     public static final String ATTACHAMENT_FILES_TABLE_NAME = "AttachementFiles";
     public static final String CLIENT_TABLE_NAME = "Clients";
     public static final String LOG_TABLE_NAME = "Log";
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 9;
 
      public static class DBHelper extends SQLiteOpenHelper {
 
@@ -37,7 +37,7 @@ public abstract class WebFormsProvider extends ContentProvider {
                  "appVersion text NOT NULL," +
                  "txtFecha TEXT NOT NULL," +
                  "txtCsrcode TEXT NOT NULL," +
-                 "txtIDATM TEXT NOT NULL," +
+                 "txtIDATM TEXT," +
                  "selClient TEXT NOT NULL," +
                  "txtWO TEXT NOT NULL," +
                  "txtSerie TEXT NOT NULL," +

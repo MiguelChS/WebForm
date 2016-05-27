@@ -97,29 +97,27 @@ public class ExpansibleListAdapter extends BaseExpandableListAdapter {
         textView = (TextView) convertView.findViewById(R.id.textView_child);
         checkBox = (CheckBox)convertView.findViewById(R.id.chk);
 
-        textView.setText(tempChild[childPosition]);
-        convertView.setOnClickListener(new View.OnClickListener() {
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (checkBox.isChecked()){
-                    checkBox.setChecked(false);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked){
                     selectedChild.remove(selectedChild.indexOf(tempChild[childPosition]));
                     selectedGroup.remove(selectedGroup.indexOf(expansibleListViewDataAdapters[groupPosition].getGroup()));
                     String group = expansibleListViewDataAdapters[groupPosition]
                             .getGroup().toLowerCase();
                     toggle(group,tempChild[childPosition],0);
-                }
-                else{
-                    checkBox.setChecked(true);
+                }else{
                     selectedChild.add(tempChild[childPosition]);
                     selectedGroup.add(expansibleListViewDataAdapters[groupPosition].getGroup());
                     String group = expansibleListViewDataAdapters[groupPosition]
                             .getGroup().toLowerCase();
                     toggle(group,tempChild[childPosition],1);
                 }
-
             }
         });
+
+        textView.setText(tempChild[childPosition]);
+
         return convertView;
     }
 

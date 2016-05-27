@@ -35,7 +35,7 @@ import models.WebFormsLogModel;
 /**
  * Created by mc185249 on 4/5/2016.
  */
-public class EmailService extends Service implements EmailTask.AsyncResponse {
+public class EmailService extends Service {
 
     int CustomEmailID = 0;
     String activity = "";
@@ -155,12 +155,12 @@ public class EmailService extends Service implements EmailTask.AsyncResponse {
                                                            encodedFile,0,encodedFile.length
                                                     )
                                                 ));
-                            new EmailTask(this).execute(emailSender);
+                            new EmailTask().execute(emailSender);
 
                         }while(mCursor.moveToNext());
                     }//endregion
                     else{
-                        new EmailTask(this).execute(emailSender);
+                        new EmailTask().execute(emailSender);
                     }
 
                 }
@@ -177,49 +177,6 @@ public class EmailService extends Service implements EmailTask.AsyncResponse {
         }
 
         return false;
-    }
-
-    @Override
-    public void processFinish(Boolean output,Exception e) {
-        Log.v("NCR","proceso finalizado, resultado: " + output);
-        String notificationTitle = "";
-        String notificationText = activity;
-        String ticker = "NCR";
-        if (output){
-
-            notificationTitle = "Email enviado";
-            ContentResolver contentResolver1 = getContentResolver();
-            Uri attachment_files = Uri.parse(com.example.mc185249.webforms.AttachementProvider.URL);
-            int delete_result = contentResolver1.delete(
-                    attachment_files, com.example.mc185249.webforms.AttachementProvider.ID + " = ?",
-                    new String[]{
-                            String.valueOf(CustomEmailID)
-                    }
-            );
-
-            ContentResolver contentResolver = getContentResolver();
-            Uri emails = Uri.parse(com.example.mc185249.webforms.EmailsProvider.URL);
-            contentResolver.delete(
-                    emails,
-                    com.example.mc185249.webforms.EmailsProvider.ID + " = ?",
-                    new String[]{
-                            String.valueOf(this.CustomEmailID)
-                    }
-            );
-        }else{
-            notificationText = e.getMessage();
-        }
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Notification notification = new Notification.Builder(getApplicationContext())
-                .setContentTitle(notificationTitle)
-                .setContentText(notificationText)
-                .setSmallIcon(R.drawable.ncr)
-                .setTicker(ticker)
-                .setStyle(new Notification.InboxStyle())
-                .build();
-
-        notificationManager.notify(0, notification);
     }
 }
 

@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 /**
- * Created by jn185090 on 4/21/2016.
+ * Created by jn185090 on 5/26/2016.
  */
 public class Authenticator extends AbstractAccountAuthenticator {
     public Authenticator(Context context) {
@@ -17,7 +17,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle editProperties(AccountAuthenticatorResponse response, String accountType) {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override
@@ -32,21 +32,21 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
-      throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override
     public String getAuthTokenLabel(String authTokenType) {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override
     public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     @Override
     public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features) throws NetworkErrorException {
-        throw new UnsupportedOperationException();
+        return null;
     }
 }
