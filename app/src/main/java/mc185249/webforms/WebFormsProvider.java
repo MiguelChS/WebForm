@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.content.ContentProvider;
 import android.content.Context;
@@ -15,7 +15,8 @@ public abstract class WebFormsProvider extends ContentProvider {
     public static final String ATTACHAMENT_FILES_TABLE_NAME = "AttachementFiles";
     public static final String CLIENT_TABLE_NAME = "Clients";
     public static final String LOG_TABLE_NAME = "Log";
-    public static final int DATABASE_VERSION = 9;
+    public static final String CONTACTS_TABLE_NAME = "Contactos";
+    public static final int DATABASE_VERSION = 10;
 
      public static class DBHelper extends SQLiteOpenHelper {
 
@@ -30,6 +31,9 @@ public abstract class WebFormsProvider extends ContentProvider {
          private static final String CREATE_TABLE_CLIENT = "CREATE TABLE Clients" +
                  "(id integer primary key autoincrement, pais text, nombre text," +
                  "numero text);";
+         private static final String CREATE_TABLE_CONTACTS = "CREATE TABLE " +
+                 CONTACTS_TABLE_NAME + " (id integer primary key autoincrement," +
+                 "Direcciones text, Nombres text, Pais text, Numero text);";
 
          private static final String CREATE_TABLE_LOG = "CREATE TABLE Log" +
                  "(ID INTEGER PRIMARY KEY autoincrement NOT NULL," +
@@ -38,11 +42,11 @@ public abstract class WebFormsProvider extends ContentProvider {
                  "txtFecha TEXT NOT NULL," +
                  "txtCsrcode TEXT NOT NULL," +
                  "txtIDATM TEXT," +
-                 "selClient TEXT NOT NULL," +
-                 "txtWO TEXT NOT NULL," +
-                 "txtSerie TEXT NOT NULL," +
-                 "txtContacto TEXT NOT NULL," +
-                 "txtParte TEXT NOT NULL," +
+                 "selClient TEXT," +
+                 "txtWO TEXT," +
+                 "txtSerie TEXT," +
+                 "txtContacto TEXT," +
+                 "txtParte TEXT," +
                  "chkProElectrico INTEGER DEFAULT 0 ," +
                  "chkVolNoRegulado INTEGER DEFAULT 0," +
                  "txtFN INTEGER DEFAULT 0," +
@@ -74,12 +78,14 @@ public abstract class WebFormsProvider extends ContentProvider {
                  "chkProVandalismo INTEGER DEFAULT 0," +
                  "chkProOtros INTEGER DEFAULT 0," +
                  "chkProFotos INTEGER DEFAULT 0," +
-                 "txtComentario TEXT NOT NULL," +
-                 "formID TEXT NOT NULL);" ;
+                 "txtComentario TEXT," +
+                 "formID TEXT);" ;
         private static final String DROP_TABLE_EMAILS = "DROP TABLE IF EXISTS Emails;";
         private static final String DROP_TABLE_ATTACHEMENTFILES = "DROP TABLE IF EXISTS AttachementFiles;";
         private static final String DROP_TABLE_CLIENT = "DROP TABLE IF EXISTS Clients;";
          private static final String DROP_TABLE_LOG = "DROP TABLE IF EXISTS Log";
+        private static final String DROP_TABLE_CONTACTS = "DROP TABLE IF EXISTS " +
+                CONTACTS_TABLE_NAME + ";";
 
         public DBHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -91,6 +97,7 @@ public abstract class WebFormsProvider extends ContentProvider {
             db.execSQL(CREATE_TABLE_ATTACHEMENTFILES);
             db.execSQL(CREATE_TABLE_CLIENT);
             db.execSQL(CREATE_TABLE_LOG);
+            db.execSQL(CREATE_TABLE_CONTACTS);
         }
 
         @Override
@@ -99,6 +106,7 @@ public abstract class WebFormsProvider extends ContentProvider {
             db.execSQL(DROP_TABLE_ATTACHEMENTFILES);
             db.execSQL(DROP_TABLE_CLIENT);
             db.execSQL(DROP_TABLE_LOG);
+            db.execSQL(DROP_TABLE_CONTACTS);
             onCreate(db);
         }
     }

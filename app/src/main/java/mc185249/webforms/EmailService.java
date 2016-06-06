@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -25,6 +25,8 @@ import java.util.Date;
 
 
 import connectivity.EmailTask;
+import mc185249.webforms.AttachementProvider;
+import mc185249.webforms.EmailsProvider;
 import mc185249.webforms.LogProvider;
 import mc185249.webforms.WebFormsPreferencesManager;
 import models.Email;
@@ -71,14 +73,14 @@ public class EmailService extends Service {
 
     private void readAndSendEmails(){
         Log.v("NCR","service running..");
-        String URL = "content://com.example.mc185249.webforms.EmailsProvider/emails";
+        String URL = "content://mc185249.webforms.EmailsProvider/emails";
         Uri emails = Uri.parse(URL);
         ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(emails,null,null,null,null);
 
-        if (cursor.moveToFirst()){
+        if (cursor != null
+                && cursor.moveToFirst()){
             do{
-                Log.v("NCR","todo bien");
                 WebFormsPreferencesManager preferencesManager =
                         new WebFormsPreferencesManager(this);
                 String account =
@@ -91,25 +93,25 @@ public class EmailService extends Service {
                     EmailSender emailSender = null;
                     emailSender = new EmailSender(this);
 
-                    activity = cursor.getString(cursor.getColumnIndex(com.example.mc185249.webforms.EmailsProvider.ACTIVITY));
-                    emailSender.setSubject(cursor.getString(cursor.getColumnIndex(com.example.mc185249.webforms.EmailsProvider.SUBJECT)));
-                    emailSender.setBody(cursor.getString(cursor.getColumnIndex(com.example.mc185249.webforms.EmailsProvider.BODY)));
-                    emailSender.setRecipients(new String[]{cursor.getString(cursor.getColumnIndex(com.example.mc185249.webforms.EmailsProvider.RECIPIENT))});
-                    emailSender.setFrom(cursor.getString(cursor.getColumnIndex(com.example.mc185249.webforms.EmailsProvider.FROM)));
+                    activity = cursor.getString(cursor.getColumnIndex(EmailsProvider.ACTIVITY));
+                    emailSender.setSubject(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.SUBJECT)));
+                    emailSender.setBody(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.BODY)));
+                    emailSender.setRecipients(new String[]{cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.RECIPIENT))});
+                    emailSender.setFrom(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.FROM)));
                     emailSender.setPasswordAuthentication(account.trim(), passwd.trim());
                     WebFormsPreferencesManager pref =
                             new WebFormsPreferencesManager(this);
                     emailSender.setSender(
                             new Sender(
                                     pref.getPasswd(),
-                                    (pref.getUserName() + "@ncr.com"),
+                                    (pref.getUserName()),
                                     pref.getUserName(),
                                     pref.getCsrCode()
                             )
                     );
 
                     CustomEmailID = cursor.
-                            getInt(cursor.getColumnIndex(com.example.mc185249.webforms.EmailsProvider.ID));
+                            getInt(cursor.getColumnIndex(EmailsProvider.ID));
 
                     //region log
                     LogProvider logProvider =
@@ -123,12 +125,12 @@ public class EmailService extends Service {
 
                     //endregion
                     //region adjuntos
-                    Uri attachment_files = Uri.parse(com.example.mc185249.webforms.AttachementProvider.URL);
+                    Uri attachment_files = Uri.parse(AttachementProvider.URL);
                     ContentResolver contentResolver1 = getContentResolver();
                     Cursor mCursor = contentResolver1.query(
-                            attachment_files,null, com.example.mc185249.webforms.AttachementProvider.EMAIL_ID + " = ?",
+                            attachment_files,null, mc185249.webforms.AttachementProvider.EMAIL_ID + " = ?",
                             new String[]{
-                                    String.valueOf(cursor.getInt(cursor.getColumnIndex(com.example.mc185249.webforms.EmailsProvider.ID)))
+                                    String.valueOf(cursor.getInt(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.ID)))
                             },null
                     );
 
@@ -138,8 +140,7 @@ public class EmailService extends Service {
                                     .getBlob
                                             (mCursor
                                                     .getColumnIndex(
-                                                            com.example.mc185249.
-                                                                    webforms.AttachementProvider.BLOB));
+                                                            AttachementProvider.BLOB));
 
 
                             emailSender

@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,9 +8,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+
+import app.AppController;
 import models.EmailSender;
 
-public class memoriaFiscalActivity extends com.example.mc185249.webforms.WebFormsActivity implements com.example.mc185249.webforms.WorkOrderFragment.OnFragmentInteractionListener {
+public class memoriaFiscalActivity extends WebFormsActivity implements WorkOrderFragment.OnFragmentInteractionListener {
 
     EditText editTextWO,editTextCustRef, editTextSiteName,
         editTextPuntoVenta, editTextFirmwarePlacaFiscal, editTextSerie;
@@ -41,17 +43,16 @@ public class memoriaFiscalActivity extends com.example.mc185249.webforms.WebForm
         editTextSerie.setOnFocusChangeListener(this);
         spinnerCliente = (Spinner) findViewById(R.id.spinnerCliente);
         initializeFab();
+        loadSpinner(spinnerCliente);
     }
 
 
 
     protected void buttonSave_Click() {
-        String account = getCredential().get(String.valueOf(R.string.accountName));
-        String passwd = getCredential().get(String.valueOf(R.string.passwd));
+        if (AppController.getInstance().checkCredentials()
+                && validate()){
 
-        if (account != null && passwd != null && validate()){
-
-            com.example.mc185249.webforms.MemoriaFiscalForm form = new com.example.mc185249.webforms.MemoriaFiscalForm();
+            MemoriaFiscalForm form = new MemoriaFiscalForm();
             form.setWorkOrder(String.valueOf(editTextWO.getText()));
             form.setCustRef(String.valueOf(editTextCustRef.getText()));
             form.setSiteName(String.valueOf(editTextSiteName.getText()));
@@ -60,10 +61,10 @@ public class memoriaFiscalActivity extends com.example.mc185249.webforms.WebForm
             form.setFirmwarePlaca(String.valueOf(editTextFirmwarePlacaFiscal.getText()));
             form.setSerieImpresor(String.valueOf(editTextFirmwarePlacaFiscal.getText()));
 
-            email.setSubject("NCR");
-            email.setRecipients(new String[]{"joaquinnicolas96@hotmail.com"});
+            email.setSubject("Nuevo Formulario - Memoria Fiscal");
+            email.setRecipients(getContacts());
             email.bodyMaker(form);
-            email.setFrom("JNN");
+            email.setFrom(new WebFormsPreferencesManager(this).getUserName());
             createEmail();
         }
     }

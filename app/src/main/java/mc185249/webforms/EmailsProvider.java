@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -13,8 +13,6 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.example.mc185249.webforms.WebFormsProvider;
-
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -23,18 +21,18 @@ import java.util.HashMap;
  */
 public class EmailsProvider extends WebFormsProvider {
 
-    static final String PROVIDER_NAME = "com.example.mc185249.webforms.EmailsProvider";
+    static final String PROVIDER_NAME = "mc185249.webforms.EmailsProvider";
     static final String URL = "content://" + PROVIDER_NAME + "/emails";
     static final Uri CONTENT_URI = Uri.parse(URL);
 
     //email table
-    static final String ID = "id";
-    static final String FECHA = "fecha";
-    static final String ACTIVITY = "activity";
-    static final String SUBJECT = "subject";
-    static final String BODY = "body";
-    static final String RECIPIENT = "recipient";
-    static final String FROM = "sender";
+    public static final String ID = "id";
+    public static final String FECHA = "fecha";
+    public static final String ACTIVITY = "activity";
+    public static final String SUBJECT = "subject";
+    public static final String BODY = "body";
+    public static final String RECIPIENT = "recipient";
+    public static final String FROM = "sender";
 
     static final int EMAIL = 1;
     static final int EMAIL_ID = 2;

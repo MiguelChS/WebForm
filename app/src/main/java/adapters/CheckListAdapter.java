@@ -8,11 +8,12 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mc185249.webforms.R;
 import com.innodroid.expandablerecycler.ExpandableRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import mc185249.webforms.R;
 
 /**
  * Created by jn185090 on 5/26/2016.

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fragmentWorkOrder"
-        android:name="com.example.mc185249.webforms.WorkOrderFragment"
+        android:name="mc185249.webforms.WorkOrderFragment"
         tools:layout="@layout/fragment_work_order"></fragment>
 
     <Spinner

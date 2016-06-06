@@ -1,15 +1,19 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
@@ -17,9 +21,9 @@ import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.mc185249.webforms.Stepper;
 import com.innodroid.expandablerecycler.ExpandableRecyclerAdapter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,12 +34,14 @@ import adapters.ExpansibleListViewDataAdapter;
 import app.AppController;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import mc185249.webforms.WebFormsPreferencesManager;
+import models.Cliente;
 import models.EmailSender;
 import models.EnvironmentalSiteForm;
 import models.WebFormsLogModel;
 
-public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.WebFormsActivity
-        implements com.example.mc185249.webforms.WorkOrderFragment.OnFragmentInteractionListener, MenuItem.OnMenuItemClickListener, ExpandableListView.OnChildClickListener {
+public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivity
+        implements WorkOrderFragment.OnFragmentInteractionListener,
+        MenuItem.OnMenuItemClickListener, ExpandableListView.OnChildClickListener {
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expandableListView;
@@ -43,9 +49,11 @@ public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.Web
     public static WebFormsLogModel logModel;
 
     @NotEmpty(messageId = R.string.validation_text)
-    EditText WorkOrder, serie, idEquipo, editText_contacto,editText_parte,
+    EditText WorkOrder, serie, idEquipo, editText_contacto,
             editText_comentario;
     Spinner client;
+    @NotEmpty(messageId = R.string.validation_text)
+    EditText editText_parte;
     EnvironmentalSiteForm form;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +126,8 @@ public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.Web
         serie.setOnFocusChangeListener(this);
         WorkOrder.setOnFocusChangeListener(this);
         super.initializeFab();
+        loadSpinner(client);
+
     }
 
 
@@ -171,9 +181,9 @@ public class EnvironmentalSiteActivity extends com.example.mc185249.webforms.Web
                         form.setComentario(editText_comentario.getText().toString());
                         form.setParte(editText_parte.getText().toString());
                         form.setContacto(editText_contacto.getText().toString());
-                        email.setSubject("NCR");
-                        email.setRecipients(new String[]{"joaquinnicolas96@hotmail.com"});
-                        email.setFrom("Joaquin");
+                        email.setSubject("Nuevo Formulario - Environmental Site");
+                        email.setRecipients(getContacts());
+                        email.setFrom(new WebFormsPreferencesManager(this).getUserName());
                         email.bodyMaker(form);
                         email.setForm(logModel);
                         createEmail();

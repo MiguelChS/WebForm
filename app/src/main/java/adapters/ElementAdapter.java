@@ -16,15 +16,14 @@ import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.mc185249.webforms.R;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import mc185249.webforms.R;
 import models.Elemento;
 
-import static com.example.mc185249.webforms.R.color.bgToolbar;
 
 /**
  * Created by mc185249 on 3/18/2016.

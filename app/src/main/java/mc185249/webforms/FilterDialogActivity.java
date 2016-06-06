@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.content.Intent;
 import android.os.Bundle;

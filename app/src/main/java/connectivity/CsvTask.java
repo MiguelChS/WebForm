@@ -3,7 +3,6 @@ package connectivity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.mc185249.webforms.R;
 
 import java.io.IOException;
 import java.io.InputStream;

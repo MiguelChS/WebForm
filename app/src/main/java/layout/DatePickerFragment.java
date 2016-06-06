@@ -14,9 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
-import com.example.mc185249.webforms.R;
-import com.example.mc185249.webforms.WebFormsActivity;
-import com.example.mc185249.webforms.WebFormsProvider;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,20 +58,18 @@ public class Stepper extends TextStepper {
     @Override
     public void onComplete() {
         EditText editTextuser = (EditText) findViewById(R.id.input_email);
-        EditText editTextPass = (EditText) findViewById(R.id.input_password);
         EditText editTextCSR = (EditText) findViewById(R.id.csrCode_edit);
         String user = editTextuser.getText().toString().trim() + "@ncr.com";
-        String passwd = editTextPass.getText().toString().trim();
         String CSRCode = editTextCSR.getText().toString().trim();
         Intent intent = new Intent();
         intent.putExtra(String.valueOf(R.string.accountName),user);
-        intent.putExtra(String.valueOf(R.string.passwd),passwd);
+        intent.putExtra(String.valueOf(R.string.passwd),"asd");
         intent.putExtra(String.valueOf(R.string.CSRCode),CSRCode);
         setResult(RESULT_OK, intent);
         finish();
     }
 
-    private class Step extends AbstractStep{
+    public class Step extends AbstractStep{
 
         private int i = 1;
         private android.widget.Button button;
@@ -129,10 +127,10 @@ public class Stepper extends TextStepper {
 
 
 
-    private class LoginStep extends AbstractStep{
+    public class LoginStep extends AbstractStep{
         private int i = 2;
 
-        EditText editTextUser, editTextPasswd, editTextCSRCode;
+        EditText editTextUser, editTextCSRCode;
 
         public LoginStep() {
             super();
@@ -156,19 +154,7 @@ public class Stepper extends TextStepper {
                 }
             });
 
-            editTextPasswd = (EditText) view.findViewById(R.id.input_password);
 
-            editTextPasswd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (!hasFocus) {
-                        String pass = editTextPasswd.getText().toString();
-                        if (pass.length() < 6) {
-                            editTextPasswd.setError("Contraseña demasiado corta");
-                        }
-                    }
-                }
-            });
             return view;
         }
 
@@ -204,7 +190,7 @@ public class Stepper extends TextStepper {
         }
 
         private boolean isCSRCodeValid(String csrCode){
-            Pattern pattern = Pattern.compile("[a-zA-Z]{2}[0-9]{3}[a-zA-Z][0-9]{2}");
+            Pattern pattern = Pattern.compile("[a-zA-Z]{2}[0-9]{3}[a-zA-Z]");
             Matcher matcher = pattern.matcher(csrCode);
             if (matcher.find()){
                 return true;
@@ -215,9 +201,9 @@ public class Stepper extends TextStepper {
         @Override
         public String error() {
             String email = editTextUser.getText().toString().trim() + "@ncr.com";
-            String passwd = editTextPasswd.getText().toString().trim();
+
             String csr = editTextCSRCode.getText().toString().trim();
-            if (isCSRCodeValid(csr) && (passwd.length() > 6)){
+            if (isCSRCodeValid(csr)){
                 onComplete();
                 return "";
             }

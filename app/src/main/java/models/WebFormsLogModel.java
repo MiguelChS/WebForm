@@ -9,10 +9,20 @@ public class WebFormsLogModel {
 
 
 
-    private String appVersion,txtFecha,txtCsrCode,txtIDATM,selCliente
-            ,txtWO,txtSerie,txtContacto,txtParte,txtComentario,
-             formID;
-
+    private String appVersion;
+    private String txtFecha;
+    private String txtCsrCode;
+    private String txtIDATM;
+    private String selCliente;
+    private String txtWO;
+    private String txtSerie;
+    private String txtContacto;
+    private String txtParte;
+    private String txtComentario;
+    private String formID;
+    private String txtReparador;
+    private String txtID;
+    private String txtFechaVI;
     private int chkProElectrico,chkVolNoRegulado,txtFN,txtFT,txtNT
             ,chkNoUps,chkNoTierraFisica,chkNoEnergia,chkProSite
             ,chkSuciedad,chkGoteras,chkPlagas,chkExpSol,chkHumedad
@@ -24,9 +34,28 @@ public class WebFormsLogModel {
 
 
 
+
     private int ID;
 
-    public WebFormsLogModel() {
+    public String getTxtRetorno() {
+        return txtRetorno;
+    }
+
+    public void setTxtRetorno(String txtRetorno) {
+        this.txtRetorno = txtRetorno;
+    }
+
+    public String getTxtReparador() {
+        return txtReparador;
+    }
+
+    public void setTxtReparador(String txtReparador) {
+        this.txtReparador = txtReparador;
+    }
+
+    private String txtRetorno;
+
+   public WebFormsLogModel() {
 
     }
 
@@ -56,7 +85,7 @@ public class WebFormsLogModel {
 
     public WebFormsLogModel(String appVersion, String txtFecha
             , String txtCsrCode, String txtIDATM, String selCliente, String txtWO
-            , String txtSerie, String txtContacto, String txtParte, String txtComentario, int chkProElectrico
+            , String txtSerie, String txtContacto, String txtParte, String txtComentario, String txtID, String txtFechaVI, int chkProElectrico
             , int chkVolNoRegulado, int txtFN, int txtFT, int txtNT, int chkNoUps, int chkNoTierraFisica, int chkNoEnergia
             , int chkProSite, int chkSuciedad, int chkGoteras, int chkPlagas, int chkExpSol, int chkHumedad, int chkMalaIluminacion
             , int chkNoAA, int chkProComms, int selComunicaciones, int chkProOperativo, int chkSinInsumos, int chkSinBilletes
@@ -73,6 +102,8 @@ public class WebFormsLogModel {
         this.txtContacto = txtContacto;
         this.txtParte = txtParte;
         this.txtComentario = txtComentario;
+        this.txtID = txtID;
+        this.txtFechaVI = txtFechaVI;
         this.chkProElectrico = chkProElectrico;
         this.chkVolNoRegulado = chkVolNoRegulado;
         this.txtFN = txtFN;
@@ -434,4 +465,19 @@ public class WebFormsLogModel {
         this.chkProFotos = chkProFotos;
     }
 
+    public String getTxtID() {
+        return txtID;
+    }
+
+    public void setTxtID(String txtID) {
+        this.txtID = txtID;
+    }
+
+    public String getTxtFechaVI() {
+        return txtFechaVI;
+    }
+
+    public void setTxtFechaVI(String txtFechaVI) {
+        this.txtFechaVI = txtFechaVI;
+    }
 }

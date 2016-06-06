@@ -5,6 +5,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.org.apache.http.HttpResponse;
+import android.org.apache.http.NameValuePair;
+import android.org.apache.http.client.ClientProtocolException;
+import android.org.apache.http.client.HttpClient;
+import android.org.apache.http.client.entity.UrlEncodedFormEntity;
+import android.org.apache.http.client.methods.HttpPost;
+import android.org.apache.http.entity.BasicHttpEntity;
+import android.org.apache.http.entity.StringEntity;
+import android.org.apache.http.impl.client.DefaultHttpClient;
+import android.org.apache.http.message.BasicNameValuePair;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Files;
@@ -18,19 +28,21 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.mc185249.webforms.R;
-import com.example.mc185249.webforms.WebFormsActivity;
+import com.google.gson.Gson;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -38,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -62,61 +75,62 @@ public class EmailSender extends Email  {
     }
 
     public void send() throws JSONException {
-/*
-        final JSONObject jsonObject = new JSONObject("{" +
-                "\"hasAttachment\":\"" + hasAttachment + "\"," +
-                "\"body\":\"" + body + "\"," +
-                "\"recipients\":\"" + recipients + "\"," +
-                "\"sender\": {" +
-                        "\"passwd\":\"" + sender.passwd + "\"," +
-                        "\"emailAddress\":\"" + sender.emailAddress + "\"," +
-                        "\"CSRCode\":\"" + sender.CSRCode + "\"}," +
-                "\"files\":" + files + "," +
-                "\"form\":" + form
-                +"}");
-  */
-        HashMap<String,Object> jsonObject = new HashMap<>();
-        jsonObject.put("hasAttachment",String.valueOf(hasAttachment));
-        jsonObject.put("body",body);
-        jsonObject.put("recipients",recipients);
-        jsonObject.put("sender",sender);
-        jsonObject.put("files",files);
-        jsonObject.put("form",form);
 
-       JsonObjectRequest Request = new
-                JsonObjectRequest(
-                com.android.volley.Request.Method.POST,
-                (Api.SERVER + Api.EXCHANGE),
-                new JSONObject(jsonObject),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        AppController.getInstance().notify(
-                                "Mensaje enviado",form.getFormID(),
-                                "EMAIL",new WebFormsPreferencesManager(mContext).getUserName()
-                                ,form.getFormID()
-                        );
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        AppController.getInstance().notify(
-                                "Error",form.getFormID(),
-                                "EMAIL",new WebFormsPreferencesManager(mContext).getUserName()
-                                ,form.getFormID()
-                        );
-                    }
-                }
-        );
-        AppController.getInstance().addToRequestQueue(Request);
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(Api.SERVER + Api.EXCHANGE);
+
+        HashMap<String,Object> cadena_json = new HashMap<>();
+        cadena_json.put("hasAttachment",hasAttachment);
+        cadena_json.put("body",Base64.encodeToString(body.toString().getBytes(),Base64.NO_WRAP));
+        cadena_json.put("recipients",recipients);
+        cadena_json.put("sender",sender);
+        cadena_json.put("files",files);
+        cadena_json.put("form",form);
+        cadena_json.put("subject",subject);
+        Gson gson = new Gson();
+        String json = gson.toJson(cadena_json);
+        try{
+            httpPost.setEntity(new StringEntity(
+                    json
+            ));
+            httpPost.setHeader("Accept","application/json");
+            httpPost.setHeader("Content-type","application/json");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        try{
+            HttpResponse response = httpClient.execute(httpPost);
+            InputStream inputStream =
+                    response.getEntity().getContent();
+            if (inputStream != null){
+                String result =
+                        convertInputStreamToString(inputStream);
+                Log.v("NCR",result);
+            }
+            Log.v("NCR",response.toString());
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
 
+        inputStream.close();
+        return result;
+
+    }
 
     public void setPasswordAuthentication(String account, String passwd)
     {
         Sender sender = new Sender();
-        sender.passwd = passwd;
+        sender.passwd = "";
         sender.emailAddress = account;
         sender.name = account.split("@")[0];
         sender.CSRCode = new WebFormsPreferencesManager(mContext).getCsrCode();

@@ -1,12 +1,14 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -22,7 +24,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gc.materialdesign.widgets.ProgressDialog;
@@ -33,12 +37,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import layout.DatePickerFragment;
+import mc185249.webforms.EmailsProvider;
 import mc185249.webforms.LogProvider;
 import mc185249.webforms.WebFormsPreferencesManager;
 import models.EmailSender;
@@ -48,7 +54,8 @@ import models.WebFormsLogModel;
 /**
  * Created by mc185249 on 4/11/2016.
  */
-public class WebFormsActivity extends AppCompatActivity implements DatePickerFragment.FragmentListener,
+public class WebFormsActivity extends AppCompatActivity
+        implements DatePickerFragment.FragmentListener,
         View.OnFocusChangeListener, View.OnClickListener, MenuItem.OnMenuItemClickListener {
 
     EmailSender email = null;
@@ -299,26 +306,29 @@ public class WebFormsActivity extends AppCompatActivity implements DatePickerFra
             values.put(EmailsProvider.FROM,email.getFrom());
 
             Uri uri = getContentResolver().insert(
-                    com.example.mc185249.webforms.EmailsProvider.CONTENT_URI,values
+                    EmailsProvider.CONTENT_URI,values
             );
 
             long id = Long.valueOf(uri.getLastPathSegment());
 
             for (models.File f : email.getFiles()){
                 values = new ContentValues();
-                values.put(com.example.mc185249.webforms.AttachementProvider.MIME_TYPE,"image/png");
-                values.put(com.example.mc185249.webforms.AttachementProvider.BLOB,f.getBlob());
-                values.put(com.example.mc185249.webforms.AttachementProvider.EMAIL_ID,id);
+                values.put(AttachementProvider.MIME_TYPE,"image/png");
+                values.put(AttachementProvider.BLOB,f.getBlob());
+                values.put(AttachementProvider.EMAIL_ID,id);
 
                 Uri uri1 = getContentResolver().insert(
-                        com.example.mc185249.webforms.AttachementProvider.CONTENT_URI,values
+                        AttachementProvider.CONTENT_URI,values
                 );
             }
 
-            WebFormsLogModel log = email.getForm();
-            log.setEmailID((int) id);
-            email.setForm(log);
-            saveLog(email.getForm());
+            if (email.getForm() != null){
+                WebFormsLogModel log = email.getForm();
+                log.setEmailID((int) id);
+                email.setForm(log);
+                saveLog(email.getForm());
+            }
+
 
         }
 
@@ -352,6 +362,66 @@ public class WebFormsActivity extends AppCompatActivity implements DatePickerFra
 
     @Override
     public void fragmentCallback(Date date) {
+
+    }
+
+    //CARGA CLIENTES EN SPINNER
+    protected void loadSpinner(Spinner spinner){
+        ContentResolver mContentResolver = getContentResolver();
+        ArrayList<String> localClients = new ArrayList<>();
+        Uri clientes = Uri.parse(ClientsContentProvider.URL);
+        Cursor cursor = mContentResolver.query(
+                clientes,
+                null,
+                null,
+                null,null
+        );
+
+        if (cursor != null){
+            while (cursor.moveToNext()){
+                localClients.add(
+                        cursor.getString(
+                                cursor.getColumnIndex(
+                                        ClientsContentProvider
+                                                .NOMBRE
+                                )
+                        )
+                );
+            }
+        }
+        cursor.close();
+        ArrayAdapter<String> dataAdapter =
+                new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,localClients);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    protected String[] getContacts(){
+        ContentResolver mContentResolver = getContentResolver();
+        String[] contacts = null;
+        Uri contacrsUri = Uri.parse(ContactsProvider.URL);
+        Cursor cursor = mContentResolver.query(
+                contacrsUri,
+                null,
+                null,
+                null,
+                null
+        );
+        if (cursor != null){
+            contacts = new String[cursor.getCount()];
+            int x = 0;
+            while(cursor.moveToNext()){
+                contacts[x++] = (
+                        cursor.getString(
+                                cursor.getColumnIndex(
+                                        ContactsProvider.DIRECIONES
+                                )
+                        )
+                );
+            }
+        }
+        cursor.close();
+        return contacts;
 
     }
 }

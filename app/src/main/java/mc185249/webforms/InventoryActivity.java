@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -37,7 +37,6 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.example.mc185249.webforms.FilterDialogActivity;
 import com.gc.materialdesign.views.ButtonFlat;
 import com.google.repacked.treelayout.internal.util.java.lang.string.StringUtil;
 

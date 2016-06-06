@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="10dp"
-        android:name="com.example.mc185249.webforms.FloatingActionMenu"
+        android:name="mc185249.webforms.FloatingActionMenu"
         tools:layout="@layout/fragment_floating_action_menu"></fragment>
 
 </android.support.design.widget.CoordinatorLayout>

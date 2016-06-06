@@ -16,8 +16,6 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.mc185249.webforms.ClientsContentProvider;
-import com.example.mc185249.webforms.WebFormsProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import app.AppController;
+import mc185249.webforms.Api;
+import mc185249.webforms.ClientsContentProvider;
 import mc185249.webforms.WebFormsPreferencesManager;
 import models.Cliente;
 
@@ -49,8 +49,11 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        StringBuilder stringBuilder = new StringBuilder((Api.SERVER + Api.CLIENTS + "/?CSR=@"));
+        int index = stringBuilder.indexOf("@");
+        stringBuilder.replace(index,(index + 1),new WebFormsPreferencesManager(mContext).getCsrCode());
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                "http://sarbue8000:8080/api/clients",
+                stringBuilder.toString(),
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -123,7 +126,7 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 AppController.getInstance().notify(
                                         "Clientes Actualizados",
                                         clientesToLocal.size() + " actualizados",
-                                        "SYNC",
+                                        "SYNC CLIENTES",
                                         new WebFormsPreferencesManager(mContext).getUserName(),
                                         "NCR Clientes"
                                 );

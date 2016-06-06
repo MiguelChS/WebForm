@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-</PreferenceScreen>
+<sync-adapter
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:contentAuthority="mc185249.webforms.ContactsProvider"
+    android:userVisible="true"
+    android:isAlwaysSyncable="true"
+    android:allowParallelSyncs="true"
+    android:accountType="com.webforms"
+    android:supportsUploading="true"
+    />

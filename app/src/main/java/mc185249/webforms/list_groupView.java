@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
+
 
 /**
  * TODO: document your custom view class.

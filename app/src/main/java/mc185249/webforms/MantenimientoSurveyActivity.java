@@ -1,5 +1,6 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,16 +10,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+
 import java.util.Date;
 
+import app.AppController;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import layout.DatePickerFragment;
 import models.EmailSender;
+import models.WebFormsLogModel;
 
 public class MantenimientoSurveyActivity
-        extends com.example.mc185249.webforms.WebFormsActivity
+        extends mc185249.webforms.WebFormsActivity
         implements
-            com.example.mc185249.webforms.WorkOrderFragment.OnFragmentInteractionListener {
+            mc185249.webforms.WorkOrderFragment.OnFragmentInteractionListener {
 
     @NotEmpty
     EditText editTextDate, editTextComentario,editTextWO, editTextserie,editTextidEquipo;
@@ -32,7 +36,6 @@ public class MantenimientoSurveyActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
          email = new EmailSender(this);
         editTextDate = (EditText) findViewById(R.id.editTextDate);
@@ -58,6 +61,7 @@ public class MantenimientoSurveyActivity
         editTextWO.setOnFocusChangeListener(this);
         spinnerCliente = (Spinner)findViewById(R.id.spinnerCliente);
         initializeFab();
+        loadSpinner(spinnerCliente);
     }
 
     @Override
@@ -71,11 +75,17 @@ public class MantenimientoSurveyActivity
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_send:
-                String account = getCredential().get(String.valueOf(R.string.accountName));
-                String passwd = getCredential().get(String.valueOf(R.string.passwd));
+                String appVersion = null;
+                try {
+                    appVersion = AppController.getInstance().getAppVersion();
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
 
-                if (account != null && passwd != null && validate()){
-                    com.example.mc185249.webforms.MantenimientoSurveyForm form = new com.example.mc185249.webforms.MantenimientoSurveyForm();
+                if (AppController.getInstance().checkCredentials()
+                        && validate()){
+
+                    MantenimientoSurveyForm form = new MantenimientoSurveyForm();
                     form.setWorkOrder(String.valueOf(editTextWO.getText()));
                     form.setSerie(String.valueOf(editTextserie.getText()));
                     form.setComentario(String.valueOf(editTextComentario.getText()));
@@ -84,9 +94,9 @@ public class MantenimientoSurveyActivity
                     form.setFecha(String.valueOf(editTextDate.getText()));
 
                     email.setSubject("NCR");
-                    email.setRecipients(new String[]{"joaquinnicolas96@hotmail.com"});
+                    email.setRecipients(getContacts());
                     email.bodyMaker(form);
-                    email.setFrom(account);
+                    email.setFrom(new WebFormsPreferencesManager(this).getUserName());
                     createEmail();
                 }
                 break;

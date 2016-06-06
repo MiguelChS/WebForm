@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import com.example.mc185249.webforms.WebFormsProvider;
 
 import models.WebFormsLogModel;
 
@@ -104,6 +102,8 @@ public class LogProvider  {
                     cursor.getString(cursor.getColumnIndex(LogProvider.txtContacto)),
                     cursor.getString(cursor.getColumnIndex(LogProvider.txtParte)),
                     cursor.getString(cursor.getColumnIndex(LogProvider.txtComentario)),
+                    null,
+                    null,
                     (cursor.getInt(cursor.getColumnIndex(LogProvider.chkProElectrico)) >= 1 ? 1 : 0),
                     (cursor.getInt(cursor.getColumnIndex(LogProvider.chkVolNoRegulado)) >= 1 ? 1:0),
                     (cursor.getInt(cursor.getColumnIndex(LogProvider.txtFN)) >= 1 ? 1:0),

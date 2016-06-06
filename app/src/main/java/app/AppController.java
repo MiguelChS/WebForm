@@ -1,8 +1,13 @@
 package app;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Application;
 import android.app.Notification;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
@@ -21,6 +26,17 @@ public class AppController extends Application {
     private static String TAG = "WebForms";
     private RequestQueue mRequestQueue;
     NotificationManagerCompat notificationManagerCompat;
+    //region sync adapter
+    public static final String AUTHORITY_CLIENTS = "mc185249.webforms.ClientsContentProvider";
+    public static final String AUTHORITY_CONTACTS = "mc185249.webforms.ContactsProvider";
+    public static final String ACCOUNT_TYPE = "com.webforms";
+    public static String ACCOUNT;
+    Account mAccount;
+    public static final long SECONDS_PER_MINUTE = 60L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 1440L;
+    public static final long SYNC_INTERVAL = 5;//actualiza cada un dia
+           // SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
+    //endregion
     public static synchronized AppController getInstance(){
         return mInstance;
     }
@@ -31,6 +47,54 @@ public class AppController extends Application {
         mInstance = this;
         notificationManagerCompat =
                 NotificationManagerCompat.from(this);
+        ACCOUNT = "dummy";
+        mAccount = createSyncAccount(this);
+
+        ContentResolver.setIsSyncable(mAccount, AUTHORITY_CLIENTS,1);
+        ContentResolver.setSyncAutomatically(
+                mAccount,
+                AUTHORITY_CLIENTS,
+                true
+        );
+        ContentResolver.addPeriodicSync(
+                mAccount,
+                AUTHORITY_CLIENTS,
+                Bundle.EMPTY,
+                SYNC_INTERVAL
+        );
+
+      ContentResolver.setIsSyncable(mAccount, AUTHORITY_CONTACTS,1);
+        ContentResolver.setSyncAutomatically(
+                mAccount,
+                AUTHORITY_CONTACTS,
+                true
+        );
+        ContentResolver.addPeriodicSync(
+                mAccount,
+                AUTHORITY_CONTACTS,
+                Bundle.EMPTY,
+                (SYNC_INTERVAL * 60)
+        );
+
+
+    }
+
+    public static Account createSyncAccount(Context context) {
+
+        Account newAccount = new Account(
+                ACCOUNT,ACCOUNT_TYPE
+        );
+        AccountManager accountManager =
+                (AccountManager)context.getSystemService(
+                        ACCOUNT_SERVICE
+                );
+
+        if (accountManager.addAccountExplicitly(newAccount,null,null)){
+            return newAccount;
+        }else{
+            return accountManager.getAccounts()[0];
+        }
+
     }
 
     public RequestQueue getmRequestQueue(){
@@ -70,10 +134,9 @@ public class AppController extends Application {
     public void notify(String title, String content,String group,String summaryText,String bigContentTitle){
         Notification notification = new NotificationCompat
                 .Builder(this)
-                .setContentTitle(title)
-                .setContentText(content)
                 .setStyle(new NotificationCompat.InboxStyle()
                         .setBigContentTitle(bigContentTitle)
+                        .addLine(content)
                         .setSummaryText(summaryText))
                 .setSmallIcon(android.support.design.R.drawable.notification_template_icon_bg)
                 .setGroup(group)

@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.media.audiofx.EnvironmentalReverb;
 import android.support.v7.widget.ListViewCompat;
 import android.text.Layout;
 import android.util.Log;
@@ -18,10 +19,11 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mc185249.webforms.EnvironmentalSiteActivity;
-import com.example.mc185249.webforms.R;
 
 import org.w3c.dom.Text;
+
+import mc185249.webforms.EnvironmentalSiteActivity;
+import mc185249.webforms.R;
 
 public class ExpansibleListAdapter extends BaseExpandableListAdapter {
 
@@ -127,12 +129,20 @@ public class ExpansibleListAdapter extends BaseExpandableListAdapter {
                     .setChkProElectrico(value);
             switch (child){
                 case "Voltaje no regulado":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkVolNoRegulado(value);
                     break;
                 case "No posee UPS":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkNoUps(value);
                     break;
                 case "No posee tierra fisica":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkNoTierraFisica(value);
                     break;
                 case "Sin energia electrica":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkNoEnergia(value);
                     break;
 
             }
@@ -143,18 +153,32 @@ public class ExpansibleListAdapter extends BaseExpandableListAdapter {
                     .setChkProSite(value);
             switch (child){
                 case "Suciedad":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkSuciedad(value);
                     break;
                 case "Goteras":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkGoteras(value);
                     break;
                 case "Plagas":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkPlagas(value);
                     break;
                 case "Exposicion directa al sol":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkExpSol(value);
                     break;
                 case "Humedad":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkHumedad(value);
                     break;
                 case "Mala iluminacion":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkMalaIluminacion(value);
                     break;
                 case "Sin AA/Calefaccion":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkNoAA(value);
                     break;
             }
 
@@ -166,17 +190,27 @@ public class ExpansibleListAdapter extends BaseExpandableListAdapter {
         }
         if (group.contains("problema operativo")){
             EnvironmentalSiteActivity.logModel
-                    .setChkProOperativo(1);
+                    .setChkProOperativo(value);
             switch (child){
                 case "Sin insumos":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkSinInsumos(value);
                     break;
                 case "Sin billetes":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkSinBilletes(value);
                     break;
                 case "Mala calidad de billetes":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkMalaCalidadBilletes(value);
                     break;
                 case "Mala calidad de insumos":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkMalaCalidadInsumos(value);
                     break;
                 case "Error de operador":
+                    EnvironmentalSiteActivity.logModel
+                            .setChkErrorOperador(value);
                     break;
             }
         }

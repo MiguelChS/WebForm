@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -9,26 +9,27 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.HashMap;
 
 public class ClientsContentProvider extends WebFormsProvider {
 
-    static  final String PROVIDER_NAME = "com.example.mc185249.webforms.ClientsContentProvider";
-    static  final String URL = "content://" + PROVIDER_NAME + "/clients";
-    static  final Uri CONTENT_URI = Uri.parse(URL);
+    public static  final String PROVIDER_NAME = "mc185249.webforms.ClientsContentProvider";
+    public static  final String URL = "content://" + PROVIDER_NAME + "/clients";
+    public static  final Uri CONTENT_URI = Uri.parse(URL);
 
     //clients table
-    static final String ID = "id";
-    static final String PAIS = "pais";
-    static final String NOMBRE = "nombre";
-    static final String NUMERO = "numero";
+    public static final String ID = "id";
+    public static final String PAIS = "pais";
+    public static final String NOMBRE = "nombre";
+    public static final String NUMERO = "numero";
 
     static final int CLIENT = 1;
     static final int CLIENT_ID = 2;
 
     private static HashMap<String, String> CLIENTS_PROJECTION_MAP;
-    static final UriMatcher uriMatcher;
+    public static final UriMatcher uriMatcher;
     static {
       uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME,"clients",CLIENT);
@@ -48,7 +49,9 @@ public class ClientsContentProvider extends WebFormsProvider {
 
             case CLIENT_ID:
                 String id = uri.getPathSegments().get(1);
-                count = db.delete(CLIENT_TABLE_NAME,ID + " = " + id + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""),selectionArgs);
+                count = db.delete(CLIENT_TABLE_NAME,ID + " = " + id
+                        + (!TextUtils.isEmpty(selection) ?
+                        " AND (" + selection + ')' : ""),selectionArgs);
                 break;
 
             default:
@@ -107,7 +110,8 @@ public class ClientsContentProvider extends WebFormsProvider {
             sortOrder = null;
         }
 
-        Cursor cursor = qb.query(db,projection,selection,selectionArgs,null,null,null);
+
+        Cursor cursor = qb.query(db,projection,selection,selectionArgs,null,null,sortOrder);
         cursor.setNotificationUri(getContext().getContentResolver(),uri);
 
         return cursor;

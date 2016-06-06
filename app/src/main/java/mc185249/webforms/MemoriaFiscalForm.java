@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 /**
  * Created by jn185090 on 4/12/2016.

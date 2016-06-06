@@ -15,7 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.example.mc185249.webforms.R;
+
 
 import app.AppController;
 
@@ -26,7 +26,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     //region sync
     private static final int REQUEST_LOGIN_CODE = 9000;
     public static final long SYNC_INTERVAL = Long.parseLong(String.valueOf(R.string.pollFrequency));
-    public static final String AUTHORITY = "com.example.mc185249.webforms.ClientsContentProvider";
+    public static final String AUTHORITY = "ClientsContentProvider";
     ContentResolver mResolver;
     private String user = "";
 
@@ -39,7 +39,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         setSupportActionBar(toolbar);
 
         //region verifica existencia de credenciales NCR
-        Intent i = new Intent(this, com.example.mc185249.webforms.EmailService.class);
+        Intent i = new Intent(this, EmailService.class);
         if (!AppController.getInstance().checkCredentials()) {
             showLogin();
         } else {
@@ -87,55 +87,46 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
         switch (v.getId()) {
             case R.id.btnGoToparts:
-                Intent i = new Intent(this, com.example.mc185249.webforms.InventoryActivity.class);
+                Intent i = new Intent(this, InventoryActivity.class);
                 startActivity(i);
                 break;
 
             case R.id.btnSite:
-                Intent intent = new Intent(this, com.example.mc185249.webforms.EnvironmentalSiteActivity.class);
+                Intent intent = new Intent(this, EnvironmentalSiteActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.btnLogistics:
-                Intent siteIntent = new Intent(this, com.example.mc185249.webforms.LogisticsSurveyActivity.class);
+                Intent siteIntent = new Intent(this, LogisticsSurveyActivity.class);
                 startActivity(siteIntent);
                 break;
             case R.id.btnMant:
-                Intent mantenimientoIntent = new Intent(this, com.example.mc185249.webforms.MantenimientoSurveyActivity.class);
+                Intent mantenimientoIntent = new Intent(this, MantenimientoSurveyActivity.class);
                 startActivity(mantenimientoIntent);
                 break;
             case R.id.btnMen:
-                Intent in = new Intent(this, com.example.mc185249.webforms.memoriaFiscalActivity.class);
+                Intent in = new Intent(this, memoriaFiscalActivity.class);
                 startActivity(in);
                 break;
             case R.id.btnPid:
-                //region sync adapter
-                Account account1 = new Account(user, "com.webforms");
-                AccountManager accountManager = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
-                accountManager.addAccountExplicitly(account1, null, null);
-                Bundle settingBundle = new Bundle();
-                settingBundle.putBoolean(
-                        ContentResolver.SYNC_EXTRAS_MANUAL, true
-                );
-                settingBundle.putBoolean(
-                        ContentResolver.SYNC_EXTRAS_EXPEDITED, true
-                );
-                ContentResolver.requestSync(account1, AUTHORITY, settingBundle);
-
-                //endregion
+                Intent intent1 = new Intent(this,cambioPidPad.class);
+                startActivity(intent1);
                 break;
             case R.id.btnTech:
-
+                Intent intent2 = new Intent(this,VisitaTecnica.class);
+                startActivity(intent2);
                 break;
             case R.id.btnReca:
+                Intent intent3 = new Intent(this,TecladoEncryptorActivity.class);
+                startActivity(intent3);
                 break;
         }
     }
 
     private void showLogin() {
-        Intent serviceIntent = new Intent(this, com.example.mc185249.webforms.EmailService.class);
+        Intent serviceIntent = new Intent(this, EmailService.class);
         stopService(serviceIntent);
-        Intent in = new Intent(this, com.example.mc185249.webforms.Stepper.class);
+        Intent in = new Intent(this, Stepper.class);
         startActivityForResult(in, REQUEST_LOGIN_CODE);
     }
 
@@ -151,7 +142,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                     .save(user,
                             passwd,
                             csrCode);
-            Intent serviceIntent = new Intent(this, com.example.mc185249.webforms.EmailService.class);
+            Intent serviceIntent = new Intent(this, EmailService.class);
             startService(serviceIntent);
 
 

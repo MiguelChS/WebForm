@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.mc185249.webforms.MantenimientoSurveyActivity">
+    tools:context="mc185249.webforms.MantenimientoSurveyActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="10dp"
-        android:name="com.example.mc185249.webforms.FloatingActionMenu"
+        android:name="mc185249.webforms.FloatingActionMenu"
         tools:layout="@layout/fragment_floating_action_menu"></fragment>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    package="mc185249.webforms"
     android:versionCode="2"
-    android:versionName="1.1"
-    package="com.example.mc185249.webforms">
+    android:versionName="1.1">
 
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -42,16 +42,14 @@
         <activity
             android:name=".InventoryActivity"
             android:label=""
-            android:parentActivityName="mc185249.webforms.ScrollingActivity" />
+            android:parentActivityName=".ScrollingActivity" />
         <activity
             android:name=".FilterDialogActivity"
             android:theme="@style/FilterDialogTheme" />
         <activity
             android:name=".EnvironmentalSiteActivity"
             android:label=""
-            android:parentActivityName="mc185249.webforms.ScrollingActivity" >
-
-        </activity>
+            android:parentActivityName=".ScrollingActivity" />
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
@@ -59,15 +57,15 @@
         <activity
             android:name=".LogisticsSurveyActivity"
             android:label=""
-            android:parentActivityName="mc185249.webforms.ScrollingActivity" />
+            android:parentActivityName=".ScrollingActivity" />
         <activity
             android:name=".MantenimientoSurveyActivity"
             android:label=""
-            android:parentActivityName="mc185249.webforms.ScrollingActivity" />
+            android:parentActivityName=".ScrollingActivity" />
         <activity
             android:name=".memoriaFiscalActivity"
             android:label=""
-            android:parentActivityName="mc185249.webforms.ScrollingActivity" />
+            android:parentActivityName=".ScrollingActivity" />
         <activity
             android:name=".Stepper"
             android:label=""
@@ -75,20 +73,22 @@
 
         <provider
             android:name=".EmailsProvider"
-            android:authorities="com.example.mc185249.webforms.EmailsProvider" />
+            android:authorities="mc185249.webforms.EmailsProvider" />
         <provider
             android:name=".AttachementProvider"
-            android:authorities="com.example.mc185249.webforms.AttachementProvider" />
+            android:authorities="mc185249.webforms.AttachementProvider" />
 
         <service
             android:name=".EmailService"
-            android:exported="false" />
+            android:exported="true" />
 
         <provider
             android:name=".ClientsContentProvider"
-            android:authorities="com.example.mc185249.webforms.ClientsContentProvider"
+            android:authorities="mc185249.webforms.ClientsContentProvider"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
+            android:label="Sync Clientes"
+            android:multiprocess="true"
             android:syncable="true" />
 
         <!--
@@ -100,7 +100,7 @@
             android:value="1" />
 
         <activity
-            android:name="mc185249.webforms.ScrollingActivity"
+            android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/NCRTheme">
             <intent-filter>
@@ -110,15 +110,58 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="sync.AuthenticatorService">
+        <service android:name="sync.AuthenticatorService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
+        <service
+            android:name="sync.SyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+        <service
+            android:name="sync.ContactsSyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/contactssyncadapter" />
+        </service>
+
+        <provider
+            android:name=".ContactsProvider"
+            android:authorities="mc185249.webforms.ContactsProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:label="Sync Contacts"
+            android:multiprocess="true"
+            android:syncable="true" />
+        -
+        <activity
+            android:name=".cambioPidPad"
+            android:parentActivityName=".ScrollingActivity" />
+        <activity
+            android:name=".VisitaTecnica"
+            android:parentActivityName=".ScrollingActivity" />
+        <activity
+            android:parentActivityName=".ScrollingActivity"
+            android:name=".TecladoEncryptorActivity"></activity>
     </application>
 
 </manifest>

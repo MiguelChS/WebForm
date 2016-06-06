@@ -18,4 +18,10 @@ public class Sender {
         this.name = name;
         this.CSRCode = CSRCode;
     }
+
+    /*@Override
+    public String toString() {
+        return "passwd: " + passwd + ", emailAddress: " + emailAddress
+                + ", name: " + name + ", CSRCode: " + CSRCode + "";
+    }*/
 }

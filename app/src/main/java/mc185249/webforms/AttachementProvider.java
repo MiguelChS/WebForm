@@ -1,4 +1,4 @@
-package com.example.mc185249.webforms;
+package mc185249.webforms;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -17,12 +17,12 @@ import java.util.HashMap;
  */
 public class AttachementProvider extends WebFormsProvider {
 
-    static final String PROVIDER_NAME = "com.example.mc185249.webforms.AttachementProvider";
-    static final String URL = "content://" + PROVIDER_NAME + "/attachement";
-    static final Uri CONTENT_URI = Uri.parse(URL);
+    public static final String PROVIDER_NAME = "mc185249.webforms.AttachementProvider";
+    public static final String URL = "content://" + PROVIDER_NAME + "/attachement";
+    public static final Uri CONTENT_URI = Uri.parse(URL);
 
-    static final int ATTACHEMENT = 1;
-    static final int ATTACHEMENT_ID = 2;
+    public static final int ATTACHEMENT = 1;
+    public static final int ATTACHEMENT_ID = 2;
 
     private static HashMap<String,String> ATTACHEMENT_PROJECTION_MAP;
     static final UriMatcher uriMatcher;
@@ -32,10 +32,10 @@ public class AttachementProvider extends WebFormsProvider {
         uriMatcher.addURI(PROVIDER_NAME, "attachement/#", ATTACHEMENT_ID);
     }
 
-     static String ID = "id";
-     static String MIME_TYPE = "mimeType";
-     static String BLOB = "blob";
-    static String EMAIL_ID = "email_id";
+     public static String ID = "id";
+    public static String MIME_TYPE = "mimeType";
+    public static String BLOB = "blob";
+    public static String EMAIL_ID = "email_id";
 
 
     @Override
