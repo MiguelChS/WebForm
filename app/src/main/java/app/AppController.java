@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import mc185249.webforms.R;
 import mc185249.webforms.WebFormsPreferencesManager;
 
 /**
@@ -138,7 +139,7 @@ public class AppController extends Application {
                         .setBigContentTitle(bigContentTitle)
                         .addLine(content)
                         .setSummaryText(summaryText))
-                .setSmallIcon(android.support.design.R.drawable.notification_template_icon_bg)
+                .setSmallIcon(R.drawable.ncr)
                 .setGroup(group)
                 .setGroupSummary(true)
                 .build();

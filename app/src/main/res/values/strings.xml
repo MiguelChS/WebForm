@@ -320,4 +320,10 @@ formID INT NOT NULL
     </string>
 
 
+    <string-array name="tabs">
+        <item>Formularios</item>
+        <item>Historicos</item>
+    </string-array>
+
+
 </resources>

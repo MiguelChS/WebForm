@@ -5,18 +5,33 @@ import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
+import org.w3c.dom.Text;
 
+import Tabs.SlidingTabLayout;
 import app.AppController;
 
 public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
@@ -29,7 +44,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     public static final String AUTHORITY = "ClientsContentProvider";
     ContentResolver mResolver;
     private String user = "";
-
+    SlidingTabLayout mTabs;
+    ViewPager mPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +53,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_scrolling);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         //region verifica existencia de credenciales NCR
         Intent i = new Intent(this, EmailService.class);
         if (!AppController.getInstance().checkCredentials()) {
@@ -78,6 +94,21 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                 showLogin();
             }
         });
+
+
+        mPager = (ViewPager)findViewById(R.id.pager);
+        mPager.setAdapter(new WebFormsPagerAdapter(getSupportFragmentManager()));
+        mTabs = (SlidingTabLayout)findViewById(R.id.tabs);
+        mTabs.setCustomTabView(R.layout.custom_tab_view,R.id.tabText);
+        mTabs.setDistributeEvenly(true);
+        mTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.blanco);
+            }
+        });
+        mTabs.setViewPager(mPager);
+
     }
 
 
@@ -150,5 +181,71 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
         }
 
+    }
+
+    class WebFormsPagerAdapter extends FragmentPagerAdapter{
+
+        int icons[] = {
+                R.drawable.ic_assignment
+                ,R.drawable.ic_history
+        };
+        String[] tabs;
+        public WebFormsPagerAdapter(FragmentManager fm) {
+            super(fm);
+            tabs = getResources().getStringArray(R.array.tabs);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Drawable drawable = getResources().getDrawable(icons[position]);
+            drawable.setBounds(0,0,36,36);
+            ImageSpan imageSpan = new ImageSpan(drawable);
+            SpannableString spannableString = new SpannableString(" ");
+            spannableString.setSpan(imageSpan,0,spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return spannableString;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            WebFormsTabsFragment webFormsTabsFragment = WebFormsTabsFragment.getInstance(position);
+            return webFormsTabsFragment;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+    }
+
+    public static class WebFormsTabsFragment extends Fragment{
+        public static WebFormsTabsFragment getInstance(int position){
+           WebFormsTabsFragment webFormsTabsFragment = new WebFormsTabsFragment();
+            Bundle args = new Bundle();
+            args.putInt("position",position);
+            webFormsTabsFragment.setArguments(args);
+            return webFormsTabsFragment;
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            Bundle bundle = getArguments();
+            View layout = null;
+            if (bundle != null){
+                switch (bundle.getInt("position")){
+
+                    case 1:
+                        layout = inflater.inflate(R.layout.main_activity_fragment01,container,false);
+                        TextView textView = (TextView) layout.findViewById(R.id.textview);
+                        textView.setText("Hola mundo!!");
+                        break;
+                    default:
+                        layout = inflater.inflate(R.layout.content_scrolling,container,false);
+                        break;
+                }
+            }
+
+            return layout;
+        }
     }
 }
