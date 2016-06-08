@@ -38,7 +38,6 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.gc.materialdesign.views.ButtonFlat;
-import com.google.repacked.treelayout.internal.util.java.lang.string.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;

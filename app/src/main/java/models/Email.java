@@ -1,6 +1,17 @@
 package models;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Base64;
+
+import connectivity.EmailTask;
+import mc185249.webforms.AttachementProvider;
+import mc185249.webforms.EmailsProvider;
 import mc185249.webforms.IWebForm;
+import mc185249.webforms.LogProvider;
 import mc185249.webforms.LogisticsSurveyForm;
 import mc185249.webforms.MantenimientoSurveyForm;
 import mc185249.webforms.MemoriaFiscalForm;
@@ -9,6 +20,7 @@ import mc185249.webforms.WebFormsPreferencesManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Formatter;
 
 
@@ -52,6 +64,7 @@ public class  Email {
     protected ArrayList<models.File> files = new ArrayList<>();
     protected WebFormsLogModel form = null;
     protected String CSRCode = "";
+    protected String activity;
 
     public ArrayList<models.File> getFiles() {
         return files;
@@ -172,7 +185,7 @@ public class  Email {
                         "    padding-top: 0;\n" +
                         "}\n" +
                         "\n" +
-                        "#right_content label {\n" +
+                        "#bottom label {\n" +
                         "    display: block;\n" +
                         "    padding: 0 0px 5px 0px;\n" +
                         "}\n" +
@@ -374,5 +387,96 @@ public class  Email {
 
         this.body = createdBody;
 
+    }
+
+    public static ArrayList<EmailSender> readEmails(Context mContext){
+        ArrayList<EmailSender> emailsList = new ArrayList<>();
+        String URL = "content://mc185249.webforms.EmailsProvider/emails";
+        Uri emails = Uri.parse(URL);
+        ContentResolver contentResolver = mContext.getContentResolver();
+        Cursor cursor = contentResolver.query(emails,null,null,null,null);
+        if (cursor != null
+                && cursor.moveToFirst()){
+
+            do{
+                WebFormsPreferencesManager preferencesManager =
+                        new WebFormsPreferencesManager(mContext);
+
+                String account =
+                        preferencesManager.getUserName();
+                if (account != null
+                        && !account.isEmpty()){
+                    EmailSender emailSender = null;
+                    emailSender = new EmailSender(mContext);
+
+                    emailSender.activity = cursor.getString(cursor.getColumnIndex(EmailsProvider.ACTIVITY));
+                    emailSender.setSubject(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.SUBJECT)));
+                    emailSender.setBody(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.BODY)));
+                    emailSender.setRecipients(new String[]{cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.RECIPIENT))});
+                    emailSender.setFrom(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.FROM)));
+                    emailSender.setPasswordAuthentication(account.trim(), "");
+                    emailSender.setSender(
+                            new Sender(
+                                    "",
+                                    preferencesManager.getUserName(),
+                                    preferencesManager.getUserName(),
+                                    preferencesManager.getCsrCode()
+                            )
+                    );
+                    int CustomEmailID = cursor.
+                            getInt(cursor.getColumnIndex(EmailsProvider.ID));
+
+                    LogProvider logProvider =
+                            new LogProvider(mContext);
+                    WebFormsLogModel[] logs = logProvider.query(null,new String[]{
+                            String.valueOf(CustomEmailID)
+                    },(LogProvider.emailID + " = ?"));
+
+                    if (logs.length > 0)
+                        emailSender.setForm(logs[0]);
+
+                    Uri attachment_files = Uri.parse(AttachementProvider.URL);
+                    ContentResolver contentResolver1 = mContext.getContentResolver();
+                    Cursor mCursor = contentResolver1.query(
+                            attachment_files,null, mc185249.webforms.AttachementProvider.EMAIL_ID + " = ?",
+                            new String[]{
+                                    String.valueOf(cursor.getInt(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.ID)))
+                            },null
+                    );
+
+                    if(mCursor.moveToFirst()){
+                        do{
+                            byte[] encodedFile = mCursor
+                                    .getBlob
+                                            (mCursor
+                                                    .getColumnIndex(
+                                                            AttachementProvider.BLOB));
+
+
+                            emailSender
+                                    .Attach(new models
+                                            .File(
+                                            ("WebFormsIMG_" + Calendar.getInstance()
+                                                    .get(Calendar.SECOND)+ "_"+
+                                                    new WebFormsPreferencesManager(mContext)
+                                                            .getCsrCode())
+                                            , Base64.encodeToString(encodedFile,0)
+                                            , BitmapFactory
+                                            .decodeByteArray(
+                                                    encodedFile,0,encodedFile.length
+                                            )
+                                    ));
+
+
+                        }while(mCursor.moveToNext());
+                    }
+                    emailsList.add(emailSender);
+                }
+
+
+            }while (cursor.moveToNext());
+
+        }
+        return emailsList;
     }
 }

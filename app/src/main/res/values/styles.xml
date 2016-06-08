@@ -1,7 +1,7 @@
 <resources>
 
     <style name="NCRTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#4CAF50</item>
+        <item name="colorPrimary">#54B948</item>
         <item name="colorPrimaryDark">#388E3C</item>
         <item name="colorAccent">#8BC34A</item>
 
@@ -26,6 +26,9 @@
 
     <style name="ButtonsMain" parent="Base.Widget.AppCompat.Button">
         <item name="elevation">4dp</item>
+        <item name="android:background">#333333</item>
+        <item name="android:colorBackground">#333</item>
+        <item name="colorBackground">#333</item>
     </style>
 
 

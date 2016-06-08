@@ -146,4 +146,6 @@ public class AppController extends Application {
 
         notificationManagerCompat.notify(1, notification);
     }
+
+
 }

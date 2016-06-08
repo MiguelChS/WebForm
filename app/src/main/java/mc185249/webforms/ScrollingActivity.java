@@ -16,6 +16,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
@@ -31,14 +33,15 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 import Tabs.SlidingTabLayout;
 import app.AppController;
+import models.Email;
+import models.EmailSender;
 
-public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private ImageButton btnGoToparts, btnSite, btnLogistics, btnMant, btnMen, btnPid, btnTech, btnReca;
-
-    //region sync
+public class ScrollingActivity extends AppCompatActivity {
+  //region sync
     private static final int REQUEST_LOGIN_CODE = 9000;
     public static final long SYNC_INTERVAL = Long.parseLong(String.valueOf(R.string.pollFrequency));
     public static final String AUTHORITY = "ClientsContentProvider";
@@ -46,6 +49,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private String user = "";
     SlidingTabLayout mTabs;
     ViewPager mPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,28 +68,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         user = new WebFormsPreferencesManager(this).getUserName();
         //endregion
 
-        //region GET BUTTONS ID AND ADD CLICK LISTENER
-        this.btnGoToparts = (ImageButton) findViewById(R.id.btnGoToparts);
-        this.btnSite = (ImageButton) findViewById(R.id.btnSite);
-        this.btnLogistics = (ImageButton) findViewById(R.id.btnLogistics);
-        this.btnMant = (ImageButton) findViewById(R.id.btnMant);
-        this.btnMen = (ImageButton) findViewById(R.id.btnMen);
-        this.btnPid = (ImageButton) findViewById(R.id.btnPid);
-        this.btnTech = (ImageButton) findViewById(R.id.btnTech);
-        this.btnReca = (ImageButton) findViewById(R.id.btnReca);
 
-        ImageButton[] buttons = {
-                btnGoToparts, btnSite, btnLogistics
-                , btnMant, btnMen, btnPid
-                , btnTech, btnReca
-        };
-
-        for (ImageButton btn : buttons) {
-            if (btn != null){
-                btn.setOnClickListener(this);
-            }
-
-        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -111,50 +94,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-
-    @Override
-    public void onClick(View v) {
-
-
-        switch (v.getId()) {
-            case R.id.btnGoToparts:
-                Intent i = new Intent(this, InventoryActivity.class);
-                startActivity(i);
-                break;
-
-            case R.id.btnSite:
-                Intent intent = new Intent(this, EnvironmentalSiteActivity.class);
-                startActivity(intent);
-                break;
-
-            case R.id.btnLogistics:
-                Intent siteIntent = new Intent(this, LogisticsSurveyActivity.class);
-                startActivity(siteIntent);
-                break;
-            case R.id.btnMant:
-                Intent mantenimientoIntent = new Intent(this, MantenimientoSurveyActivity.class);
-                startActivity(mantenimientoIntent);
-                break;
-            case R.id.btnMen:
-                Intent in = new Intent(this, memoriaFiscalActivity.class);
-                startActivity(in);
-                break;
-            case R.id.btnPid:
-                Intent intent1 = new Intent(this,cambioPidPad.class);
-                startActivity(intent1);
-                break;
-            case R.id.btnTech:
-                Intent intent2 = new Intent(this,VisitaTecnica.class);
-                startActivity(intent2);
-                break;
-            case R.id.btnReca:
-                Intent intent3 = new Intent(this,TecladoEncryptorActivity.class);
-                startActivity(intent3);
-                break;
-        }
-    }
-
-    private void showLogin() {
+     private void showLogin() {
         Intent serviceIntent = new Intent(this, EmailService.class);
         stopService(serviceIntent);
         Intent in = new Intent(this, Stepper.class);
@@ -217,13 +157,61 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public static class WebFormsTabsFragment extends Fragment{
+    public static class WebFormsTabsFragment extends Fragment implements View.OnClickListener{
+
+        private ImageButton btnGoToparts, btnSite, btnLogistics, btnMant, btnMen, btnPid, btnTech, btnReca;
+        RecyclerView recyclerView;
+        CustomAdapter customAdapter;
+
         public static WebFormsTabsFragment getInstance(int position){
            WebFormsTabsFragment webFormsTabsFragment = new WebFormsTabsFragment();
             Bundle args = new Bundle();
             args.putInt("position",position);
             webFormsTabsFragment.setArguments(args);
             return webFormsTabsFragment;
+        }
+
+
+        @Override
+        public void onClick(View v) {
+
+
+            switch (v.getId()) {
+                case R.id.btnGoToparts:
+                    Intent i = new Intent(getContext(), InventoryActivity.class);
+                    startActivity(i);
+                    break;
+
+                case R.id.btnSite:
+                    Intent intent = new Intent(getContext(), EnvironmentalSiteActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.btnLogistics:
+                    Intent siteIntent = new Intent(getContext(), LogisticsSurveyActivity.class);
+                    startActivity(siteIntent);
+                    break;
+                case R.id.btnMant:
+                    Intent mantenimientoIntent = new Intent(getContext(), MantenimientoSurveyActivity.class);
+                    startActivity(mantenimientoIntent);
+                    break;
+                case R.id.btnMen:
+                    Intent in = new Intent(getContext(), memoriaFiscalActivity.class);
+                    startActivity(in);
+                    break;
+                case R.id.btnPid:
+                    Intent intent1 = new Intent(getContext(),cambioPidPad.class);
+                    startActivity(intent1);
+                    break;
+                case R.id.btnTech:
+                    Intent intent2 = new Intent(getContext(),VisitaTecnica.class);
+                    startActivity(intent2);
+                    break;
+                case R.id.btnReca:
+                    Intent intent3 = new Intent(getContext(),TecladoEncryptorActivity.class);
+                    startActivity(intent3);
+                    break;
+            }
         }
 
         @Nullable
@@ -236,11 +224,49 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
                     case 1:
                         layout = inflater.inflate(R.layout.main_activity_fragment01,container,false);
-                        TextView textView = (TextView) layout.findViewById(R.id.textview);
-                        textView.setText("Hola mundo!!");
+                        recyclerView = (RecyclerView) layout.findViewById(R.id.recycleView);
+                        ArrayList<EmailSender> emailSenders = Email.readEmails(getContext());
+                        ArrayList<Information> informations = new ArrayList<>();
+                        if (emailSenders != null
+                                && !emailSenders.isEmpty()){
+                            for (EmailSender emailSender:
+                                 emailSenders) {
+                                informations.add(
+                                  new Information(
+                                          R.drawable.fab_bg_mini,
+                                          emailSender.getSubject()
+                                  )
+                                );
+                            }
+                        }
+
+                        customAdapter = new CustomAdapter(getContext(),informations);
+                        recyclerView.setAdapter(customAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                         break;
                     default:
                         layout = inflater.inflate(R.layout.content_scrolling,container,false);
+                        this.btnGoToparts = (ImageButton) layout.findViewById(R.id.btnGoToparts);
+                        this.btnSite = (ImageButton) layout.findViewById(R.id.btnSite);
+                        this.btnLogistics = (ImageButton) layout.findViewById(R.id.btnLogistics);
+                        this.btnMant = (ImageButton) layout.findViewById(R.id.btnMant);
+                        this.btnMen = (ImageButton) layout.findViewById(R.id.btnMen);
+                        this.btnPid = (ImageButton) layout.findViewById(R.id.btnPid);
+                        this.btnTech = (ImageButton) layout.findViewById(R.id.btnTech);
+                        this.btnReca = (ImageButton) layout.findViewById(R.id.btnReca);
+
+                        ImageButton[] buttons = {
+                                btnGoToparts, btnSite, btnLogistics
+                                , btnMant, btnMen, btnPid
+                                , btnTech, btnReca
+                        };
+
+                        for (ImageButton btn : buttons) {
+                            if (btn != null){
+                                btn.setOnClickListener(this);
+                            }
+
+                        }
                         break;
                 }
             }
