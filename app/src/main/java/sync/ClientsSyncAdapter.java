@@ -71,9 +71,8 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 );
                             } catch (JSONException e) {
                                 AppController.getInstance().notify(
-                                        "Cast Error",e.getMessage(),
-                                        "SYNC", new WebFormsPreferencesManager(mContext).getUserName(),
-                                        "Sync Adapter"
+                                        "Parser error",
+                                        e.getMessage()
                                 );
                             }
 
@@ -124,11 +123,8 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 );
 
                                 AppController.getInstance().notify(
-                                        "Clientes Actualizados",
-                                        clientesToLocal.size() + " actualizados",
-                                        "SYNC CLIENTES",
-                                        new WebFormsPreferencesManager(mContext).getUserName(),
-                                        "NCR Clientes"
+                                     "Clientes sincronizados",
+                                        String.format("%d clientes sincronizados." , clientesToLocal.size())
                                 );
                             }
 
@@ -140,9 +136,8 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                     public void onErrorResponse(VolleyError error) {
 
                         AppController.getInstance().notify(
-                                "Request Error",error.getMessage(),
-                                "SYNC", new WebFormsPreferencesManager(mContext).getUserName(),
-                                "Sync Adapter"
+                                "Voley Error",
+                                error.getMessage()
                         );
                     }
                 }

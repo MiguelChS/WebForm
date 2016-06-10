@@ -82,9 +82,8 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 );
                             } catch (JSONException e) {
                                 AppController.getInstance().notify(
-                                        "Cast Error",e.getMessage(),
-                                        "SYNC", new WebFormsPreferencesManager(mContext).getUserName(),
-                                        "Contacts Sync Adapter"
+                                        "Error Sync Contactos",
+                                        e.getMessage()
                                 );
                             }
                         }
@@ -140,10 +139,7 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
 
                                 AppController.getInstance().notify(
                                         "Contactos Actualizados",
-                                        contactosToLocal.size() + " actualizados",
-                                        "SYNC CONTACTOS",
-                                        new WebFormsPreferencesManager(mContext).getUserName(),
-                                        "NCR Contactos"
+                                        contactosToLocal.size() + " actualizados"
                                 );
                             }
                         }
@@ -153,9 +149,8 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         AppController.getInstance().notify(
-                                "Request Error",error.getMessage(),
-                                "SYNC CONTACTOS", new WebFormsPreferencesManager(mContext).getUserName(),
-                                "Sync Adapter - Contactos"
+                                "Error Sync Contactos",
+                                error.getMessage()
                         );
                     }
                 }

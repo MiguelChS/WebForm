@@ -48,6 +48,17 @@ public class AppController extends Application {
         mInstance = this;
         notificationManagerCompat =
                 NotificationManagerCompat.from(this);
+    }
+
+
+    /**
+     * Inicia la sincronizacion
+     *
+     */
+    public void initializeSync() {
+        mInstance = this;
+        notificationManagerCompat =
+                NotificationManagerCompat.from(this);
         ACCOUNT = "dummy";
         mAccount = createSyncAccount(this);
 
@@ -64,7 +75,7 @@ public class AppController extends Application {
                 SYNC_INTERVAL
         );
 
-      ContentResolver.setIsSyncable(mAccount, AUTHORITY_CONTACTS,1);
+        ContentResolver.setIsSyncable(mAccount, AUTHORITY_CONTACTS,1);
         ContentResolver.setSyncAutomatically(
                 mAccount,
                 AUTHORITY_CONTACTS,
@@ -76,8 +87,6 @@ public class AppController extends Application {
                 Bundle.EMPTY,
                 (SYNC_INTERVAL * 60)
         );
-
-
     }
 
     public static Account createSyncAccount(Context context) {
@@ -132,16 +141,17 @@ public class AppController extends Application {
         return (pref.getUserName() != null && pref.getPasswd() != null);
     }
 
-    public void notify(String title, String content,String group,String summaryText,String bigContentTitle){
+    /**
+     * CREA UNA NOTIFICACION SIMPLE
+     * @param title Titulo de la notificacion
+     * @param content Contenido de la notificacion
+     */
+    public void notify(String title, String content){
         Notification notification = new NotificationCompat
                 .Builder(this)
-                .setStyle(new NotificationCompat.InboxStyle()
-                        .setBigContentTitle(bigContentTitle)
-                        .addLine(content)
-                        .setSummaryText(summaryText))
                 .setSmallIcon(R.drawable.ncr)
-                .setGroup(group)
-                .setGroupSummary(true)
+                .setContentTitle(title)
+                .setContentText(content)
                 .build();
 
         notificationManagerCompat.notify(1, notification);

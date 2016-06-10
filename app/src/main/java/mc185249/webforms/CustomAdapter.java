@@ -32,6 +32,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         ViewHolder holder = new ViewHolder(view);
         holder.imageView = (ImageView) view.findViewById(R.id.img_row);
         holder.textView = (TextView) view.findViewById(R.id.txv_row);
+        holder.deltaTime = (TextView)view.findViewById(R.id.deltaTime);
+        holder.currentState = (TextView)view.findViewById(R.id.currentState);
         return holder;
     }
 
@@ -39,7 +41,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.textView.setText(data.get(position).getTitle());
         holder.imageView.setImageResource(data.get(position).getImageId());
-
+        holder.deltaTime.setText(data.get(position).getDeltaTime());
+        holder.currentState.setText(data.get(position).getCurrentState());
         if (position > previousPosition){
             AnimationUtil.animate(holder,true);
         }else {
@@ -64,6 +67,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
         ImageView imageView;
+        TextView deltaTime;
+        TextView currentState;
         public ViewHolder(View itemView) {
             super(itemView);
         }

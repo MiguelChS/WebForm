@@ -31,6 +31,7 @@ public class VisitaTecnica extends WebFormsActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         email = new EmailSender(this);
         workOrder = (EditText)findViewById(R.id.editText_wordOrder);
@@ -41,6 +42,7 @@ public class VisitaTecnica extends WebFormsActivity
         workOrder.setOnFocusChangeListener(this);
         serie.setOnFocusChangeListener(this);
         equipo.setOnFocusChangeListener(this);
+        loadSpinner(cliente);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package mc185249.webforms;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.BoringLayout;
+
+import microsoft.exchange.webservices.data.core.exception.misc.ArgumentException;
 
 /**
  * Created by jn185090 on 5/20/2016.
@@ -12,9 +16,10 @@ public class WebFormsPreferencesManager {
     Context mContext;
     SharedPreferences.Editor editor;
     int PRIVATE_MODE = 0;
-    private static  final String CSR_CODE = "CSRCODE";
-    private static final String PASSWD = "PASSWD";
-    private static final String ACCOUNT_NAME = "ACCOUNT_NAME";
+    public static  final String CSR_CODE = "CSRCODE";
+    public static final String PASSWD = "PASSWD";
+    public static final String ACCOUNT_NAME = "ACCOUNT_NAME";
+    public static final String SYNCRONIZES_CLIENTES = "SYNCRONIZES_CLIENTES";
 
     public WebFormsPreferencesManager(Context mContext) {
         this.mContext = mContext;
@@ -39,4 +44,40 @@ public class WebFormsPreferencesManager {
         editor.putString(PASSWD,passwd);
         editor.commit();
     }
+
+    /**
+     * Inserta un objeto de tipo clave valor dentro del shared preference de la
+     * aplicacion.
+     * @param key
+     * clave
+     * @param obj : solo admite valores String e Integer.
+     * @exception IllegalArgumentException if obj is null
+     */
+    public void put(String key,Object obj ){
+
+        if (obj == null){
+            throw new IllegalArgumentException("obj no puede estar vacio.");
+
+        }
+
+        if (obj instanceof String){
+            editor.putString(key,obj.toString());
+        }
+        if (obj instanceof Integer){
+            editor.putInt(key,Integer.parseInt(obj.toString()));
+        }
+
+        if (obj instanceof Boolean){
+            editor.putBoolean(key,Boolean.parseBoolean(obj.toString()));
+        }
+
+    }
+
+    /**
+     * devuelve el valor almacenado para SYNCRONIZES_CLIENTES en el shared Preferences
+     */
+    public boolean getSyncClientes(){
+        return pref.getBoolean(SYNCRONIZES_CLIENTES,false);
+    }
+
 }

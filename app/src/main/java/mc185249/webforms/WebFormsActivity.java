@@ -260,6 +260,14 @@ public class WebFormsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Se fija que los EditText sean validos, es decir, no esten vacios y cumplan con lo solicitado.
+     * @return
+     * <ul>
+     *     <li>true -> si los campos no estan vacios</li>
+     *     <li>false -> hay campos vacios o invalidos</li>
+     * </ul>
+     */
     protected boolean validate(){
         final boolean isValid = FormValidator.validate(this,new SimpleErrorPopupCallback(this));
         return isValid;
@@ -279,6 +287,9 @@ public class WebFormsActivity extends AppCompatActivity
         return credentials;
     }
 
+    /**
+     * @deprecated usar saveEmail
+     */
     public void createEmail(){
 
         saveEmail();
@@ -292,12 +303,15 @@ public class WebFormsActivity extends AppCompatActivity
         Toast.makeText(this,"operacion exitosa",Toast.LENGTH_SHORT).show();
     }
 
-    private void saveEmail()
+    /**
+     * Guarda el email dentro de la base de datos
+     */
+    public void saveEmail()
     {
         showProgressDialog();
         for (String rec : email.getRecipients().split(",")){
             ContentValues values = new ContentValues();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             values.put(EmailsProvider.FECHA, dateFormat.format(new java.util.Date()));
             values.put(EmailsProvider.ACTIVITY,this.getClass().getSimpleName());
             values.put(EmailsProvider.SUBJECT,email.getSubject());
@@ -365,7 +379,10 @@ public class WebFormsActivity extends AppCompatActivity
 
     }
 
-    //CARGA CLIENTES EN SPINNER
+    /**
+     * Carga los clientes de la base de datos dentro de un Spinner
+     * @param spinner
+     */
     protected void loadSpinner(Spinner spinner){
         ContentResolver mContentResolver = getContentResolver();
         ArrayList<String> localClients = new ArrayList<>();
@@ -396,6 +413,15 @@ public class WebFormsActivity extends AppCompatActivity
         spinner.setAdapter(dataAdapter);
     }
 
+    /**
+     *
+     * Devuelve un array con email de contactos.
+     * @return
+     *      <ul>
+     *          <li>String[] con email de contactos</li>
+     *          <li>null si no hay contactos</li>
+     *      </ul>
+     */
     protected String[] getContacts(){
         ContentResolver mContentResolver = getContentResolver();
         String[] contacts = null;
@@ -407,7 +433,7 @@ public class WebFormsActivity extends AppCompatActivity
                 null,
                 null
         );
-        if (cursor != null){
+        if (cursor != null && cursor.getCount() > 0){
             contacts = new String[cursor.getCount()];
             int x = 0;
             while(cursor.moveToNext()){

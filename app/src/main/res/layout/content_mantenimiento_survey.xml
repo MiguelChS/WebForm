@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_margin="10dp"
-    android:padding="20dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/viewC"
-    >
+    android:layout_height="wrap_content">
 
-    <fragment
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/viewC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragmentWorkOrder"
-        android:name="mc185249.webforms.WorkOrderFragment"
-        tools:layout="@layout/fragment_work_order"></fragment>
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <Spinner
-        android:entries="@array/spinnerClientes"
-        android:id="@+id/spinnerCliente"
-        android:spinnerMode="dropdown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Spinner>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:inputType="date"
-            android:id="@+id/editTextDate"
+        <fragment
+            android:id="@+id/fragmentWorkOrder"
+            android:name="mc185249.webforms.WorkOrderFragment"
             android:layout_width="match_parent"
-            android:hint="Fecha"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_work_order"></fragment>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:inputType="textMultiLine"
-            android:id="@+id/editTextComentario"
-            android:hint="Comentario"
+        <Spinner
+            android:id="@+id/spinnerCliente"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:entries="@array/spinnerClientes"
+            android:spinnerMode="dropdown"></Spinner>
 
-</LinearLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fecha"
+                android:imeOptions="actionNext"
+                android:inputType="date" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editTextComentario"
+                android:layout_width="match_parent"
+                android:imeOptions="actionDone"
+                android:layout_height="wrap_content"
+                android:hint="Comentario"
+                android:inputType="textMultiLine" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -28,7 +28,6 @@
         <item name="elevation">4dp</item>
         <item name="android:background">#333333</item>
         <item name="android:colorBackground">#333</item>
-        <item name="colorBackground">#333</item>
     </style>
 
 

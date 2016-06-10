@@ -21,9 +21,9 @@ import java.util.HashMap;
  */
 public class EmailsProvider extends WebFormsProvider {
 
-    static final String PROVIDER_NAME = "mc185249.webforms.EmailsProvider";
-    static final String URL = "content://" + PROVIDER_NAME + "/emails";
-    static final Uri CONTENT_URI = Uri.parse(URL);
+    public static final String PROVIDER_NAME = "mc185249.webforms.EmailsProvider";
+    public static final String URL = "content://" + PROVIDER_NAME + "/emails";
+    public static final Uri CONTENT_URI = Uri.parse(URL);
 
     //email table
     public static final String ID = "id";
@@ -33,6 +33,7 @@ public class EmailsProvider extends WebFormsProvider {
     public static final String BODY = "body";
     public static final String RECIPIENT = "recipient";
     public static final String FROM = "sender";
+    public static final String CURRENT_STATE = "current_state";
 
     static final int EMAIL = 1;
     static final int EMAIL_ID = 2;

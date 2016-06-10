@@ -23,7 +23,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.format.DateFormat;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +35,14 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Tabs.SlidingTabLayout;
 import app.AppController;
+import microsoft.exchange.webservices.data.property.complex.StringList;
+import microsoft.exchange.webservices.data.util.DateTimeUtils;
 import models.Email;
 import models.EmailSender;
 
@@ -49,7 +55,7 @@ public class ScrollingActivity extends AppCompatActivity {
     private String user = "";
     SlidingTabLayout mTabs;
     ViewPager mPager;
-
+    AppController appController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +64,14 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        appController = AppController.getInstance();
         //region verifica existencia de credenciales NCR
         Intent i = new Intent(this, EmailService.class);
         if (!AppController.getInstance().checkCredentials()) {
             showLogin();
         } else {
+            appController.initializeSync();
             startService(i);
         }
         user = new WebFormsPreferencesManager(this).getUserName();
@@ -115,7 +124,7 @@ public class ScrollingActivity extends AppCompatActivity {
                             csrCode);
             Intent serviceIntent = new Intent(this, EmailService.class);
             startService(serviceIntent);
-
+            appController.initializeSync();
 
             return;
 
@@ -231,10 +240,30 @@ public class ScrollingActivity extends AppCompatActivity {
                                 && !emailSenders.isEmpty()){
                             for (EmailSender emailSender:
                                  emailSenders) {
+                                String strCurrentState = "";
+                                switch (emailSender.getCurrentState()){
+                                    case 0:
+                                        strCurrentState = "Guardado localmente";
+                                        break;
+                                    case 2:
+                                        strCurrentState = "Sincronizado con servidor";
+                                        break;
+                                    case 1:
+                                        strCurrentState = "Guardado localmente. No fue posible sincronizar";
+                                        break;
+                                    case 3:
+                                        strCurrentState = "Enviado";
+                                        break;
+                                }
+
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
                                 informations.add(
                                   new Information(
-                                          R.drawable.fab_bg_mini,
-                                          emailSender.getSubject()
+                                          R.drawable.banner,
+                                          emailSender.getSubject(),
+                                          "A las " + dateFormat.format(emailSender.getFecha()),
+                                          strCurrentState
                                   )
                                 );
                             }

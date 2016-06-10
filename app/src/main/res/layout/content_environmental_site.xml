@@ -43,6 +43,7 @@
 
         <EditText
             android:hint="Contacto"
+            android:imeOptions="actionNext"
             android:id="@+id/editText_contacto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -50,6 +51,7 @@
         <EditText
             android:hint="#Parte"
             android:inputType="number"
+            android:imeOptions="actionNext"
             android:id="@+id/editText_parte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -66,6 +68,7 @@
         <EditText
             android:hint="Comentario"
             android:id="@+id/editText_comentario"
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

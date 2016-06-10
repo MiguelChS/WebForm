@@ -16,13 +16,13 @@ public abstract class WebFormsProvider extends ContentProvider {
     public static final String CLIENT_TABLE_NAME = "Clients";
     public static final String LOG_TABLE_NAME = "Log";
     public static final String CONTACTS_TABLE_NAME = "Contactos";
-    public static final int DATABASE_VERSION = 10;
+    public static final int DATABASE_VERSION = 11;
 
      public static class DBHelper extends SQLiteOpenHelper {
 
         //querys
         private static final String CREATE_TABLE_EMAILS = "CREATE TABLE Emails " +
-                "(id integer primary key autoincrement, activity text, fecha date," +
+                "(id integer primary key autoincrement, current_state integer DEFAULT 0, activity text, fecha date," +
                 " subject text, body text, recipient text, sender text );";
         private static final String CREATE_TABLE_ATTACHEMENTFILES = "CREATE TABLE " +
                 "AttachementFiles (id integer primary key autoincrement, mimeType text," +

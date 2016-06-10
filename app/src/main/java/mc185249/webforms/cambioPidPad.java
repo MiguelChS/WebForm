@@ -62,8 +62,15 @@ public class cambioPidPad extends WebFormsActivity
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_send:
+
+                /**
+                 * @see AppController#checkCredentials()  true si el usuario se logeo, false caso contrario.
+                 */
                 boolean validCredentials = AppController.getInstance().checkCredentials();
-                //validate valida campos
+
+                /**
+                 * Si el usuario esta logeado y los campos son validos
+                 */
                 if (validCredentials
                         && validate()){
 
@@ -75,16 +82,12 @@ public class cambioPidPad extends WebFormsActivity
                     form.setSerieEntrante(serieEntrante.getText().toString());
                     
                     email.setSubject("Nuevo Formulario - Cambio Pid Pad");
-                    email.setRecipients(
-                            new String[]{
-                                    "joaquinnicolas96@hotmail.com"
-                            }
-                    );
+                    email.setRecipients(getContacts());
                     email.setFrom(
                             new WebFormsPreferencesManager(this).getUserName()
                     );
                     email.bodyMaker(form);
-                    createEmail();
+                    saveEmail();
                 }else if (!validCredentials){
                     Intent intent = new Intent(this, Stepper.class);
                     startActivity(intent);

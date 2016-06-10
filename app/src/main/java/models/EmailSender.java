@@ -1,5 +1,6 @@
 package models;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +47,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -55,11 +58,11 @@ import java.util.Map;
 import java.util.Properties;
 
 
-
 import javax.sql.DataSource;
 
 import app.AppController;
 import mc185249.webforms.Api;
+import mc185249.webforms.EmailsProvider;
 import mc185249.webforms.WebFormsPreferencesManager;
 
 
@@ -67,10 +70,10 @@ import mc185249.webforms.WebFormsPreferencesManager;
  * Created by mc185249 on 3/29/2016.
  */
 
-public class EmailSender extends Email  {
+public class EmailSender extends Email {
     Context mContext;
 
-     public EmailSender(Context context) {
+    public EmailSender(Context context) {
         this.mContext = context;
     }
 
@@ -79,35 +82,59 @@ public class EmailSender extends Email  {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(Api.SERVER + Api.EXCHANGE);
 
-        HashMap<String,Object> cadena_json = new HashMap<>();
-        cadena_json.put("hasAttachment",hasAttachment);
-        cadena_json.put("body",Base64.encodeToString(body.toString().getBytes(),Base64.NO_WRAP));
-        cadena_json.put("recipients",recipients);
-        cadena_json.put("sender",sender);
-        cadena_json.put("files",files);
-        cadena_json.put("form",form);
-        cadena_json.put("subject",subject);
+        HashMap<String, Object> cadena_json = new HashMap<>();
+        cadena_json.put("hasAttachment", hasAttachment);
+        cadena_json.put("body", Base64.encodeToString(body.toString().getBytes(), Base64.NO_WRAP));
+        cadena_json.put("recipients", recipients);
+        cadena_json.put("sender", sender);
+        cadena_json.put("files", files);
+        cadena_json.put("form", form);
+        cadena_json.put("subject", subject);
         Gson gson = new Gson();
         String json = gson.toJson(cadena_json);
-        try{
+        try {
             httpPost.setEntity(new StringEntity(
                     json
             ));
-            httpPost.setHeader("Accept","application/json");
-            httpPost.setHeader("Content-type","application/json");
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        try{
+        try {
             HttpResponse response = httpClient.execute(httpPost);
+            int status_code = response.getStatusLine().getStatusCode();
             InputStream inputStream =
                     response.getEntity().getContent();
-            if (inputStream != null){
+            if (inputStream != null) {
                 String result =
                         convertInputStreamToString(inputStream);
-                Log.v("NCR",result);
+                if (status_code == 200
+                        && Integer.parseInt(result) > 0) {
+                    ContentValues values = new ContentValues();
+                    values.put(EmailsProvider.CURRENT_STATE, 2);
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    values.put(EmailsProvider.FECHA, dateFormat.format(new java.util.Date()));
+                    int mRowsUpdated = mContext.getContentResolver().update(
+                            EmailsProvider.CONTENT_URI, values, EmailsProvider.ID + " = ?",
+                            new String[]{
+                                    String.valueOf(getId())
+                            }
+
+
+                    );
+                }
+                Log.v("NCR", result);
+            } else {
+                ContentValues values = new ContentValues();
+                values.put(EmailsProvider.CURRENT_STATE, 1);
+                int mRowsUpdated = mContext.getContentResolver().update(
+                        EmailsProvider.CONTENT_URI, values, EmailsProvider.ID + " = ?",
+                        new String[]{
+                                String.valueOf(getId())
+                        }
+                );
             }
-            Log.v("NCR",response.toString());
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -115,11 +142,12 @@ public class EmailSender extends Email  {
             e.printStackTrace();
         }
     }
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
         String result = "";
-        while((line = bufferedReader.readLine()) != null)
+        while ((line = bufferedReader.readLine()) != null)
             result += line;
 
         inputStream.close();
@@ -127,8 +155,7 @@ public class EmailSender extends Email  {
 
     }
 
-    public void setPasswordAuthentication(String account, String passwd)
-    {
+    public void setPasswordAuthentication(String account, String passwd) {
         Sender sender = new Sender();
         sender.passwd = "";
         sender.emailAddress = account;

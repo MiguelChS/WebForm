@@ -74,7 +74,7 @@ public class EmailService extends Service {
 
     private void readAndSendEmails(){
         Log.v("NCR","service running..");
-        ArrayList<EmailSender> emailSenders = Email.readEmails(this);
+        ArrayList<EmailSender> emailSenders = Email.readEmails(this,0);
         if (emailSenders != null &&
                 !emailSenders.isEmpty()){
             for (EmailSender emailSender:

@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Base64;
 
+import com.google.api.client.util.DateTime;
+
 import connectivity.EmailTask;
 import mc185249.webforms.AttachementProvider;
 import mc185249.webforms.EmailsProvider;
@@ -17,10 +19,14 @@ import mc185249.webforms.MantenimientoSurveyForm;
 import mc185249.webforms.MemoriaFiscalForm;
 import mc185249.webforms.VisitaTecnica;
 import mc185249.webforms.WebFormsPreferencesManager;
+import microsoft.exchange.webservices.data.core.exception.misc.ArgumentException;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Formatter;
 
 
@@ -30,31 +36,6 @@ import java.util.Formatter;
 public class  Email {
 
 
-    /*API PARAMETERS TO POST
-    * public class Mail
-    {
-        public bool hasAttachment { get; set; }
-        public String body { get; set; }
-        public String recipients { get; set; }
-        public Sender sender { get; set; }
-        public IList<File> files { get; set; }
-        public Form form { get; set; }
-    }
-
-    public class Sender
-    {
-        public string passwd { get; set; }
-        public string emailAddress { get; set; }
-        public string name { get; set; }
-        public string CSRCode { get; set; }
-    }
-
-    public class File
-    {
-        public string name { get; set; }
-        public string blob { get; set; }
-    }
-    * */
     protected String recipients;
     protected String from = "";
     protected String body = "";
@@ -65,6 +46,25 @@ public class  Email {
     protected WebFormsLogModel form = null;
     protected String CSRCode = "";
     protected String activity;
+    protected Date fecha;
+    protected int id;
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+
+    /**
+     * 0 = guardado localmente,
+     * 1 = guardado localmente pero no fue posible enviar al servidor,
+     * 2 = sincronizado con el servidor. Pendiente de envio.
+     * 3 = email enviado
+     */
+    protected int currentState;
 
     public ArrayList<models.File> getFiles() {
         return files;
@@ -85,6 +85,34 @@ public class  Email {
         this.body = body;
         this.subject = subject;
         setRecipients(to);
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCurrentState() {
+        return currentState;
+    }
+
+    /**
+     *
+     * @param currentState
+     * 0 = guardado localmente,
+     * 1 = guardado localmente pero no fue posible enviar al servidor,
+     * 2 = sincronizado con el servidor. Pendiente de envio.
+     * 3 = email enviado
+     */
+    public void setCurrentState(int currentState) {
+        if (currentState > 3 || currentState < 0){
+            throw new ArgumentException("currentState unicamente puede ser 0,1,2,3");
+        }
+        this.currentState = currentState;
     }
 
     public void setCSRCode(String csrCode){
@@ -165,7 +193,13 @@ public class  Email {
     }
 
 
+    /**
+     * Construye el cuerpo del email.
+     * @param body
+     * @see IWebForm
+     */
     public void bodyMaker(IWebForm body){
+        //region body
         String b =
                 "<html>"+
                 "<head>\n" +
@@ -246,6 +280,7 @@ public class  Email {
                 "\n" +
                 "</body>"+
                 "</html>";
+        //endregion
 
         Formatter formatter = new Formatter();
         String createdBody = "body";
@@ -313,13 +348,6 @@ public class  Email {
         }
 
         if (body instanceof MemoriaFiscalForm){
-            b = "Work Order: " + ((MemoriaFiscalForm) body).getWorkOrder() + "\n" +
-                    "Cliente: "+ ((MemoriaFiscalForm) body).getCliente() +"\n"+
-                    "Cust Ref#: " + ((MemoriaFiscalForm) body).getCustRef() + "\n" +
-                    "Site Name: " + ((MemoriaFiscalForm) body).getSiteName() + "\n" +
-                    "Nro.Punto de venta: " + ((MemoriaFiscalForm) body).getPuntoVenta() + "\n" +
-                    "Ver.Firmware placa fiscal: " + ((MemoriaFiscalForm) body).getFirmwarePlaca() + "\n" +
-                   "Serie impresor: " + ((MemoriaFiscalForm) body).getSerieImpresor();
             createdBody = formatter.format(b,
                     ((MemoriaFiscalForm) body).getCliente(),
                     CSRCode,
@@ -337,12 +365,6 @@ public class  Email {
         }
 
         if (body instanceof CambioPidPadForm){
-            b = "WorkOrder: " + ((CambioPidPadForm) body).getWorkOrder() + "\n" +
-                    "Cust Ref:" + ((CambioPidPadForm) body).getCustRef() + "\n" +
-                    "Site Name:" + ((CambioPidPadForm) body).getSiteName() + "\n"+
-                    "Nro de POS:" + ((CambioPidPadForm) body).getSiteName() + "\n"+
-                    "#Serie Saliente:" + ((CambioPidPadForm) body).getSerieSaliente()+"\n"+
-                    "#Serie Entrante:" + ((CambioPidPadForm) body).getSerieEntrante();
 
             createdBody = formatter.format(b,
                     "",
@@ -361,12 +383,9 @@ public class  Email {
         }
 
         if (body instanceof VisitaTecnicaForm){
-            b = "WorkOder: " + ((VisitaTecnicaForm) body).getWorkOrder() + "\n"+
-                    "Cliente: " + ((VisitaTecnicaForm) body).getCliente() + "\n"+
-                    "#Serie: " + ((VisitaTecnicaForm) body).getSerie() + "\n"+
-                    "#Equipo: " + ((VisitaTecnicaForm) body).getEquipo();
 
             createdBody = formatter.format(b,
+                    "",
                     ((VisitaTecnicaForm) body).getCliente(),
                     CSRCode,
                     ((VisitaTecnicaForm) body).getWorkOrder(),
@@ -381,9 +400,22 @@ public class  Email {
                     "",
                     "").toString();
         }
-      /*  if (body instanceof TecladoEncryptorModel){
-            b = "CSR CODE: " + new WebFormsPreferencesManager().getCsrCode()
-        }*/
+        if (body instanceof TecladoEncryptorModel){
+            createdBody = formatter.format(b,
+                    "",
+                    ((TecladoEncryptorModel) body).getCliente(),
+                    CSRCode,
+                    ((TecladoEncryptorModel) body).getWorkOrder(),
+                    ((TecladoEncryptorModel) body).getSerie(),
+                    ((TecladoEncryptorModel) body).getEquipo(),
+                    ((TecladoEncryptorModel) body).getCliente(),
+                    "",
+                    "",
+                    "",
+                    "","","",""
+
+            ).toString();
+        }
 
         this.body = createdBody;
 
@@ -415,6 +447,126 @@ public class  Email {
                     emailSender.setRecipients(new String[]{cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.RECIPIENT))});
                     emailSender.setFrom(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.FROM)));
                     emailSender.setPasswordAuthentication(account.trim(), "");
+                    emailSender.setCurrentState(cursor.getInt(cursor.getColumnIndex(EmailsProvider.CURRENT_STATE)));
+                    String fecha = cursor.getString(cursor.getColumnIndex(EmailsProvider.FECHA));
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    try {
+                        emailSender.setFecha(dateFormat.parse(fecha));
+                    } catch (ParseException e) {
+                        emailSender.setFecha(new Date());
+                    }
+                    emailSender.setId(cursor.getInt(cursor.getColumnIndex(EmailsProvider.ID)));
+                    emailSender.setSender(
+                            new Sender(
+                                    "",
+                                    preferencesManager.getUserName(),
+                                    preferencesManager.getUserName(),
+                                    preferencesManager.getCsrCode()
+                            )
+                    );
+                    int CustomEmailID = cursor.
+                            getInt(cursor.getColumnIndex(EmailsProvider.ID));
+
+                    LogProvider logProvider =
+                            new LogProvider(mContext);
+                    WebFormsLogModel[] logs = logProvider.query(null,new String[]{
+                            String.valueOf(CustomEmailID)
+                    },(LogProvider.emailID + " = ?"));
+
+                    if (logs.length > 0)
+                        emailSender.setForm(logs[0]);
+
+                    Uri attachment_files = Uri.parse(AttachementProvider.URL);
+                    ContentResolver contentResolver1 = mContext.getContentResolver();
+                    Cursor mCursor = contentResolver1.query(
+                            attachment_files,null, mc185249.webforms.AttachementProvider.EMAIL_ID + " = ?",
+                            new String[]{
+                                    String.valueOf(cursor.getInt(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.ID)))
+                            },null
+                    );
+
+                    if(mCursor.moveToFirst()){
+                        do{
+                            byte[] encodedFile = mCursor
+                                    .getBlob
+                                            (mCursor
+                                                    .getColumnIndex(
+                                                            AttachementProvider.BLOB));
+
+
+                            emailSender
+                                    .Attach(new models
+                                            .File(
+                                            ("WebFormsIMG_" + Calendar.getInstance()
+                                                    .get(Calendar.SECOND)+ "_"+
+                                                    new WebFormsPreferencesManager(mContext)
+                                                            .getCsrCode())
+                                            , Base64.encodeToString(encodedFile,0)
+                                            , BitmapFactory
+                                            .decodeByteArray(
+                                                    encodedFile,0,encodedFile.length
+                                            )
+                                    ));
+
+
+                        }while(mCursor.moveToNext());
+                    }
+                    emailsList.add(emailSender);
+                }
+
+
+            }while (cursor.moveToNext());
+
+        }
+        return emailsList;
+    }
+
+    /**
+     *
+     * @param mContext
+     *  Context donde se llama a la funcion
+     * @param currentState
+     *  Acepta valores del 0 al 3.
+     *  <ul>
+     *      <li>0 = guardado localmente.</li>
+     *      <li>1 = guardado localmente pero no fue posible enviar al servidor Por algun error.</li>
+     *      <li>2 = sincronizado con el servidor. Pendiente de envio.</li>
+     *      <li>3 = email enviado.</li>
+     *  </ul>
+     * @return
+     * <div>
+     *     Lista de EmailSender.
+     * </div>
+     * @see EmailSender
+     */
+    public static ArrayList<EmailSender> readEmails(Context mContext,int currentState){
+        ArrayList<EmailSender> emailsList = new ArrayList<>();
+        String URL = "content://mc185249.webforms.EmailsProvider/emails";
+        Uri emails = Uri.parse(URL);
+        ContentResolver contentResolver = mContext.getContentResolver();
+        Cursor cursor = contentResolver.query(emails,null,
+                EmailsProvider.CURRENT_STATE + " = " + currentState,null,null);
+        if (cursor != null
+                && cursor.moveToFirst()){
+
+            do{
+                WebFormsPreferencesManager preferencesManager =
+                        new WebFormsPreferencesManager(mContext);
+
+                String account =
+                        preferencesManager.getUserName();
+                if (account != null
+                        && !account.isEmpty()){
+                    EmailSender emailSender = null;
+                    emailSender = new EmailSender(mContext);
+
+                    emailSender.activity = cursor.getString(cursor.getColumnIndex(EmailsProvider.ACTIVITY));
+                    emailSender.setSubject(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.SUBJECT)));
+                    emailSender.setBody(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.BODY)));
+                    emailSender.setRecipients(new String[]{cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.RECIPIENT))});
+                    emailSender.setFrom(cursor.getString(cursor.getColumnIndex(mc185249.webforms.EmailsProvider.FROM)));
+                    emailSender.setPasswordAuthentication(account.trim(), "");
+                    emailSender.setId(cursor.getInt(cursor.getColumnIndex(EmailsProvider.ID)));
                     emailSender.setSender(
                             new Sender(
                                     "",
