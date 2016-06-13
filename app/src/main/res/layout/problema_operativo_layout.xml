@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/header_operativo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Problema Operativo"></TextView>
+
+        <LinearLayout
+            android:id="@+id/operativoWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/header_operativo"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/sinInsumos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sin insumos"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/sinBilletes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sin billetes"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/malaCalidadBilletes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mala calidad billetes"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/malaCalidadInsumos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mala calidad insumos"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/errorOperador"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Error operador"></CheckBox>
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -1,4 +1,12 @@
 <resources>
+
+
+    <!-- SPINNER COMUNICACIONES -->
+    <string-array name="array_comunicaciones">
+        <item>Sin enlace</item>
+        <item>Equipo de comns.</item>
+        <item>Cable de comns.</item>
+    </string-array>
     <string name="app_name">WebForms</string>
     <string name="action_settings">Settings</string>
     <string name="help">Help</string>
@@ -77,17 +85,6 @@
         <item>Otros problemas</item>
     </string-array>
 
-    <string-array name="spinnerClientes">
-        <item>Banco Citibank</item>
-        <item>Banco Santander</item>
-        <item> Banco de Tucuman</item>
-        <item>Banco Comafi</item>
-        <item>Banco de Santa Cruz</item>
-        <item>Banco Galicia</item>
-        <item>Banco ITAU</item>
-        <item>Banco Macro</item>
-        <item>Banco Supervielle</item>
-    </string-array>
 
     <string name="title_activity_main2">
         Hola Mundo
@@ -95,6 +92,15 @@
     
     <string name="validation_text">
         Campo Requerido
+    </string>
+    <string name="min_length_workOrder">
+        La WorkOrder debe contener 9 caracteres numericos.
+    </string>
+    <string name="campo_numerico">
+        El campo debe contener caracteres numericos.
+    </string>
+    <string name="tension">
+        Los campos Tension NT, Tension FN y Tension FT no deben estar vacios.
     </string>
 
 
@@ -225,99 +231,6 @@
     </string>
     <string name="title_activity_scrolling">Web Forms</string>
 
-    <!-- WEB FORMS LOG -->
-    <string name="log">
-        appVersion=$appVersion
-        txtFecha=$txtFecha
-        txtCsrcode=$txtCsrcode
-        txtIDATM=$txtIDATM
-        selCliente=$selCliente
-        txtWO=$txtWO
-        txtSerie=$txtSerie
-        txtContacto=$txtContacto
-        txtParte=$txtParte
-        chkProElectrico=$chkProElectrico
-        chkVolNoRegulado=$chkVolNoRegulado
-        txtFN=$txtFN
-        txtFT=$txtFT
-        txtNT=$txtNT
-        chkNoUps=$chkNoUps
-        chkNoTierraFisica=$chkNoTierraFisica
-        chkNoEnergia=$chkNoEnergia
-        chkProSite=$chkProSite
-        chkSuciedad=$chkSuciedad
-        chkGoteras=$chkGoteras
-        chkPlagas=$chkPlagas
-        chkExpSol=$chkExpSol
-        chkHumedad=$chkHumedad
-        chkMalaIluminacion=$chkMalaIluminacion
-        chkNoAA=$chkNoAA
-        chkProComms=$chkProComms
-        selComunicaciones=$selComunicaciones
-        chkProOperativo=$chkProOperativo
-        chkSinInsumos=$chkSinInsumos
-        chkSinBilletes=$chkSinBilletes
-        chkMalaCalidadBilletes=$chkMalaCalidadBilletes
-        chkMalaCalidadInsumos=$chkMalaCalidadInsumos
-        chkErrorOperador=$chkErrorOperador
-        chkCargaIncPapel=$chkCargaIncPapel
-        chkCargaIncCaseteras=$chkCargaIncCaseteras
-        chkSupervisor=$chkSupervisor
-        chkErrorBalanceo=$chkErrorBalanceo
-        chkProVandalismo=$chkProVandalismo
-        chkProOtros=$chkProOtros
-        chkProFotos=$chkProFotos
-        txtComentario=$txtComentario
-
-    </string>
-
-    <string name="createTableLog">
-        CREATE TABLE LOG(
-   ID INT PRIMARY KEY      NOT NULL,
-   appVersion     CHAR(50) NOT NULL,
-   txtFecha       TEXT     NOT NULL,
-   txtCsrcode TEXT NOT NULL,
-   txtIDATM TEXT NOT NULL,
-selClient TEXT NOT NULL,
-txtWO TEXT NOT NULL,
-txtSerie TEXT NOT NULL,
-txtContacto TEXT NOT NULL,
-txtParte TEXT NOT NULL,
-chkProElectrico BOOLEAN NOT NULL,
-chkVolNoRegulado BOOLEAN NOT NULL,
-txtFN BOOLEAN NOT NULL,
-txtFT BOOLEAN NOT NULL,
-txtNT BOOLEAN NOT NULL,
-chkNoUps BOOLEAN NOT NULL,
-chkNoTierraFisica BOOLEAN NOT NULL,
-chkNoEnergia BOOLEAN NOT NULL,
-chkProSite BOOLEAN NOT NULL,
-chkSuciedad BOOLEAN NOT NULL,
-chkGoteras BOOLEAN NOT NULL,
-chkPlagas BOOLEAN NOT NULL,
-chkExpSol BOOLEAN NOT NULL,
-chkHumedad BOOLEAN NOT NULL,
-chkMalaIluminacion BOOLEAN NOT NULL,
-chkNoAA BOOLEAN NOT NULL,
-chkProComms BOOLEAN NOT NULL,
-selComunicaciones BOOLEAN NOT NULL,
-chkProOperativo BOOLEAN NOT NULL,
-chkSinInsumos BOOLEAN NOT NULL,
-chkMalaCalidadBilletes BOOLEAN NOT NULL,
-chkSinBilletes BOOLEAN NOT NULL,
-chkMalaCalidadInsumos BOOLEAN NOT NULL,
-chkErrorOperador BOOLEAN NOT NULL,
-chkCargaIncPapel BOOLEAN NOT NULL,
-chkCargaIncCaseteras BOOLEAN NOT NULL,
-chkSupervisor BOOLEAN NOT NULL,
-chkErrorBalanceo BOOLEAN NOT NULL,
-chkProVandalismo BOOLEAN NOT NULL,
-chkProOtros BOOLEAN NOT NULL,
-chkProFotos BOOLEAN NOT NULL,
-txtComentario TEXT NOT NULL,
-formID INT NOT NULL
-);
-    </string>
 
 
     <string-array name="tabs">

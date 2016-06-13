@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import eu.inmite.android.lib.validations.form.validators.ValidatorFactory;
 import mc185249.webforms.R;
 import mc185249.webforms.WebFormsPreferencesManager;
 
@@ -42,6 +43,9 @@ public class AppController extends Application {
         return mInstance;
     }
 
+    static {
+        ValidatorFactory.registerValidatorClasses();
+    }
     @Override
     public void onCreate() {
         super.onCreate();

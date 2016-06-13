@@ -24,7 +24,6 @@
             android:id="@+id/spinnerCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/spinnerClientes"
             android:spinnerMode="dropdown"></Spinner>
 
         <android.support.design.widget.TextInputLayout

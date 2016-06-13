@@ -2,76 +2,84 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewA"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
-    android:id="@+id/viewA"
-    >
+    android:padding="20dp">
 
-<ScrollView
-    android:scrollbars="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-
-
-    <LinearLayout
-        android:padding="20dp"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:scrollbars="vertical">
 
 
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragmentWorkOrder"
-            android:name="mc185249.webforms.WorkOrderFragment"
-            tools:layout="@layout/fragment_work_order"></fragment>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:padding="20dp">
 
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:id="@+id/cliente"></Spinner>
+            <fragment
+                android:id="@+id/fragmentWorkOrder"
+                android:name="mc185249.webforms.WorkOrderFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout="@layout/fragment_work_order"></fragment>
 
-        <EditText
-            android:hint="Contacto"
-            android:imeOptions="actionNext"
-            android:id="@+id/editText_contacto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <Spinner
+                android:id="@+id/cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:spinnerMode="dropdown"></Spinner>
 
-        <EditText
-            android:hint="#Parte"
-            android:inputType="number"
-            android:imeOptions="actionNext"
-            android:id="@+id/editText_parte"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/editText_contacto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contacto"
+                android:imeOptions="actionNext" />
 
-        <ExpandableListView
-            android:layout_marginTop="30dp"
-            android:layout_gravity="right"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:descendantFocusability="blocksDescendants"
-            android:id="@+id/expandableListView"
-            android:choiceMode="multipleChoice" />
+            <EditText
+                android:id="@+id/editText_parte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="#Parte"
+                android:imeOptions="actionNext"
+                android:inputType="number" />
 
-        <EditText
-            android:hint="Comentario"
-            android:id="@+id/editText_comentario"
-            android:imeOptions="actionNext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+                    <include
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        layout="@layout/problema_electrico_layout"></include>
+                    <include
+                        layout="@layout/problema_site_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></include>
 
-</ScrollView>
+                    <include
+                        layout="@layout/problema_comunicaciones_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></include>
+                    <include
+                        layout="@layout/problema_operativo_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></include>
+                    <include
+                        layout="@layout/problemas_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></include>
+            <EditText
+                android:id="@+id/editText_comentario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Comentario"
+                android:imeOptions="actionNext" />
+        </LinearLayout>
+
+    </ScrollView>
 </RelativeLayout>

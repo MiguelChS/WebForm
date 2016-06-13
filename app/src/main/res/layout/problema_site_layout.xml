@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/headerSite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Problema de Site"></TextView>
+
+        <LinearLayout
+            android:id="@+id/siteWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/headerSite"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/suciedad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Suciedad"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/goteras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Goteras"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/plagas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Plagas"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/expSol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Exposicion directa al sol"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/humedad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Humedad"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/malaIluminacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mala iluminacion"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/SinAACalefaccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sin AA/Calefaccion" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

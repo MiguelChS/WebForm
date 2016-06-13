@@ -17,7 +17,7 @@ public class EnvironmentalSiteForm implements IWebForm {
     String parte;
     String contacto;
     String comentario;
-    ArrayList<String> problems = new ArrayList<>();
+    public ArrayList<String> problems = new ArrayList<>();
 
     public String getParte() {
         return parte;
