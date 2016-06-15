@@ -1,52 +1,29 @@
 package mc185249.webforms;
 
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.innodroid.expandablerecycler.ExpandableRecyclerAdapter;
-
-import org.w3c.dom.Text;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import adapters.CheckListAdapter;
-import adapters.ExpansibleListAdapter;
-import adapters.ExpansibleListViewDataAdapter;
 import app.AppController;
-import eu.inmite.android.lib.validations.form.annotations.Custom;
 import eu.inmite.android.lib.validations.form.annotations.MinLength;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.annotations.RegExp;
-import eu.inmite.android.lib.validations.form.iface.IValidator;
-import eu.inmite.android.lib.validations.form.validators.ValidatorFactory;
-import mc185249.webforms.WebFormsPreferencesManager;
-import models.Cliente;
 import models.EmailSender;
 import models.EnvironmentalSiteForm;
 import models.WebFormsLogModel;
@@ -79,8 +56,8 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
     //region problema_electrico_layout
     LinearLayout electrico_wrapper;
     CheckBox voltajeNoRegulado, noPoseeUPS,tierraFisica,energiaElectrica;
-    @Custom(value = ProblemaElectricoValidator.class, messageId = R.string.tension)
-    public EditText tensionFN, tensionFT, tensionNT;
+    Boolean tensionIsOK = false;
+    EditText tensionFN, tensionFT, tensionNT;
     TextView header_electrico;
     //endregion
 
@@ -144,7 +121,6 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
         this.headerComunicaciones.setOnClickListener(wrapper_listener);
         this.headerSite.setOnClickListener(wrapper_listener);
         this.headerOperativo.setOnClickListener(wrapper_listener);
-
         /**
          * inicializo todas las vistas y controles dentro de las cehcklist
          */
@@ -193,6 +169,18 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
         //endregion
     }
 
+    protected boolean validateTension(String s){
+        if (s == null
+                || s.toString().isEmpty()){
+            tensionFN.setError("No puede estar vacio.");
+            tensionFT.setError("No puede estar vacio.");
+            tensionNT.setError("No puede estar vacio.");
+            tensionIsOK = false;
+            return false;
+        }
+        tensionIsOK = true;
+        return true;
+    }
     /**
      * Evento click para abrir o cerra las checklist
      */
@@ -224,12 +212,24 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
             }
         }
     };
-
-    CompoundButton.OnCheckedChangeListener checkBox_click = new CompoundButton.OnCheckedChangeListener() {
-
-        private void toggle(){
+    TextWatcher tensionValidator = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
         }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            validateTension(s.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    CompoundButton.OnCheckedChangeListener checkBox_click = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked){
@@ -239,6 +239,12 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
                 switch (buttonView.getId()){
                     case R.id.voltajeNoRegulado:
                         logModel.setChkVolNoRegulado(1);
+                        tensionFN.setError("No puede estar vacio.");
+                        tensionFT.setError("No puede estar vacio.");
+                        tensionNT.setError("No puede estar vacio.");
+                        tensionFN.addTextChangedListener(tensionValidator);
+                        tensionFT.addTextChangedListener(tensionValidator);
+                        tensionNT.addTextChangedListener(tensionValidator);
                         break;
                     case R.id.noPoseeUPS:
                         logModel.setChkNoUps(1);
@@ -299,6 +305,9 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
                 switch (buttonView.getId()){
                     case R.id.voltajeNoRegulado:
                         logModel.setChkVolNoRegulado(0);
+                        tensionFN.removeTextChangedListener(tensionValidator);
+                        tensionFT.removeTextChangedListener(tensionValidator);
+                        tensionNT.removeTextChangedListener(tensionValidator);
                         break;
                     case R.id.noPoseeUPS:
                         logModel.setChkNoUps(0);
@@ -373,8 +382,7 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_send:
-                if (validate() && ExpansibleListAdapter.selectedGroup.size() > 0
-                        && ExpansibleListAdapter.selectedChild.size() > 0) {
+                if (validate() && tensionIsOK) {
 
 
                     String appVersion = null;
@@ -432,46 +440,4 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
 
     }
 
-
-    /**
-     * Valida ,en caso de haberse checkeado voltajeNoRegulado, que los campos tensionFN, tensionFT,tensionNT no esten vacios
-     * @see #tensionFN
-     * @see #tensionFT
-     * @see #tensionNT
-     *
-     */
-    class ProblemaElectricoValidator implements IValidator<String>{
-        Boolean problemaElectricoChecked = false;
-
-        public Boolean getProblemaElectricoChecked() {
-            return problemaElectricoChecked;
-        }
-
-        public void setProblemaElectricoChecked(Boolean problemaElectricoChecked) {
-            this.problemaElectricoChecked = problemaElectricoChecked;
-        }
-
-        @Override
-        public boolean validate(Annotation annotation, String input) {
-            if (!problemaElectricoChecked){
-                return true;
-            }
-            if (tensionFN != null && !tensionFN.getText().toString().isEmpty()
-                    && tensionNT != null && !tensionNT.getText().toString().isEmpty()
-                    && tensionFT != null && !tensionFT.getText().toString().isEmpty()){
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public String getMessage(Context context, Annotation annotation, String input) {
-            return "Los campos Tension NT, Tension FN y Tension FT no deben estar vacios.";
-        }
-
-        @Override
-        public int getOrder(Annotation annotation) {
-            return 0;
-        }
-    }
 }

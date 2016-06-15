@@ -146,12 +146,13 @@ public class ScrollingActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Drawable drawable = getResources().getDrawable(icons[position]);
+           /* Drawable drawable = getResources().getDrawable(icons[position]);
             drawable.setBounds(0,0,36,36);
             ImageSpan imageSpan = new ImageSpan(drawable);
             SpannableString spannableString = new SpannableString(" ");
             spannableString.setSpan(imageSpan,0,spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return spannableString;
+            return spannableString;*/
+            return tabs[position];
         }
 
         @Override
@@ -166,9 +167,8 @@ public class ScrollingActivity extends AppCompatActivity {
         }
     }
 
-    public static class WebFormsTabsFragment extends Fragment implements View.OnClickListener{
+    public static class WebFormsTabsFragment extends Fragment{
 
-        private ImageButton btnGoToparts, btnSite, btnLogistics, btnMant, btnMen, btnPid, btnTech, btnReca;
         RecyclerView recyclerView;
         CustomAdapter customAdapter;
 
@@ -178,49 +178,6 @@ public class ScrollingActivity extends AppCompatActivity {
             args.putInt("position",position);
             webFormsTabsFragment.setArguments(args);
             return webFormsTabsFragment;
-        }
-
-
-        @Override
-        public void onClick(View v) {
-
-
-            switch (v.getId()) {
-                case R.id.btnGoToparts:
-                    Intent i = new Intent(getContext(), InventoryActivity.class);
-                    startActivity(i);
-                    break;
-
-                case R.id.btnSite:
-                    Intent intent = new Intent(getContext(), EnvironmentalSiteActivity.class);
-                    startActivity(intent);
-                    break;
-
-                case R.id.btnLogistics:
-                    Intent siteIntent = new Intent(getContext(), LogisticsSurveyActivity.class);
-                    startActivity(siteIntent);
-                    break;
-                case R.id.btnMant:
-                    Intent mantenimientoIntent = new Intent(getContext(), MantenimientoSurveyActivity.class);
-                    startActivity(mantenimientoIntent);
-                    break;
-                case R.id.btnMen:
-                    Intent in = new Intent(getContext(), memoriaFiscalActivity.class);
-                    startActivity(in);
-                    break;
-                case R.id.btnPid:
-                    Intent intent1 = new Intent(getContext(),cambioPidPad.class);
-                    startActivity(intent1);
-                    break;
-                case R.id.btnTech:
-                    Intent intent2 = new Intent(getContext(),VisitaTecnica.class);
-                    startActivity(intent2);
-                    break;
-                case R.id.btnReca:
-                    Intent intent3 = new Intent(getContext(),TecladoEncryptorActivity.class);
-                    startActivity(intent3);
-                    break;
-            }
         }
 
         @Nullable
@@ -256,13 +213,13 @@ public class ScrollingActivity extends AppCompatActivity {
                                         break;
                                 }
 
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+                                String text = emailSender.getSubject().split("-")[1];
                                 informations.add(
                                   new Information(
-                                          R.drawable.banner,
-                                          emailSender.getSubject(),
-                                          "A las " + dateFormat.format(emailSender.getFecha()),
+                                          R.drawable.ic_launcher,
+                                          text,
+                                          dateFormat.format(emailSender.getFecha()),
                                           strCurrentState
                                   )
                                 );
@@ -275,27 +232,14 @@ public class ScrollingActivity extends AppCompatActivity {
                         break;
                     default:
                         layout = inflater.inflate(R.layout.content_scrolling,container,false);
-                        this.btnGoToparts = (ImageButton) layout.findViewById(R.id.btnGoToparts);
-                        this.btnSite = (ImageButton) layout.findViewById(R.id.btnSite);
-                        this.btnLogistics = (ImageButton) layout.findViewById(R.id.btnLogistics);
-                        this.btnMant = (ImageButton) layout.findViewById(R.id.btnMant);
-                        this.btnMen = (ImageButton) layout.findViewById(R.id.btnMen);
-                        this.btnPid = (ImageButton) layout.findViewById(R.id.btnPid);
-                        this.btnTech = (ImageButton) layout.findViewById(R.id.btnTech);
-                        this.btnReca = (ImageButton) layout.findViewById(R.id.btnReca);
 
-                        ImageButton[] buttons = {
-                                btnGoToparts, btnSite, btnLogistics
-                                , btnMant, btnMen, btnPid
-                                , btnTech, btnReca
-                        };
-
-                        for (ImageButton btn : buttons) {
-                            if (btn != null){
-                                btn.setOnClickListener(this);
-                            }
-
-                        }
+                        RecyclerView rvForms = (RecyclerView)layout.findViewById(R.id.rvForms);
+                        ScrollingActivityRvAdapter adapter =
+                                new ScrollingActivityRvAdapter(getContext());
+                        rvForms.setAdapter(adapter);
+                        rvForms.setLayoutManager(new LinearLayoutManager(
+                                getContext()
+                        ));
                         break;
                 }
             }
