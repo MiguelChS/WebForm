@@ -1,5 +1,6 @@
 package mc185249.webforms;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -29,11 +30,14 @@ import java.util.regex.Pattern;
 /**
  * Created by jn185090 on 4/13/2016.
  */
-public class Stepper extends TextStepper {
+public  class Stepper extends TextStepper {
 
     private int i = 0;
     public Stepper() {
         super();
+    }
+    public static interface ICallback{
+        void retorno();
     }
 
     @Override
@@ -56,20 +60,22 @@ public class Stepper extends TextStepper {
     }
 
     @Override
-    public void onComplete() {
-        EditText editTextuser = (EditText) findViewById(R.id.input_email);
-        EditText editTextCSR = (EditText) findViewById(R.id.csrCode_edit);
-        String user = editTextuser.getText().toString().trim() + "@ncr.com";
-        String CSRCode = editTextCSR.getText().toString().trim();
+    public  void onComplete() {
+        //EditText editTextuser = (EditText) findViewById(R.id.input_email);
+        //EditText editTextCSR = (EditText) findViewById(R.id.csrCode_edit);
+        String user = LoginStep.editTextUser.getText().toString().trim() + "@ncr.com";
+        String CSRCode = LoginStep.editTextCSRCode.getText().toString().trim();
         Intent intent = new Intent();
         intent.putExtra(String.valueOf(R.string.accountName),user);
         intent.putExtra(String.valueOf(R.string.passwd),"asd");
         intent.putExtra(String.valueOf(R.string.CSRCode),CSRCode);
-        setResult(RESULT_OK, intent);
-        finish();
+
+        this.setResult(RESULT_OK,intent);
+        //setResult(RESULT_OK, intent);
+        this.finish();
     }
 
-    public class Step extends AbstractStep{
+    public static class Step extends AbstractStep{
 
         private int i = 1;
         private android.widget.Button button;
@@ -85,7 +91,7 @@ public class Stepper extends TextStepper {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
             View view = inflater.inflate(R.layout.step, container, false);
-            editText_texto = (TextView) findViewById(R.id.texto);
+            editText_texto = (TextView) view.findViewById(R.id.texto);
             return view;
         }
 
@@ -127,10 +133,11 @@ public class Stepper extends TextStepper {
 
 
 
-    public class LoginStep extends AbstractStep{
+
+    public static class LoginStep extends AbstractStep{
         private int i = 2;
 
-        EditText editTextUser, editTextCSRCode;
+        public static EditText editTextUser, editTextCSRCode;
 
         public LoginStep() {
             super();
@@ -204,7 +211,7 @@ public class Stepper extends TextStepper {
 
             String csr = editTextCSRCode.getText().toString().trim();
             if (isCSRCodeValid(csr)){
-                onComplete();
+                new Stepper().onComplete();
                 return "";
             }
 

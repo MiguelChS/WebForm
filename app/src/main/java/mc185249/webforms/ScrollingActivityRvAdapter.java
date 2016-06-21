@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import models.DevolucionPartes;
 import models.ScrollingActivityModel;
 
 /**
@@ -73,6 +74,10 @@ public class ScrollingActivityRvAdapter extends RecyclerView.Adapter<ScrollingAc
                     case 7:
                         Intent intent3 = new Intent(mContext,TecladoEncryptorActivity.class);
                         mContext.startActivity(intent3);
+                        break;
+                    case 8:
+                        Intent intent4 = new Intent(mContext, DevolucionPartesActivity.class);
+                        mContext.startActivity(intent4);
                         break;
                 }
             }

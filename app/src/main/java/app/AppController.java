@@ -35,9 +35,8 @@ public class AppController extends Application {
     public static String ACCOUNT;
     Account mAccount;
     public static final long SECONDS_PER_MINUTE = 60L;
-    public static final long SYNC_INTERVAL_IN_MINUTES = 1440L;
-    public static final long SYNC_INTERVAL = 5;//actualiza cada un dia
-           // SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 60L * 24L;
+    public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
     //endregion
     public static synchronized AppController getInstance(){
         return mInstance;

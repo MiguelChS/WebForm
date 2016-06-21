@@ -10,6 +10,7 @@ import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -87,41 +88,15 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 );
                             }
                         }
-
-                        Uri contactos = Uri.parse(ContactsProvider.URL);
-                        Cursor cursor = mResolver.query(
-                                contactos,
-                                null,
-                                null,
-                                null,null
-                        );
-                        if (cursor != null){
-                            while (cursor.moveToNext()){
-                                localContacts.add(
-                                        Contacto.fromCursor(cursor)
-                                );
-                            }
-                        }
-
-                        cursor.close();
-                        ArrayList<Contacto> contactosToLocal = new ArrayList<>();
-                        for (Contacto contacto:
-                             remoteContacts) {
-                            if (localContacts == null
-                                    || localContacts.size() == 0){
-                                contactosToLocal.add(contacto);
-                                mResolver.delete(
-                                        ContactsProvider.CONTENT_URI,
-                                        null,
-                                        null
-                                );
-                            }
-                        }
-
-                        if (contactosToLocal.size() > 0){
+                        if (remoteContacts.size() > 0){
+                            mResolver.delete(
+                                    ContactsProvider.CONTENT_URI,
+                                    null,
+                                    null);
                             ContentValues contentValues;
                             for (Contacto contacto:
-                                 contactosToLocal) {
+                                    remoteContacts) {
+
                                 contentValues = new ContentValues();
                                 contentValues.put(ContactsProvider.DIRECIONES,
                                         contacto.getDirecciones());
@@ -139,18 +114,21 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
 
                                 AppController.getInstance().notify(
                                         "Contactos Actualizados",
-                                        contactosToLocal.size() + " actualizados"
+                                        remoteContacts.size() + " actualizados"
                                 );
                             }
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        Log.e("NCR","error sync contactos",error);
                         AppController.getInstance().notify(
                                 "Error Sync Contactos",
-                                error.getMessage()
+                                "No se pudo sincronizar contactos"
                         );
                     }
                 }

@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.w3c.dom.Text;
@@ -191,7 +192,7 @@ public class ScrollingActivity extends AppCompatActivity {
                     case 1:
                         layout = inflater.inflate(R.layout.main_activity_fragment01,container,false);
                         recyclerView = (RecyclerView) layout.findViewById(R.id.recycleView);
-                        ArrayList<EmailSender> emailSenders = Email.readEmails(getContext());
+                        final ArrayList<EmailSender> emailSenders = Email.readEmails(getContext());
                         ArrayList<Information> informations = new ArrayList<>();
                         if (emailSenders != null
                                 && !emailSenders.isEmpty()){
@@ -222,6 +223,20 @@ public class ScrollingActivity extends AppCompatActivity {
                                           dateFormat.format(emailSender.getFecha()),
                                           strCurrentState
                                   )
+                                );
+                                recyclerView.addOnItemTouchListener(
+                                        new RecyclerItemClickListener(getContext(),new RecyclerItemClickListener.OnItemClickListener(){
+
+                                            @Override
+                                            public void onItemClick(View view, int position) {
+                                               EmailSender emails = emailSenders.get(position);
+                                                Intent intent = new Intent(getContext(),EmailActivity.class);
+                                                intent.putExtra(EmailActivity.SUBJECT,emails.getSubject());
+                                                intent.putExtra(EmailActivity.BODY,emails.getBody());
+                                                intent.putExtra(EmailActivity.RECIPIENTS,emails.getRecipients());
+                                                startActivity(intent);
+                                            }
+                                        })
                                 );
                             }
                         }

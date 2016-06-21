@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="mc185249.webforms.EmailActivity">
+
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
+
+
+
+        <TextView
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/borders"
+            android:layout_centerInParent="true"
+            android:textColor="#000"
+            android:id="@+id/textView_subject"
+            android:text="Nuevo Formulario - Test"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+        <TextView
+            android:text="test@ncr.com"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:background="@drawable/borders"
+            android:textColor="#000"
+            android:id="@+id/textView_recipient"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+
+    <WebView
+        android:id="@+id/webView_email"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+
+</LinearLayout>

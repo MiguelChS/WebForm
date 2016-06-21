@@ -160,8 +160,13 @@
             android:name=".VisitaTecnica"
             android:parentActivityName=".ScrollingActivity" />
         <activity
+            android:name=".TecladoEncryptorActivity"
+            android:parentActivityName=".ScrollingActivity" />
+        <activity
+            android:name=".EmailActivity"
             android:parentActivityName=".ScrollingActivity"
-            android:name=".TecladoEncryptorActivity"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".DevolucionPartesActivity"></activity>
     </application>
 
 </manifest>

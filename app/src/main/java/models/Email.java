@@ -417,6 +417,25 @@ public class  Email {
             ).toString();
         }
 
+        if (body instanceof DevolucionPartes){
+            createdBody = formatter.format(b,
+                    "",
+                    "",
+                    CSRCode,
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ((DevolucionPartes) body).getParte(),
+                    "",
+                    ((DevolucionPartes) body).fechaToString(),
+                    ""
+                    ).toString();
+        }
+
         this.body = createdBody;
 
     }

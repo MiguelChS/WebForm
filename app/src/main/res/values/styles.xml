@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="NCRTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="NCRTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">#54B948</item>
         <item name="colorPrimaryDark">#388E3C</item>
         <item name="colorAccent">#8BC34A</item>
@@ -99,5 +99,16 @@
     <!-- Alert Dialog -->
     <style name="alertDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!--Toolbar theme -->
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <item name="android:actionMenuTextColor">@android:color/holo_green_light</item>
+    </style>
+    <!-- This configures the styles for the title within the Toolbar  -->
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">italic</item>
     </style>
 </resources> 

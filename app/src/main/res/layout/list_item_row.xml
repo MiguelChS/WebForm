@@ -1,68 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     card_view:cardCornerRadius="5dp">
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/borders"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/img_row"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/deltaTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/txv_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deltaTime"
+        android:layout_marginLeft="26dp"
+        android:layout_marginStart="26dp"
+        android:layout_toEndOf="@+id/img_row"
+        android:layout_toRightOf="@+id/img_row"
+        android:editable="false"
+        android:ellipsize="end"
+        android:maxLength="21"
+        android:text="aaaaaaaaaaaaaaaaaaaaaa"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/currentState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/deltaTime"
+        android:layout_alignLeft="@+id/txv_row"
+        android:layout_alignRight="@+id/deltaTime"
+        android:layout_alignStart="@+id/txv_row"
+        android:layout_below="@+id/txv_row"
+        android:text="New Text" />
 
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/img_row"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:src="@mipmap/ic_launcher" />
+</RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/deltaTime"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textSize="12dp" />
+    <!--
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="aaaaaaaaaaaaaaaaaaaaaa"
-            android:id="@+id/txv_row"
-            android:layout_marginLeft="26dp"
-            android:layout_marginStart="26dp"
-            android:layout_below="@+id/deltaTime"
-            android:layout_toRightOf="@+id/img_row"
-            android:layout_toEndOf="@+id/img_row"
-            android:ellipsize="end"
-            android:editable="false"
-            android:maxLength="21" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/currentState"
-            android:layout_below="@+id/txv_row"
-            android:layout_alignLeft="@+id/txv_row"
-            android:layout_alignStart="@+id/txv_row"
-            android:layout_alignRight="@+id/deltaTime"
-            android:layout_alignEnd="@+id/deltaTime" />
-
-
-
-
-    </RelativeLayout>
-
-
-
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>-->

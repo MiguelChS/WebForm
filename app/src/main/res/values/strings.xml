@@ -232,10 +232,17 @@
     <string name="title_activity_scrolling">Web Forms</string>
 
 
-
     <string-array name="tabs">
         <item>Formularios</item>
         <item>Historicos</item>
+    </string-array>
+
+    <!-- SPINNER FORM DEVOLUCION PARTES -->
+    <string-array name="devolucion_partes_estado">
+        <item>BAD</item>
+        <item>GOOD</item>
+        <item>OBF</item>
+        <item>F/S</item>
     </string-array>
 
 

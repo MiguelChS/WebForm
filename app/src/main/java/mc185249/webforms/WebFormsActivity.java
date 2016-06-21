@@ -341,6 +341,9 @@ public class WebFormsActivity extends AppCompatActivity
                 log.setEmailID((int) id);
                 email.setForm(log);
                 saveLog(email.getForm());
+            }else{
+                dialog.dismiss();
+                Toast.makeText(this,"operacion exitosa",Toast.LENGTH_SHORT).show();
             }
 
 
@@ -449,6 +452,27 @@ public class WebFormsActivity extends AppCompatActivity
         cursor.close();
         return contacts;
 
+    }
+
+    /**
+     * BUSCA CLIENTES EN SQLITE
+     * @return true si existen clientes, caso contrario false
+     */
+    public boolean checkClientes(){
+        Cursor mCursor = getContentResolver().query(
+                ClientsContentProvider.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+        if (null == mCursor){
+            return false;
+        }
+        else if(mCursor.getCount() < 1){
+            return false;
+        }
+        return true;
     }
 }
 

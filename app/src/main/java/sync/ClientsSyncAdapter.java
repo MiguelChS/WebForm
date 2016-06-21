@@ -71,47 +71,23 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 );
                             } catch (JSONException e) {
                                 AppController.getInstance().notify(
-                                        "Parser error",
+                                        "Parser error - Sync Clientes",
                                         e.getMessage()
                                 );
                             }
 
                         }
 
-                        Uri clientes = Uri.parse(ClientsContentProvider.URL);
-                        Cursor cursor = mContentResolver.query(
-                                clientes,
-                                null,
-                                null,
-                                null,null
-                        );
 
-                        if (cursor != null){
-                            while (cursor.moveToNext()){
-                                localClients.add(Cliente.fromCursor(cursor));
-                            }
-                        }
-                        cursor.close();
-                        //comprueba que clientes no estan en la base local
-
-                        ArrayList<Cliente> clientesToLocal = new ArrayList<>();
-                        for (Cliente cliente:
-                             remoteClientes) {
-                            if (localClients == null
-                                    || localClients.size() == 0)
-                                clientesToLocal.add(cliente);
-                                mContentResolver.delete(
-                                        ClientsContentProvider.CONTENT_URI,
-                                        null,
-                                        null
-                                );
-                        }
-
-                        if (clientesToLocal.size() > 0){
+                        if (remoteClientes.size() > 0){
+                            mContentResolver.delete(
+                                    ClientsContentProvider.CONTENT_URI,
+                                    null,
+                                    null
+                            );
                             ContentValues contentValues;
                             for (Cliente cliente:
-                                 clientesToLocal) {
-
+                                    remoteClientes) {
                                 contentValues = new ContentValues();
                                 contentValues.put(ClientsContentProvider.NOMBRE,cliente.getNombre());
                                 contentValues.put(ClientsContentProvider.NUMERO,cliente.getNumero());
@@ -123,21 +99,22 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 );
 
                                 AppController.getInstance().notify(
-                                     "Clientes sincronizados",
-                                        String.format("%d clientes sincronizados." , clientesToLocal.size())
+                                        "Clientes sincronizados",
+                                        String.format("%d clientes sincronizados." , remoteClientes.size())
                                 );
                             }
-
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+                        Log.e("NCR","sync clientes",error);
                         AppController.getInstance().notify(
-                                "Voley Error",
-                                error.getMessage()
+                                "Error Sincronizar Clientes",
+                                "No se pudo sincronizar los clientes"
                         );
                     }
                 }

@@ -17,7 +17,8 @@ public class ScrollingActivityModel {
             "Memoria Fiscal",
             "Cambio Pid Pad",
             "Visita Tecnica",
-            "Teclado Encryptor"
+            "Teclado Encryptor",
+            "Devolucion Partes"
 
     };
 
@@ -25,6 +26,7 @@ public class ScrollingActivityModel {
      * Almacena los id de las imagenes para cada menu
      */
     int[] resources = {
+            R.drawable.ic_launcher,
             R.drawable.ic_launcher,
             R.drawable.ic_launcher,
             R.drawable.ic_launcher,

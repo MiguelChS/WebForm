@@ -90,7 +90,7 @@ public class LogisticsSurveyActivity extends mc185249.webforms.WebFormsActivity 
                         form.setRetorno(editTextRetorno.getText().toString());
 
                         email.setSubject("Nuevo Formulario - Logistics");
-                        email.setRecipients(new String[]{"joaquinnicolas96@hotmail.com"});
+                        email.setRecipients(getContacts());
                         email.bodyMaker(form);
                         email.setFrom(
                                 new WebFormsPreferencesManager(this).getUserName()
