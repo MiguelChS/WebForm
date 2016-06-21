@@ -12,13 +12,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import java.util.Date;
+
 import app.AppController;
+import layout.DatePickerFragment;
 import models.DevolucionPartes;
 import models.EmailSender;
 
-public class DevolucionPartesActivity extends WebFormsActivity {
+public class DevolucionPartesActivity extends WebFormsActivity  {
     DevolucionPartes devolucionPartesForm;
-    EmailSender email;
+
 
     EditText wareHouse;
     EditText localidad;
@@ -63,6 +66,21 @@ public class DevolucionPartesActivity extends WebFormsActivity {
 
         oca.setOnCheckedChangeListener(oncheckedListener);
         gng.setOnCheckedChangeListener(oncheckedListener);
+        fecha.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    DatePickerFragment dialog = new DatePickerFragment();
+                    dialog.show(getSupportFragmentManager(), new String("datePicker"));
+
+                }
+            }
+        });
+    }
+
+    public void fragmentCallback(Date date){
+        fecha.setText(date.toString());
+        devolucionPartesForm.setFecha(date);
     }
 
     CompoundButton.OnCheckedChangeListener oncheckedListener = new CompoundButton.OnCheckedChangeListener() {
@@ -114,7 +132,7 @@ public class DevolucionPartesActivity extends WebFormsActivity {
                         devolucionPartesForm.setEstado(estado.getSelectedItem().toString());
 
                         email.setSubject("Nuevo Formulario - Devolucion Partes");
-                        email.setRecipients(getContacts());
+                        email.setRecipients(getContacts(null));
                         email.setFrom(new WebFormsPreferencesManager(this).getUserName());
                         email.bodyMaker(devolucionPartesForm);
                         saveEmail();

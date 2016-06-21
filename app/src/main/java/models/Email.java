@@ -165,8 +165,13 @@ public class  Email {
     }
 
     public void setRecipients(String[] recipients) {
+        if (recipients == null) return;
         StringBuilder str = new StringBuilder();
         int count = 0;
+        if (recipients.length == 1){
+            this.recipients = recipients[0];
+            return;
+        }
         for (String r:
              recipients) {
 

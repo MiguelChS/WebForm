@@ -93,8 +93,8 @@ public class MantenimientoSurveyActivity
                     form.setCliente(String.valueOf(spinnerCliente.getSelectedItem()));
                     form.setFecha(String.valueOf(editTextDate.getText()));
 
-                    email.setSubject("NCR");
-                    email.setRecipients(getContacts());
+                    email.setSubject("Nuevo Formulario - Mantenimiento Survey");
+                    email.setRecipients(getContacts(form.getCliente()));
                     email.bodyMaker(form);
                     email.setFrom(new WebFormsPreferencesManager(this).getUserName());
                     createEmail();

@@ -67,7 +67,7 @@ public class VisitaTecnica extends WebFormsActivity
                             equipo.getText().toString()
                     );
                     email.setSubject("Nuevo Formulario - Visita Tecnica");
-                    email.setRecipients(getContacts());
+                    email.setRecipients(getContacts(form.getCliente()));
                     email.setFrom(
                             new WebFormsPreferencesManager(this).getUserName()
                     );

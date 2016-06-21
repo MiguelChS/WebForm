@@ -61,10 +61,10 @@ public  class Stepper extends TextStepper {
 
     @Override
     public  void onComplete() {
-        //EditText editTextuser = (EditText) findViewById(R.id.input_email);
-        //EditText editTextCSR = (EditText) findViewById(R.id.csrCode_edit);
-        String user = LoginStep.editTextUser.getText().toString().trim() + "@ncr.com";
-        String CSRCode = LoginStep.editTextCSRCode.getText().toString().trim();
+        EditText editTextuser = (EditText) findViewById(R.id.input_email);
+        EditText editTextCSR = (EditText) findViewById(R.id.csrCode_edit);
+        String user = editTextuser.getText().toString().trim() + "@ncr.com";
+        String CSRCode = editTextCSR.getText().toString().trim();
         Intent intent = new Intent();
         intent.putExtra(String.valueOf(R.string.accountName),user);
         intent.putExtra(String.valueOf(R.string.passwd),"asd");
@@ -75,7 +75,7 @@ public  class Stepper extends TextStepper {
         this.finish();
     }
 
-    public static class Step extends AbstractStep{
+    public  class Step extends AbstractStep{
 
         private int i = 1;
         private android.widget.Button button;
@@ -134,10 +134,10 @@ public  class Stepper extends TextStepper {
 
 
 
-    public static class LoginStep extends AbstractStep{
+    public class LoginStep extends AbstractStep{
         private int i = 2;
 
-        public static EditText editTextUser, editTextCSRCode;
+        public  EditText editTextUser, editTextCSRCode;
 
         public LoginStep() {
             super();
@@ -211,7 +211,7 @@ public  class Stepper extends TextStepper {
 
             String csr = editTextCSRCode.getText().toString().trim();
             if (isCSRCodeValid(csr)){
-                new Stepper().onComplete();
+                onComplete();
                 return "";
             }
 

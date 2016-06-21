@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import app.AppController;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import layout.DatePickerFragment;
@@ -425,15 +427,29 @@ public class WebFormsActivity extends AppCompatActivity
      *          <li>null si no hay contactos</li>
      *      </ul>
      */
-    protected String[] getContacts(){
+    protected String[] getContacts(@Nullable String cliente){
         ContentResolver mContentResolver = getContentResolver();
+        String csrCode = new WebFormsPreferencesManager(this).getCsrCode();
         String[] contacts = null;
         Uri contacrsUri = Uri.parse(ContactsProvider.URL);
+        String[] selectArgs;
+        String select;
+        if (cliente == null){
+            select = ContactsProvider.NUMERO  + " = ? ";
+            selectArgs = new String[]{
+              csrCode
+            };
+        }else{
+            select = ContactsProvider.NUMERO + "= ?  OR " + ContactsProvider.NUMERO +" = ?";
+            selectArgs = new String[]{
+                    csrCode,cliente
+            };
+        }
         Cursor cursor = mContentResolver.query(
                 contacrsUri,
                 null,
-                null,
-                null,
+                select,
+                selectArgs,
                 null
         );
         if (cursor != null && cursor.getCount() > 0){

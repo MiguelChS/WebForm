@@ -417,7 +417,7 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
                         form.setParte(editText_parte.getText().toString());
                         form.setContacto(editText_contacto.getText().toString());
                         email.setSubject("Nuevo Formulario - Environmental Site");
-                        email.setRecipients(getContacts());
+                        email.setRecipients(getContacts(form.getCliente()));
                         email.setFrom(new WebFormsPreferencesManager(this).getUserName());
                         email.bodyMaker(form);
                         email.setForm(logModel);

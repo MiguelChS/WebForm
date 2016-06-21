@@ -72,7 +72,7 @@ public class TecladoEncryptorActivity extends WebFormsActivity
                     );
                     email.setFrom(new WebFormsPreferencesManager(this).getUserName());
                     email.setSubject("Nuevo Formulario - Teclado Encryptor");
-                    email.setRecipients(getContacts());
+                    email.setRecipients(getContacts(form.getCliente()));
                     email.bodyMaker(form);
                     createEmail();
                 }else if (!validCredentials){

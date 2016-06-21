@@ -87,7 +87,7 @@
             android:authorities="mc185249.webforms.ClientsContentProvider"
             android:enabled="true"
             android:exported="true"
-            android:label="Sync Clientes"
+            android:label="Clientes"
             android:multiprocess="true"
             android:syncable="true" />
 
@@ -149,7 +149,7 @@
             android:authorities="mc185249.webforms.ContactsProvider"
             android:enabled="true"
             android:exported="true"
-            android:label="Sync Contacts"
+            android:label="Contactos"
             android:multiprocess="true"
             android:syncable="true" />
         -
@@ -166,7 +166,26 @@
             android:name=".EmailActivity"
             android:parentActivityName=".ScrollingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".DevolucionPartesActivity"></activity>
+        <activity android:name=".DevolucionPartesActivity" />
+
+        <provider
+            android:name=".InventarioProvider"
+            android:authorities="mc185249.webforms.InventarioProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:label="Inventario Partes"
+            android:multiprocess="true"
+            android:syncable="true"></provider>
+        <service
+            android:name="sync.InventarioPartesSyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter"
+                android:resource="@xml/inventariosyncadapter" />
+        </service>
     </application>
 
 </manifest>

@@ -31,6 +31,7 @@ public class AppController extends Application {
     //region sync adapter
     public static final String AUTHORITY_CLIENTS = "mc185249.webforms.ClientsContentProvider";
     public static final String AUTHORITY_CONTACTS = "mc185249.webforms.ContactsProvider";
+    public static final String AUTHORITY_INVENTARIO = "mc185249.webforms.InventarioProvider";
     public static final String ACCOUNT_TYPE = "com.webforms";
     public static String ACCOUNT;
     Account mAccount;
@@ -88,8 +89,19 @@ public class AppController extends Application {
                 mAccount,
                 AUTHORITY_CONTACTS,
                 Bundle.EMPTY,
-                (SYNC_INTERVAL * 60)
+                SYNC_INTERVAL
         );
+
+        ContentResolver.setIsSyncable(mAccount,AUTHORITY_INVENTARIO,1);
+        ContentResolver.setSyncAutomatically(mAccount,AUTHORITY_INVENTARIO,true);
+        ContentResolver.addPeriodicSync(
+                mAccount,
+                AUTHORITY_INVENTARIO,
+                Bundle.EMPTY,
+                SYNC_INTERVAL
+        );
+
+
     }
 
     public static Account createSyncAccount(Context context) {

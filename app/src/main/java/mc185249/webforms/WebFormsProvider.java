@@ -16,7 +16,8 @@ public abstract class WebFormsProvider extends ContentProvider {
     public static final String CLIENT_TABLE_NAME = "Clients";
     public static final String LOG_TABLE_NAME = "Log";
     public static final String CONTACTS_TABLE_NAME = "Contactos";
-    public static final int DATABASE_VERSION = 11;
+    public static final String INVENTARIO_TABLE_NAME = "Inventario";
+    public static final int DATABASE_VERSION = 12;
 
      public static class DBHelper extends SQLiteOpenHelper {
 
@@ -34,6 +35,10 @@ public abstract class WebFormsProvider extends ContentProvider {
          private static final String CREATE_TABLE_CONTACTS = "CREATE TABLE " +
                  CONTACTS_TABLE_NAME + " (id integer primary key autoincrement," +
                  "Direcciones text, Nombres text, Pais text, Numero text);";
+
+         private static final String CREATE_TABLE_INVENTARIO = "CREATE TABLE " +
+                 INVENTARIO_TABLE_NAME + " (id integer primary key autoincrement, " +
+                 "clase text,clase_modelo text,parte text,descripcion text);";
 
          private static final String CREATE_TABLE_LOG = "CREATE TABLE Log" +
                  "(ID INTEGER PRIMARY KEY autoincrement NOT NULL," +
@@ -86,6 +91,8 @@ public abstract class WebFormsProvider extends ContentProvider {
          private static final String DROP_TABLE_LOG = "DROP TABLE IF EXISTS Log";
         private static final String DROP_TABLE_CONTACTS = "DROP TABLE IF EXISTS " +
                 CONTACTS_TABLE_NAME + ";";
+         private static final String DROP_TABLE_INVENTARIO = "DROP TABLE IF EXISTS " +
+                 INVENTARIO_TABLE_NAME + ";";
 
         public DBHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -98,6 +105,7 @@ public abstract class WebFormsProvider extends ContentProvider {
             db.execSQL(CREATE_TABLE_CLIENT);
             db.execSQL(CREATE_TABLE_LOG);
             db.execSQL(CREATE_TABLE_CONTACTS);
+            db.execSQL(CREATE_TABLE_INVENTARIO);
         }
 
         @Override
@@ -107,6 +115,7 @@ public abstract class WebFormsProvider extends ContentProvider {
             db.execSQL(DROP_TABLE_CLIENT);
             db.execSQL(DROP_TABLE_LOG);
             db.execSQL(DROP_TABLE_CONTACTS);
+            db.execSQL(DROP_TABLE_INVENTARIO);
             onCreate(db);
         }
     }
