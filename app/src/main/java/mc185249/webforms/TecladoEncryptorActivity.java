@@ -32,7 +32,7 @@ public class TecladoEncryptorActivity extends WebFormsActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        workOrder = (EditText)findViewById(R.id.editText_workOrder);
+        workOrder = (EditText)findViewById(R.id.WorkOrder);
         equipo = (EditText) findViewById(R.id.editText_equipo);
         serie = (EditText) findViewById(R.id.editText_serie);
         comentario = (EditText) findViewById(R.id.editText_comentario);
@@ -62,8 +62,9 @@ public class TecladoEncryptorActivity extends WebFormsActivity
                 boolean validCredentials = AppController.getInstance().checkCredentials();
                 if (validCredentials
                         && validate()){
+                    String work = "W" + workOrder.getText().toString();
                     form = new TecladoEncryptorModel(
-                            workOrder.getText().toString(),
+                            work,
                             cliente.getSelectedItem().toString(),
                             serie.getText().toString(),
                             equipo.getText().toString(),

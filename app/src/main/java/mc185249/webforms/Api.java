@@ -9,5 +9,5 @@ public class Api {
     public static final String CONTACTS = "api/contacts";
     public static final String CLIENTS = "api/clients";
 
-    public static final String SERVER_PARTES = "http://lnxsrv3:8080/inventariopartesbb/download.jsp?countryCode=";
+    public static final String SERVER_PARTES = "http://lnxsrv3.corp.ncr.com:8080/inventariopartesbb/download.jsp?countryCode=";
 }

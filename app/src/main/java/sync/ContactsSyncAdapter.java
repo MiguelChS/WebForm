@@ -6,6 +6,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
@@ -36,14 +37,15 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
     ContentResolver mResolver;
     Context mContext;
     ContactsProvider contactsProvider;
+    public static final String SYNC_CONTACTOS = "SYNC_CONTACTS";
 
     public ContactsSyncAdapter(Context context, boolean autoInitialize) {
-        super(context, autoInitialize);
+        super(context, true);
         initialize(context);
     }
 
     public ContactsSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
-        super(context, autoInitialize, allowParallelSyncs);
+        super(context, autoInitialize, true);
         initialize(context);
     }
 
@@ -118,6 +120,9 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 );
                             }
                         }
+                        Log.v("NCR","Contactos Sincronizados");
+                        Intent i = new Intent(SYNC_CONTACTOS);
+                        mContext.sendBroadcast(i);
 
                     }
                 },

@@ -14,6 +14,7 @@ public class NetworkReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+
         if(isConnected(context)) {
             context.startService(new Intent(context,EmailService.class));
         }

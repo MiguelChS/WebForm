@@ -164,9 +164,10 @@
             android:parentActivityName=".ScrollingActivity" />
         <activity
             android:name=".EmailActivity"
+            android:parentActivityName=".ScrollingActivity" />
+        <activity
             android:parentActivityName=".ScrollingActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".DevolucionPartesActivity" />
+            android:name=".DevolucionPartesActivity" />
 
         <provider
             android:name=".InventarioProvider"

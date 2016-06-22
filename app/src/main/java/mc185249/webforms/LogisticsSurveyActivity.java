@@ -38,7 +38,7 @@ public class LogisticsSurveyActivity extends mc185249.webforms.WebFormsActivity 
         editTextParte = (EditText) findViewById(R.id.editTextParte);
         editTextReparador = (EditText) findViewById(R.id.editTextReparador);
         editTextRetorno = (EditText) findViewById(R.id.editTextRetorno);
-        editTextWO = (EditText) findViewById(R.id.editText_WO);
+        editTextWO = (EditText) findViewById(R.id.WorkOrder);
 
         editTextComentario.setOnFocusChangeListener(this);
         editTextParte.setOnFocusChangeListener(this);
@@ -74,7 +74,7 @@ public class LogisticsSurveyActivity extends mc185249.webforms.WebFormsActivity 
                         logModel.setTxtFecha(new Date().toString());
                         logModel.setTxtCsrCode(new WebFormsPreferencesManager(this)
                                 .getCsrCode());
-                        logModel.setTxtWO(editTextWO.getText().toString());
+                        logModel.setTxtWO("W" + editTextWO.getText().toString());
                         logModel.setTxtParte(editTextParte.getText().toString());
                         logModel.setTxtReparador(editTextReparador.getText().toString());
                         logModel.setTxtRetorno(editTextRetorno.getText().toString());
@@ -83,7 +83,7 @@ public class LogisticsSurveyActivity extends mc185249.webforms.WebFormsActivity 
                                 toString());
                         logModel.setFormID("Logistics");
 
-                        form.setWorkOrder(editTextWO.getText().toString());
+                        form.setWorkOrder("W" + editTextWO.getText().toString());
                         form.setComentario(editTextComentario.getText().toString());
                         form.setParte(editTextParte.getText().toString());
                         form.setRefReparador(editTextReparador.getText().toString());

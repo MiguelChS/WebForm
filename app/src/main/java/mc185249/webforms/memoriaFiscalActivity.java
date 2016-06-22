@@ -52,8 +52,9 @@ public class memoriaFiscalActivity extends WebFormsActivity implements WorkOrder
         if (AppController.getInstance().checkCredentials()
                 && validate()){
 
+            String workOrder = "W" + editTextWO.getText().toString();
             MemoriaFiscalForm form = new MemoriaFiscalForm();
-            form.setWorkOrder(String.valueOf(editTextWO.getText()));
+            form.setWorkOrder(workOrder);
             form.setCustRef(String.valueOf(editTextCustRef.getText()));
             form.setSiteName(String.valueOf(editTextSiteName.getText()));
             form.setPuntoVenta(String.valueOf(editTextPuntoVenta.getText()));

@@ -34,7 +34,7 @@ public class VisitaTecnica extends WebFormsActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         email = new EmailSender(this);
-        workOrder = (EditText)findViewById(R.id.editText_wordOrder);
+        workOrder = (EditText)findViewById(R.id.WorkOrder);
         serie = (EditText)findViewById(R.id.editText_serie);
         equipo = (EditText)findViewById(R.id.editText_equipo);
         cliente = (Spinner) findViewById(R.id.spinnerCliente);
@@ -59,9 +59,9 @@ public class VisitaTecnica extends WebFormsActivity
                 boolean validCredentials = AppController.getInstance().checkCredentials();
                 if (validCredentials
                         && validate()){
-
+                    String _workOrder = "W" + workOrder.getText().toString();
                     form = new VisitaTecnicaForm(
-                            workOrder.getText().toString(),
+                            _workOrder,
                             cliente.getSelectedItem().toString(),
                             serie.getText().toString(),
                             equipo.getText().toString()

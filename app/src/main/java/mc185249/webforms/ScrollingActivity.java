@@ -1,16 +1,14 @@
 package mc185249.webforms;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,34 +16,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.format.DateFormat;
-import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import Tabs.SlidingTabLayout;
 import app.AppController;
-import microsoft.exchange.webservices.data.property.complex.StringList;
-import microsoft.exchange.webservices.data.util.DateTimeUtils;
 import models.Email;
 import models.EmailSender;
+import sync.ClientsSyncAdapter;
+import sync.ContactsSyncAdapter;
+import sync.SynInventarioPartes;
 
 public class ScrollingActivity extends AppCompatActivity {
   //region sync
@@ -57,6 +43,7 @@ public class ScrollingActivity extends AppCompatActivity {
     SlidingTabLayout mTabs;
     ViewPager mPager;
     AppController appController;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +52,11 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        if (isFirstTime()){
+            new WebFormsPreferencesManager(this).put(WebFormsPreferencesManager.IS_FIRST_TIME,false);
+            dialog = ProgressDialog.show(this, "Sincronizacion en proceso",
+                    "Aguarde mientras sincronizamos su configuracion...", true);
+        }
         appController = AppController.getInstance();
         //region verifica existencia de credenciales NCR
         Intent i = new Intent(this, EmailService.class);
@@ -102,6 +93,58 @@ public class ScrollingActivity extends AppCompatActivity {
         });
         mTabs.setViewPager(mPager);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(syncFinishedReceiver,new IntentFilter(ClientsSyncAdapter.CLIENT_SYNC_FINISHED));
+        registerReceiver(syncFinishedReceiver,new IntentFilter(ContactsSyncAdapter.SYNC_CONTACTOS));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(syncFinishedReceiver);
+    }
+
+    private BroadcastReceiver syncFinishedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            WebFormsPreferencesManager preferencesManager = new WebFormsPreferencesManager(getApplicationContext());
+            if (preferencesManager.getSyncClientes()
+                    && preferencesManager.getSyncContactos()
+                    && isFirstTime()){
+                dialog.dismiss();
+            }
+            switch (intent.getAction()){
+                case ClientsSyncAdapter.CLIENT_SYNC_FINISHED:
+                    preferencesManager.put(
+                            WebFormsPreferencesManager.SYNCRONIZES_CLIENTES,true
+                    );
+                    break;
+                case ContactsSyncAdapter.SYNC_CONTACTOS:
+                    preferencesManager.put(
+                            WebFormsPreferencesManager.SYNCRONIZES_CONTACTOS,true
+                    );
+                    break;
+                case SynInventarioPartes.PARTES_SYNC:
+                    preferencesManager.put(
+                            WebFormsPreferencesManager.SYNCRONIZES_PARTES,true
+                    );
+                    break;
+            }
+
+        }
+    };
+
+    /**
+     * Determina si es la primera vez que utiliza la app
+     * @return true si es la primera vez, sino false
+     */
+    public Boolean isFirstTime(){
+        WebFormsPreferencesManager webFormsPreferencesManager = new WebFormsPreferencesManager(this);
+        return webFormsPreferencesManager.getFirstTime();
     }
 
      private void showLogin() {

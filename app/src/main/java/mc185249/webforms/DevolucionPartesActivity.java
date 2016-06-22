@@ -131,6 +131,7 @@ public class DevolucionPartesActivity extends WebFormsActivity  {
                         devolucionPartesForm.setCantidad(cantidad.getText().toString());
                         devolucionPartesForm.setEstado(estado.getSelectedItem().toString());
 
+                        email.setCSRCode(new WebFormsPreferencesManager(getApplicationContext()).getCsrCode());
                         email.setSubject("Nuevo Formulario - Devolucion Partes");
                         email.setRecipients(getContacts(null));
                         email.setFrom(new WebFormsPreferencesManager(this).getUserName());

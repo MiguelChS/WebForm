@@ -6,11 +6,13 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.databinding.tool.util.L;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -35,6 +37,7 @@ import models.Cliente;
  */
 public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
 
+    public static final String CLIENT_SYNC_FINISHED = "CLIENT_SYNC_FINISHED";
     ContentResolver mContentResolver;
     ClientsContentProvider clientsContentProvider;
     Context mContext;
@@ -104,6 +107,10 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 );
                             }
                         }
+
+                        Log.v("NCR","Clientes sincronizados");
+                        Intent i = new Intent(CLIENT_SYNC_FINISHED);
+                        mContext.sendBroadcast(i);
 
                     }
                 },

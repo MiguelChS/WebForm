@@ -5,6 +5,7 @@ import android.app.DownloadManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ import mc185249.webforms.WebFormsPreferencesManager;
 public class SynInventarioPartes extends AbstractThreadedSyncAdapter {
 
     Context mContext;
+    public static final String PARTES_SYNC = "PARTES_SYNC";
 
     public SynInventarioPartes(Context context){
         super(context,true,true);
@@ -34,6 +36,7 @@ public class SynInventarioPartes extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+        Log.v("NCR","sincronizando inventario");
         String csrCode = new WebFormsPreferencesManager(mContext).getCsrCode();
         String pais = csrCode.substring(0,2);
         InputStreamVolleyRequest request = new InputStreamVolleyRequest(
@@ -53,7 +56,9 @@ public class SynInventarioPartes extends AbstractThreadedSyncAdapter {
                             if (response != null){
                                 FileOutputStream outputStream;
                                 String name = "InventarioPartes.csv";
-
+                                Log.v("NCR","Inventario Sincronizado");
+                                Intent i = new Intent(PARTES_SYNC);
+                                mContext.sendBroadcast(i);
                             }
                         }catch (Exception e){
                             Log.e("NCR","Unable to download file",e);

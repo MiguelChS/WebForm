@@ -35,7 +35,7 @@ public class cambioPidPad extends WebFormsActivity
 
         form = new CambioPidPadForm();
         email = new EmailSender(this);
-        workOrder = (EditText) findViewById(R.id.editText_WO);
+        workOrder = (EditText) findViewById(R.id.WorkOrder);
         custRef = (EditText) findViewById(R.id.editText_custRef);
         siteName = (EditText)findViewById(R.id.editText_siteName);
         nroPos = (EditText)findViewById(R.id.editText_nroPos);
@@ -74,7 +74,8 @@ public class cambioPidPad extends WebFormsActivity
                 if (validCredentials
                         && validate()){
 
-                    form.setWorkOrder(workOrder.getText().toString());
+                    String work_order = "W" + workOrder.getText().toString();
+                    form.setWorkOrder(work_order);
                     form.setCustRef(custRef.getText().toString());
                     form.setSiteName(siteName.getText().toString());
                     form.setNroPos(nroPos.getText().toString());

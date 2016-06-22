@@ -91,6 +91,7 @@ public class WebFormsActivity extends AppCompatActivity
 
     }
 
+
     public void initializeFab()
     {
         this.fabMenu = (FloatingActionsMenu) findViewById(R.id.fabMenu);
@@ -311,6 +312,7 @@ public class WebFormsActivity extends AppCompatActivity
     public void saveEmail()
     {
         showProgressDialog();
+
         for (String rec : email.getRecipients().split(",")){
             ContentValues values = new ContentValues();
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");

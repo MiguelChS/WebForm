@@ -4,8 +4,11 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Application;
 import android.app.Notification;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -28,6 +31,7 @@ public class AppController extends Application {
     private static String TAG = "WebForms";
     private RequestQueue mRequestQueue;
     NotificationManagerCompat notificationManagerCompat;
+
     //region sync adapter
     public static final String AUTHORITY_CLIENTS = "mc185249.webforms.ClientsContentProvider";
     public static final String AUTHORITY_CONTACTS = "mc185249.webforms.ContactsProvider";
@@ -36,7 +40,7 @@ public class AppController extends Application {
     public static String ACCOUNT;
     Account mAccount;
     public static final long SECONDS_PER_MINUTE = 60L;
-    public static final long SYNC_INTERVAL_IN_MINUTES = 60L * 24L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
     public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
     //endregion
     public static synchronized AppController getInstance(){
@@ -52,8 +56,8 @@ public class AppController extends Application {
         mInstance = this;
         notificationManagerCompat =
                 NotificationManagerCompat.from(this);
-    }
 
+    }
 
     /**
      * Inicia la sincronizacion
@@ -66,8 +70,8 @@ public class AppController extends Application {
         ACCOUNT = "dummy";
         mAccount = createSyncAccount(this);
 
-        ContentResolver.setIsSyncable(mAccount, AUTHORITY_CLIENTS,1);
-        ContentResolver.setSyncAutomatically(
+       ContentResolver.setIsSyncable(mAccount, AUTHORITY_CLIENTS,1);
+         ContentResolver.setSyncAutomatically(
                 mAccount,
                 AUTHORITY_CLIENTS,
                 true
@@ -76,11 +80,11 @@ public class AppController extends Application {
                 mAccount,
                 AUTHORITY_CLIENTS,
                 Bundle.EMPTY,
-                SYNC_INTERVAL
+                72000 //cada 20 horas
         );
 
         ContentResolver.setIsSyncable(mAccount, AUTHORITY_CONTACTS,1);
-        ContentResolver.setSyncAutomatically(
+         ContentResolver.setSyncAutomatically(
                 mAccount,
                 AUTHORITY_CONTACTS,
                 true
@@ -89,16 +93,16 @@ public class AppController extends Application {
                 mAccount,
                 AUTHORITY_CONTACTS,
                 Bundle.EMPTY,
-                SYNC_INTERVAL
+                72000
         );
 
         ContentResolver.setIsSyncable(mAccount,AUTHORITY_INVENTARIO,1);
-        ContentResolver.setSyncAutomatically(mAccount,AUTHORITY_INVENTARIO,true);
+         ContentResolver.setSyncAutomatically(mAccount,AUTHORITY_INVENTARIO,true);
         ContentResolver.addPeriodicSync(
                 mAccount,
                 AUTHORITY_INVENTARIO,
                 Bundle.EMPTY,
-                SYNC_INTERVAL
+                72000
         );
 
 

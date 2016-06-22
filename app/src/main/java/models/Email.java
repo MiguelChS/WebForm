@@ -130,7 +130,9 @@ public class  Email {
        this.files.add(file);
        this.hasAttachment = true;
    }
-    public Email(){}
+    public Email(){
+        
+    }
 
     public String getBody() {
         return body;
@@ -205,6 +207,7 @@ public class  Email {
      */
     public void bodyMaker(IWebForm body){
         //region body
+
         String b =
                 "<html>"+
                 "<head>\n" +
@@ -425,7 +428,6 @@ public class  Email {
         if (body instanceof DevolucionPartes){
             createdBody = formatter.format(b,
                     "",
-                    "",
                     CSRCode,
                     "",
                     "",
@@ -438,6 +440,7 @@ public class  Email {
                     "",
                     ((DevolucionPartes) body).fechaToString(),
                     ""
+
                     ).toString();
         }
 
@@ -655,4 +658,9 @@ public class  Email {
         }
         return emailsList;
     }
+
+
+   private void formatBody(){
+
+   }
 }

@@ -27,17 +27,9 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:imeOptions="actionNext"
-                        android:id="@+id/editText_workOrder"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="WorkOrder" />
-                </android.support.design.widget.TextInputLayout>
+                <include android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    layout="@layout/work_order"></include>
 
                 <Spinner
                     android:id="@+id/spinnerCliente"

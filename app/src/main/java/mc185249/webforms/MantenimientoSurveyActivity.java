@@ -85,8 +85,10 @@ public class MantenimientoSurveyActivity
                 if (AppController.getInstance().checkCredentials()
                         && validate()){
 
+                    String workOrder = "W" + editTextWO.getText().toString();
+
                     MantenimientoSurveyForm form = new MantenimientoSurveyForm();
-                    form.setWorkOrder(String.valueOf(editTextWO.getText()));
+                    form.setWorkOrder(workOrder);
                     form.setSerie(String.valueOf(editTextserie.getText()));
                     form.setComentario(String.valueOf(editTextComentario.getText()));
                     form.setEquipo(String.valueOf(editTextidEquipo.getText()));
