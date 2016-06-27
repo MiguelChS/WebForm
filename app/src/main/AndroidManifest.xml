@@ -91,13 +91,10 @@
             android:multiprocess="true"
             android:syncable="true" />
 
-        <!--
- ATTENTION: This was auto-generated recipients add Google Play services recipients your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
+
         <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="1" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDR00jlQfgbFVSiWAHVjjmKSmRo966p0QQ"></meta-data>
 
         <activity
             android:name=".ScrollingActivity"

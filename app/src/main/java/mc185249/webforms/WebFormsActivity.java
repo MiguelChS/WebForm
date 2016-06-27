@@ -258,7 +258,7 @@ public class WebFormsActivity extends AppCompatActivity
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (!hasFocus){
+        if (!v.hasFocus()){
             final boolean isValid = FormValidator.validate(this, new SimpleErrorPopupCallback(this));
         }
     }

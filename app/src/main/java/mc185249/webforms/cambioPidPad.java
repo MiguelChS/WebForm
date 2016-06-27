@@ -81,7 +81,8 @@ public class cambioPidPad extends WebFormsActivity
                     form.setNroPos(nroPos.getText().toString());
                     form.setSerieSaliente(serieSaliente.getText().toString());
                     form.setSerieEntrante(serieEntrante.getText().toString());
-                    
+
+                    email.setCSRCode(new WebFormsPreferencesManager(getApplicationContext()).getCsrCode());
                     email.setSubject("Nuevo Formulario - Cambio Pid Pad");
                     email.setRecipients(getContacts(null));
                     email.setFrom(

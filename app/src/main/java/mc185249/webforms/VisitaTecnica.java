@@ -66,6 +66,8 @@ public class VisitaTecnica extends WebFormsActivity
                             serie.getText().toString(),
                             equipo.getText().toString()
                     );
+
+                    email.setCSRCode(new WebFormsPreferencesManager(getApplicationContext()).getCsrCode());
                     email.setSubject("Nuevo Formulario - Visita Tecnica");
                     email.setRecipients(getContacts(form.getCliente()));
                     email.setFrom(

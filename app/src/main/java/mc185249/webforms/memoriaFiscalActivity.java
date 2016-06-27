@@ -62,6 +62,7 @@ public class memoriaFiscalActivity extends WebFormsActivity implements WorkOrder
             form.setFirmwarePlaca(String.valueOf(editTextFirmwarePlacaFiscal.getText()));
             form.setSerieImpresor(String.valueOf(editTextFirmwarePlacaFiscal.getText()));
 
+            email.setCSRCode(new WebFormsPreferencesManager(getApplicationContext()).getCsrCode());
             email.setSubject("Nuevo Formulario - Memoria Fiscal");
             email.setRecipients(getContacts(form.getCliente()));
             email.bodyMaker(form);

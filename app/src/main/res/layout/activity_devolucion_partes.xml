@@ -2,6 +2,7 @@
 <LinearLayout android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical"
+
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
 <include
@@ -15,6 +16,7 @@ layout="@layout/toolbar"></include>
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
+        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -34,20 +36,33 @@ layout="@layout/toolbar"></include>
                 <EditText
                     android:id="@+id/warehouse"
                     android:hint="Warehouse"
+                    android:inputType="text"
+                    android:maxLength="8"
+                    android:imeActionLabel="Siguiente"
+                    android:imeOptions="actionNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
+            <!--<android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/localidad"
                     android:hint="Localidad"
+                    android:imeActionLabel="Siguiente"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>-->
+            <AutoCompleteTextView
+                android:id="@+id/localidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Localidad"
+                android:singleLine="true" />
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -66,7 +81,10 @@ layout="@layout/toolbar"></include>
                 android:layout_height="wrap_content">
                 <EditText
                     android:id="@+id/guiaDHL"
-                    android:text="Guía DHL"
+                    android:hint="Guía DHL"
+                    android:imeActionLabel="Siguiente"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
@@ -134,6 +152,10 @@ layout="@layout/toolbar"></include>
                 <EditText
                     android:id="@+id/parte"
                     android:hint="#Parte"
+                    android:maxLength="10"
+                    android:imeActionLabel="Siguiente"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
@@ -143,6 +165,9 @@ layout="@layout/toolbar"></include>
                 <EditText
                     android:id="@+id/descripcion"
                     android:hint="Descripcion"
+                    android:imeActionLabel="Siguiente"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
@@ -152,6 +177,9 @@ layout="@layout/toolbar"></include>
                 <EditText
                     android:id="@+id/cantidad"
                     android:hint="Cantidad"
+                    android:imeActionLabel="Enviar"
+                    android:imeOptions="actionSend"
+                    android:inputType="number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
@@ -170,7 +198,7 @@ layout="@layout/toolbar"></include>
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_margin="10dp"
+
             android:name="mc185249.webforms.FloatingActionMenu"
             tools:layout="@layout/fragment_floating_action_menu"></fragment>
 

@@ -86,4 +86,5 @@
     <style name="NCRTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
         <item name="colorControlNormal">#FFF</item>
     </style>
+
 </resources>

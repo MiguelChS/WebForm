@@ -89,6 +89,7 @@ public class LogisticsSurveyActivity extends mc185249.webforms.WebFormsActivity 
                         form.setRefReparador(editTextReparador.getText().toString());
                         form.setRetorno(editTextRetorno.getText().toString());
 
+                        email.setCSRCode(new WebFormsPreferencesManager(getApplicationContext()).getCsrCode());
                         email.setSubject("Nuevo Formulario - Logistics");
                         email.setRecipients(getContacts(null));
                         email.bodyMaker(form);

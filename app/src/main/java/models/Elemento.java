@@ -1,11 +1,13 @@
 package models;
 
+import java.io.Serializable;
+
 /**
  * Created by mc185249 on 3/18/2016.
  */
 
 //REPRESENTA UNA FILA DE LA TABLA DENTRO DEL INVENTARIO
-public class Elemento {
+public class Elemento implements Serializable {
 
     private int id;
     private String clase;

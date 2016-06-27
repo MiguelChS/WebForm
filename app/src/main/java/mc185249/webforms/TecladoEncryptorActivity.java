@@ -71,6 +71,8 @@ public class TecladoEncryptorActivity extends WebFormsActivity
                             "",
                             comentario.getText().toString()
                     );
+
+                    email.setCSRCode(new WebFormsPreferencesManager(getApplicationContext()).getCsrCode());
                     email.setFrom(new WebFormsPreferencesManager(this).getUserName());
                     email.setSubject("Nuevo Formulario - Teclado Encryptor");
                     email.setRecipients(getContacts(form.getCliente()));

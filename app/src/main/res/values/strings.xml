@@ -96,6 +96,12 @@
     <string name="min_length_workOrder">
         La WorkOrder debe contener 9 caracteres numericos.
     </string>
+    <string name="minLength8">
+        Debe contener 8 caracteres
+    </string>
+    <string name="minLength10">
+        Debe contener 10 caracteres
+    </string>
     <string name="campo_numerico">
         El campo debe contener caracteres numericos.
     </string>

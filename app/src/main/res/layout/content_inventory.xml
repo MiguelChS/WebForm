@@ -12,6 +12,10 @@ android:orientation="vertical"
     tools:context=".InventoryActivity"
     tools:showIn="@layout/activity_inventory">
 
+    <TextView
+        android:id="@+id/totalRegistros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
         <com.gc.materialdesign.views.ButtonFlat
             android:id="@+id/button_filter"
@@ -25,9 +29,24 @@ android:orientation="vertical"
             android:text="@string/button_search" />
 
 
-        <com.baoyz.swipemenulistview.SwipeMenuListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <LinearLayout
+            android:id="@+id/linlaHeaderProgress"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+                <ProgressBar
+                    android:id="@+id/pbHeaderProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                </ProgressBar>
+        </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

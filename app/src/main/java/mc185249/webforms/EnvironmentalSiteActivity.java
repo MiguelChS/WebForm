@@ -420,6 +420,7 @@ public class EnvironmentalSiteActivity extends mc185249.webforms.WebFormsActivit
                         email.setRecipients(getContacts(form.getCliente()));
                         email.setFrom(new WebFormsPreferencesManager(this).getUserName());
                         email.bodyMaker(form);
+                        email.setCSRCode(new WebFormsPreferencesManager(getApplicationContext()).getCsrCode());
                         email.setForm(logModel);
                         createEmail();
                     }else{
