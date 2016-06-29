@@ -96,16 +96,24 @@ public class AppController extends Application {
                 72000
         );
 
+       /* */
+
+
+    }
+
+    /**
+     * Inicia la sincronizacion del inventario de partes.
+     * Se hace por separado ya que relentiza el inicio de la app.
+     */
+    public void initializeSyncInvetario(){
         ContentResolver.setIsSyncable(mAccount,AUTHORITY_INVENTARIO,1);
-         ContentResolver.setSyncAutomatically(mAccount,AUTHORITY_INVENTARIO,true);
+        ContentResolver.setSyncAutomatically(mAccount,AUTHORITY_INVENTARIO,true);
         ContentResolver.addPeriodicSync(
                 mAccount,
                 AUTHORITY_INVENTARIO,
                 Bundle.EMPTY,
                 72000
         );
-
-
     }
 
     public static Account createSyncAccount(Context context) {

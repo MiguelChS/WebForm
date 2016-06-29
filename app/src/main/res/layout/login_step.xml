@@ -48,6 +48,7 @@
             <EditText android:id="@+id/input_email"
                 android:textColor="@color/white"
                 android:layout_width="match_parent"
+                android:textAllCaps="true"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="QuickLook ID" />

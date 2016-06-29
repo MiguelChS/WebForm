@@ -83,13 +83,6 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
         holder.parte.setText(elementos.get(position).getParte());
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
-        holder.descripcion.setText(elementos.get(position).getDescripcion());
-        holder.clase.setText(elementos.get(position).getClase());
-        holder.parte.setText(elementos.get(position).getParte());
-    }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = inflater.inflate(layout,parent,false);
@@ -166,12 +159,22 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            elementos.clear();
             elementos = (List<Elemento>) results.values;
+
             if (results.count > 0){
                 notifyDataSetChanged();
             }
         }
     };
+
+    public void removeItem(int position){
+        elementos.remove(position);
+    }
+    public void addItem(int position,Elemento elemento){
+        elementos.add(position,elemento);
+    }
+
    /* public ElementAdapter(Context context,int resource,List<Elemento> objects,Elemento filter){
         super(context,resource,objects);
         layout = resource;

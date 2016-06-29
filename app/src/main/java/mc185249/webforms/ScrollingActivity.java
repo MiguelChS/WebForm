@@ -116,6 +116,7 @@ public class ScrollingActivity extends AppCompatActivity {
                     && preferencesManager.getSyncContactos()
                     && isFirstTime()){
                 dialog.dismiss();
+                AppController.getInstance().initializeSyncInvetario();
             }
             switch (intent.getAction()){
                 case ClientsSyncAdapter.CLIENT_SYNC_FINISHED:

@@ -307,7 +307,7 @@ public class WebFormsActivity extends AppCompatActivity
     }
 
     /**
-     * Guarda el email dentro de la base de datos
+     * Guarda el email en la base de datos
      */
     public void saveEmail()
     {
