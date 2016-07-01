@@ -13,6 +13,7 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -42,6 +43,7 @@
         <activity
             android:name=".InventoryActivity"
             android:label=""
+
             android:parentActivityName=".ScrollingActivity" />
         <activity
             android:name=".FilterDialogActivity"

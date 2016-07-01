@@ -1,5 +1,7 @@
 package app;
 
+import android.app.Application;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Application;
@@ -38,9 +40,9 @@ public class AppController extends Application {
     public static final String AUTHORITY_INVENTARIO = "mc185249.webforms.InventarioProvider";
     public static final String ACCOUNT_TYPE = "com.webforms";
     public static String ACCOUNT;
-    Account mAccount;
+    public static Account mAccount;
     public static final long SECONDS_PER_MINUTE = 60L;
-    public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 24L * 60L;
     public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
     //endregion
     public static synchronized AppController getInstance(){
@@ -80,7 +82,7 @@ public class AppController extends Application {
                 mAccount,
                 AUTHORITY_CLIENTS,
                 Bundle.EMPTY,
-                72000 //cada 20 horas
+                SYNC_INTERVAL
         );
 
         ContentResolver.setIsSyncable(mAccount, AUTHORITY_CONTACTS,1);
@@ -93,10 +95,16 @@ public class AppController extends Application {
                 mAccount,
                 AUTHORITY_CONTACTS,
                 Bundle.EMPTY,
-                72000
+                SYNC_INTERVAL
         );
 
-       /* */
+       ContentResolver.setIsSyncable(mAccount,AUTHORITY_INVENTARIO,1);
+        ContentResolver.addPeriodicSync(
+                mAccount,
+                AUTHORITY_INVENTARIO,
+                Bundle.EMPTY,
+                SYNC_INTERVAL
+        );
 
 
     }

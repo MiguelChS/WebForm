@@ -121,8 +121,9 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
                             }
                         }
                         Log.v("NCR","Contactos Sincronizados");
-                        Intent i = new Intent(SYNC_CONTACTOS);
-                        mContext.sendBroadcast(i);
+                        getContext().getContentResolver()
+                                .notifyChange(ContactsProvider.CONTENT_URI, null, false);
+
 
                     }
                 },

@@ -6,7 +6,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SyncStatusObserver;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +50,8 @@ public class ScrollingActivity extends AppCompatActivity {
     ViewPager mPager;
     AppController appController;
     ProgressDialog dialog;
+    Boolean syncClients = false, syncContacts = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +60,18 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        //region firstTime
+        /**
+         * SI ES LA PRIMERA VEZ QUE ENTRA MUESTRA UN POPUP Y ESPERA A QUE TERMINE DE SYNC
+         */
         if (isFirstTime()){
-            new WebFormsPreferencesManager(this).put(WebFormsPreferencesManager.IS_FIRST_TIME,false);
+
             dialog = ProgressDialog.show(this, "Sincronizacion en proceso",
                     "Aguarde mientras sincronizamos su configuracion...", true);
-        }
+            }
+
+        //endregion
         appController = AppController.getInstance();
         //region verifica existencia de credenciales NCR
         Intent i = new Intent(this, EmailService.class);
@@ -98,46 +113,52 @@ public class ScrollingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(syncFinishedReceiver,new IntentFilter(ClientsSyncAdapter.CLIENT_SYNC_FINISHED));
-        registerReceiver(syncFinishedReceiver,new IntentFilter(ContactsSyncAdapter.SYNC_CONTACTOS));
+        ContentResolver.addStatusChangeListener(
+                ContentResolver.SYNC_OBSERVER_TYPE_PENDING
+                | ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE,
+                new SsyncStatusObserver()
+        );
+        }
+
+    private class SsyncStatusObserver implements android.content.SyncStatusObserver{
+
+        @Override
+        public void onStatusChanged(int i) {
+
+            if (i == ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE){
+                if (ContentResolver.isSyncActive(AppController.mAccount,AppController.AUTHORITY_CLIENTS)){
+                    syncClients = true;
+                    if (syncContacts
+                            && isFirstTime()){
+                        dialog.dismiss();
+                        new WebFormsPreferencesManager(ScrollingActivity.this).put(WebFormsPreferencesManager.IS_FIRST_TIME,false);
+                    }
+
+                }
+            }
+            if (i == ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE){
+                if (ContentResolver.isSyncActive(AppController.mAccount,AppController.AUTHORITY_CONTACTS)){
+                    syncContacts = true;
+                    if (syncClients
+                            && isFirstTime()){
+                        dialog.dismiss();
+                        new WebFormsPreferencesManager(ScrollingActivity.this).put(WebFormsPreferencesManager.IS_FIRST_TIME,false);
+                    }
+                }
+            }
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(syncFinishedReceiver);
+
     }
 
-    private BroadcastReceiver syncFinishedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            WebFormsPreferencesManager preferencesManager = new WebFormsPreferencesManager(getApplicationContext());
-            if (preferencesManager.getSyncClientes()
-                    && preferencesManager.getSyncContactos()
-                    && isFirstTime()){
-                dialog.dismiss();
-                AppController.getInstance().initializeSyncInvetario();
-            }
-            switch (intent.getAction()){
-                case ClientsSyncAdapter.CLIENT_SYNC_FINISHED:
-                    preferencesManager.put(
-                            WebFormsPreferencesManager.SYNCRONIZES_CLIENTES,true
-                    );
-                    break;
-                case ContactsSyncAdapter.SYNC_CONTACTOS:
-                    preferencesManager.put(
-                            WebFormsPreferencesManager.SYNCRONIZES_CONTACTOS,true
-                    );
-                    break;
-                case SynInventarioPartes.PARTES_SYNC:
-                    preferencesManager.put(
-                            WebFormsPreferencesManager.SYNCRONIZES_PARTES,true
-                    );
-                    break;
-            }
-
-        }
-    };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     /**
      * Determina si es la primera vez que utiliza la app
@@ -176,6 +197,7 @@ public class ScrollingActivity extends AppCompatActivity {
         }
 
     }
+
 
     class WebFormsPagerAdapter extends FragmentPagerAdapter{
 

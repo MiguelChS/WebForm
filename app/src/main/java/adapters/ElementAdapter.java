@@ -134,6 +134,33 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
         return tempList;
     }
 
+    private List<Elemento> filtroBasico(String constraint){
+        List<Elemento> tempList = new ArrayList<>();
+
+        for (Iterator<Elemento> it = elementos.iterator();it.hasNext();){
+            Elemento cElemento = it.next();
+                if (constraint.toLowerCase().contains(cElemento.getClase().toLowerCase())){
+                    tempList.add(cElemento);
+                    continue;
+                }
+            if (constraint.toLowerCase().contains(cElemento.getClaseModelo().toLowerCase())){
+                tempList.add(cElemento);
+                continue;
+            }
+            if (constraint.toLowerCase().contains(cElemento.getDescripcion().toLowerCase())){
+                tempList.add(cElemento);
+                continue;
+            }
+            if (constraint.toLowerCase().contains(cElemento.getParte().toLowerCase())){
+                tempList.add(cElemento);
+                continue;
+            }
+
+        }
+
+        return tempList;
+    }
+
     @Override
     public Filter getFilter() {
 
@@ -144,13 +171,15 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
         FilterResults results = new FilterResults();
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            List<Elemento> resultado;
             if (mElemento == null){
-                mElemento = new Elemento(
-                        constraint.toString(),constraint.toString(),constraint.toString(),0,constraint.toString()
-                );
+                resultado = filtroBasico(constraint.toString());
+                results.values = resultado;
+                results.count = resultado.size();
+                return results;
             }
 
-            List<Elemento> resultado = filtroAvanzado();
+            resultado = filtroAvanzado();
             results.values = resultado;
             results.count = resultado.size();
 
@@ -161,10 +190,7 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
         protected void publishResults(CharSequence constraint, FilterResults results) {
             elementos.clear();
             elementos = (List<Elemento>) results.values;
-
-            if (results.count > 0){
-                notifyDataSetChanged();
-            }
+            notifyDataSetChanged();
         }
     };
 

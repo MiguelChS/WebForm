@@ -5,7 +5,7 @@
         <item name="android:colorPrimaryDark">#388E3C</item>
         <item name="android:colorAccent">#8BC34A</item>
         <item name="android:navigationBarColor">#4CAF50</item>
-
+        <item name="android:tabWidgetStyle">@style/customTabWidget</item>
         <item name="android:displayOptions">showHome</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
@@ -87,4 +87,11 @@
         <item name="colorControlNormal">#FFF</item>
     </style>
 
+    <style name="customTabWidget" parent="@android:style/Widget.TabWidget">
+        <item name="android:textAppearance">@style/customTabText</item>
+    </style>
+    <style name="customTabText" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

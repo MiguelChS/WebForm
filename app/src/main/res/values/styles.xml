@@ -1,10 +1,10 @@
 <resources>
 
-    <style name="NCRTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="NCRTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">#54B948</item>
         <item name="colorPrimaryDark">#388E3C</item>
         <item name="colorAccent">#8BC34A</item>
-
+        <item name="android:tabWidgetStyle">@style/customTabWidget</item>
 
         <item name="displayOptions">showHome</item>
         <item name="windowActionBar">false</item>
@@ -110,5 +110,16 @@
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">21sp</item>
         <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="customTheme" parent="@style/NCRTheme">
+        <item name="android:tabWidgetStyle">@style/customTabWidget</item>
+    </style>
+    <style name="customTabWidget" parent="@android:style/Widget.TabWidget">
+        <item name="android:textAppearance">@style/customTabText</item>
+    </style>
+    <style name="customTabText" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources> 

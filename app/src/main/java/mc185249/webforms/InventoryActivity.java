@@ -51,7 +51,6 @@ public class InventoryActivity extends AppCompatActivity {
     ProgressBar progressBar;
     ClipboardManager clipboardManager;
     ClipData clipData;
-    private static Boolean MODO_ESTRICTO = false;
 
     private class LoadData extends AsyncTask<Void, Void, ArrayList<Elemento>> {
 
@@ -97,29 +96,29 @@ public class InventoryActivity extends AppCompatActivity {
         }
     }
 
-    private class FilterData extends AsyncTask<Elemento, Void, Void> {
+    private class FilterData extends AsyncTask<String, Void, Void> {
 
 
         @Override
         protected void onPreExecute() {
-            recycleView.setVisibility(View.GONE);
+           /* recycleView.setVisibility(View.GONE);
             linlaHeaderProgress.setVisibility(View.VISIBLE);
             setProgressBarIndeterminateVisibility(true);
-
+*/
         }
 
         @Override
-        protected Void doInBackground(Elemento... params) {
+        protected Void doInBackground(String... params) {
             //mAdapter.setmElemento(params[0]);
-            mAdapter.getFilter().filter(null);
+            mAdapter.getFilter().filter(params[0]);
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            mAdapter.notifyDataSetChanged();
-            setProgressBarIndeterminateVisibility(false);
-            recycleView.setVisibility(View.VISIBLE);
+
+          /*  setProgressBarIndeterminateVisibility(false);
+            recycleView.setVisibility(View.VISIBLE);*/
             totalRegistros.setText("Total de registros: " + mAdapter.getItemCount());
         }
     }
@@ -178,7 +177,8 @@ public class InventoryActivity extends AppCompatActivity {
             e.setDescripcion(descripcion);
             e.setParte(parte);
 
-           new FilterData().execute(e);
+            mAdapter.setmElemento(e);
+           new FilterData().execute("");
         }
 
     }
@@ -202,25 +202,17 @@ public class InventoryActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                     if (newText.length() < 4) return false;
 
-
-
-                mAdapter.setmElemento(new Elemento(
-                        newText,
-                        newText,
-                        newText,
-                        0,
-                        newText)
-                );
-
-                recycleView.setVisibility(View.GONE);
+               /* recycleView.setVisibility(View.GONE);
                 linlaHeaderProgress.setVisibility(View.VISIBLE);
                 setProgressBarIndeterminateVisibility(true);
-                mAdapter.getFilter().filter(null);
-                mAdapter.notifyDataSetChanged();
+                mAdapter.getFilter().filter(newText);
+
+                linlaHeaderProgress.setVisibility(View.GONE);
                 setProgressBarIndeterminateVisibility(false);
                 recycleView.setVisibility(View.VISIBLE);
-                totalRegistros.setText("Total de registros: " + mAdapter.getItemCount());
+                totalRegistros.setText("Total de registros: " + mAdapter.getItemCount());*/
 
+                new FilterData().execute(newText);
                 return true;
             }
         });
