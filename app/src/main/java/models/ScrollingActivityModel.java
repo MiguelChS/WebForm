@@ -1,12 +1,21 @@
 package models;
 
+import android.content.Context;
+
 import mc185249.webforms.R;
+import mc185249.webforms.WebFormsPreferencesManager;
 
 /**
  * Created by jn185090 on 6/14/2016.
  * Formularios disponibles en la app
  */
 public class ScrollingActivityModel {
+
+    Context mContext;
+    public ScrollingActivityModel(Context context) {
+        mContext = context;
+    }
+
     /**
      * almacena los textos de los menu
      */
@@ -43,6 +52,7 @@ public class ScrollingActivityModel {
     }
 
     public int getResource(int position){
+
         return resources[position];
     }
 

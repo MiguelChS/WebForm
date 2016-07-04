@@ -40,6 +40,7 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
     protected int layout;
     protected List<Elemento> elementos;
     private Elemento mElemento;
+    private List<Elemento> old_elementos;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView descripcion, clase, parte;
@@ -103,7 +104,7 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return elementos.size();
+        return elementos != null ? elementos.size() : 0;
     }
 
     private List<Elemento> filtroAvanzado(){
@@ -112,19 +113,19 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
         for (Iterator<Elemento> it = tempList.iterator();it.hasNext();){
             Elemento cElemento = it.next();
 
-            if (!cElemento.getParte().toLowerCase().contains(mElemento.getParte().toLowerCase())){
+            if (!cElemento.getParte().toLowerCase().trim().contains(mElemento.getParte().toLowerCase().trim())){
                 it.remove();
                 continue;
             }
-            if (!cElemento.getClase().toLowerCase().contains(mElemento.getClase().toLowerCase())){
+            if (!cElemento.getClase().toLowerCase().trim().contains(mElemento.getClase().toLowerCase().trim())){
                 it.remove();
                 continue;
             }
-            if (!cElemento.getClaseModelo().toLowerCase().contains(mElemento.getClaseModelo().toLowerCase())){
+            if (!cElemento.getClaseModelo().toLowerCase().trim().contains(mElemento.getClaseModelo().toLowerCase().trim())){
                 it.remove();
                 continue;
             }
-            if (!cElemento.getDescripcion().toLowerCase().contains(mElemento.getDescripcion().toLowerCase())){
+            if (!cElemento.getDescripcion().toLowerCase().trim().contains(mElemento.getDescripcion().toLowerCase().trim())){
                 it.remove();
                 continue;
             }
@@ -139,19 +140,9 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
 
         for (Iterator<Elemento> it = elementos.iterator();it.hasNext();){
             Elemento cElemento = it.next();
-                if (constraint.toLowerCase().contains(cElemento.getClase().toLowerCase())){
-                    tempList.add(cElemento);
-                    continue;
-                }
-            if (constraint.toLowerCase().contains(cElemento.getClaseModelo().toLowerCase())){
-                tempList.add(cElemento);
-                continue;
-            }
-            if (constraint.toLowerCase().contains(cElemento.getDescripcion().toLowerCase())){
-                tempList.add(cElemento);
-                continue;
-            }
-            if (constraint.toLowerCase().contains(cElemento.getParte().toLowerCase())){
+
+            if (cElemento.getDescripcion().toLowerCase().trim()
+                    .contains(constraint.toLowerCase().trim())){
                 tempList.add(cElemento);
                 continue;
             }
@@ -172,6 +163,12 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Elemento> resultado;
+            if (old_elementos != null
+                    && old_elementos.size() > 0){
+                elementos.clear();
+                elementos = old_elementos;
+                old_elementos.clear();
+            }
             if (mElemento == null){
                 resultado = filtroBasico(constraint.toString());
                 results.values = resultado;
@@ -189,124 +186,20 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             elementos.clear();
+            old_elementos = elementos;
             elementos = (List<Elemento>) results.values;
             notifyDataSetChanged();
         }
     };
 
-    public void removeItem(int position){
-        elementos.remove(position);
-    }
-    public void addItem(int position,Elemento elemento){
-        elementos.add(position,elemento);
-    }
-
-   /* public ElementAdapter(Context context,int resource,List<Elemento> objects,Elemento filter){
-        super(context,resource,objects);
-        layout = resource;
-        inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mElemento = filter;
-    }
-
-
-    public ElementAdapter(Context context, int resource, Elemento[] objects) {
-        super(context, resource, objects);
-        layout = resource;
-        inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public ElementAdapter(Context context, int resource, List<Elemento> objects) {
-        super(context, resource, objects);
-        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.layout = resource;
-        elementos = objects;
-    }
-
-    public void setmElemento(Elemento elemento){
-        mElemento = elemento;
-    }
-
-    public List<Elemento> getElementos(){
-        return elementos;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = inflater.inflate(layout,parent,false);
-        TextView tv_clase = (TextView)v.findViewById(R.id.textView_clase);
-        TextView tv_parte = (TextView) v.findViewById(R.id.textView_parte);
-        TextView tv_descripcion = (TextView) v.findViewById(R.id.textView_descripcion);
-
-        tv_clase.setText(getItem(position).getClase());
-        tv_parte.setText(getItem(position).getParte());
-        tv_descripcion.setText(getItem(position).getDescripcion());
-        return v;
-    }
-
-    @Override
-    public Filter getFilter() {
-
-        return filter;
-    }
-
-    Filter filter = new Filter() {
-        FilterResults results = new FilterResults();
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            if (mElemento == null){
-                mElemento = new Elemento(
-                        constraint.toString(),constraint.toString(),constraint.toString(),0,constraint.toString()
-                );
-            }
-
-            List<Elemento> resultado = filtroAvanzado();
-            results.values = resultado;
-            results.count = resultado.size();
-
-            return results;
+    public void refreshAdapter(){
+        if (old_elementos != null
+                && old_elementos.size() > 0){
+            elementos.clear();
+            elementos = old_elementos;
+            notifyDataSetChanged();
         }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            elementos = (List<Elemento>) results.values;
-            if (results.count > 0){
-                notifyDataSetChanged();
-            }else{
-                notifyDataSetInvalidated();
-            }
-        }
-    };
-
-    private List<Elemento> filtroAvanzado(){
-        List<Elemento> tempList = new ArrayList<>();
-        tempList = elementos;
-        for (Iterator<Elemento> it = tempList.iterator();it.hasNext();){
-            Elemento cElemento = it.next();
-
-            if (!cElemento.getParte().toLowerCase().contains(mElemento.getParte().toLowerCase())){
-                it.remove();
-                continue;
-            }
-            if (!cElemento.getClase().toLowerCase().contains(mElemento.getClase().toLowerCase())){
-                it.remove();
-                continue;
-            }
-            if (!cElemento.getClaseModelo().toLowerCase().contains(mElemento.getClaseModelo().toLowerCase())){
-                it.remove();
-                continue;
-            }
-            if (!cElemento.getDescripcion().toLowerCase().contains(mElemento.getDescripcion().toLowerCase())){
-                it.remove();
-                continue;
-            }
-
-        }
-
-        return tempList;
-    }*/
-
-
-
+    }
 }
 
 

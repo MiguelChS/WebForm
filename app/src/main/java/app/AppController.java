@@ -1,11 +1,13 @@
 package app;
 
+import android.app.AlarmManager;
 import android.app.Application;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Application;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -21,7 +23,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import java.util.Calendar;
+
 import eu.inmite.android.lib.validations.form.validators.ValidatorFactory;
+import mc185249.webforms.AlarmReceiver;
 import mc185249.webforms.R;
 import mc185249.webforms.WebFormsPreferencesManager;
 
@@ -33,6 +38,8 @@ public class AppController extends Application {
     private static String TAG = "WebForms";
     private RequestQueue mRequestQueue;
     NotificationManagerCompat notificationManagerCompat;
+    AlarmManager alarmManager;
+    PendingIntent pendingIntent;
 
     //region sync adapter
     public static final String AUTHORITY_CLIENTS = "mc185249.webforms.ClientsContentProvider";
@@ -98,32 +105,35 @@ public class AppController extends Application {
                 SYNC_INTERVAL
         );
 
-       ContentResolver.setIsSyncable(mAccount,AUTHORITY_INVENTARIO,1);
-        ContentResolver.addPeriodicSync(
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL,true
+        );
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED,true
+        );
+        ContentResolver.setIsSyncable(mAccount, AUTHORITY_CONTACTS,1);
+        ContentResolver.setSyncAutomatically(
                 mAccount,
-                AUTHORITY_INVENTARIO,
-                Bundle.EMPTY,
-                SYNC_INTERVAL
+                AUTHORITY_CONTACTS,
+                true
+        );
+        ContentResolver.requestSync(
+                AppController.mAccount,AppController.AUTHORITY_INVENTARIO,settingsBundle
         );
 
 
-    }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY,2);
+        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this,0,intent,0);
 
-    /**
-     * Inicia la sincronizacion del inventario de partes.
-     * Se hace por separado ya que relentiza el inicio de la app.
-     */
-    public void initializeSyncInvetario(){
-        ContentResolver.setIsSyncable(mAccount,AUTHORITY_INVENTARIO,1);
-        ContentResolver.setSyncAutomatically(mAccount,AUTHORITY_INVENTARIO,true);
-        ContentResolver.addPeriodicSync(
-                mAccount,
-                AUTHORITY_INVENTARIO,
-                Bundle.EMPTY,
-                72000
-        );
-    }
 
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),
+                1000 * 20 * 60, pendingIntent);
+    }
     public static Account createSyncAccount(Context context) {
 
         Account newAccount = new Account(

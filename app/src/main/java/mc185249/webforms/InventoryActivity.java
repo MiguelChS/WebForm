@@ -101,24 +101,26 @@ public class InventoryActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-           /* recycleView.setVisibility(View.GONE);
+            recycleView.setVisibility(View.GONE);
             linlaHeaderProgress.setVisibility(View.VISIBLE);
             setProgressBarIndeterminateVisibility(true);
-*/
+
         }
 
         @Override
         protected Void doInBackground(String... params) {
             //mAdapter.setmElemento(params[0]);
             mAdapter.getFilter().filter(params[0]);
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
 
-          /*  setProgressBarIndeterminateVisibility(false);
-            recycleView.setVisibility(View.VISIBLE);*/
+            setProgressBarIndeterminateVisibility(false);
+            linlaHeaderProgress.setVisibility(View.GONE);
+            recycleView.setVisibility(View.VISIBLE);
             totalRegistros.setText("Total de registros: " + mAdapter.getItemCount());
         }
     }
@@ -195,25 +197,21 @@ public class InventoryActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                return false;
+                if (query == null
+                        || query.trim().length() == 0){
+                    mAdapter.refreshAdapter();
+                    totalRegistros.setText("Total de registros: " + mAdapter.getItemCount());
+                }
+                if (query.length() < 4) return true;
+
+
+                new FilterData().execute(query);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                    if (newText.length() < 4) return false;
-
-               /* recycleView.setVisibility(View.GONE);
-                linlaHeaderProgress.setVisibility(View.VISIBLE);
-                setProgressBarIndeterminateVisibility(true);
-                mAdapter.getFilter().filter(newText);
-
-                linlaHeaderProgress.setVisibility(View.GONE);
-                setProgressBarIndeterminateVisibility(false);
-                recycleView.setVisibility(View.VISIBLE);
-                totalRegistros.setText("Total de registros: " + mAdapter.getItemCount());*/
-
-                new FilterData().execute(newText);
-                return true;
+                return false;
             }
         });
 

@@ -23,6 +23,7 @@ import java.io.ObjectInputStream;
 
 import app.AppController;
 import mc185249.webforms.Api;
+import mc185249.webforms.ContactsProvider;
 import mc185249.webforms.InventarioProvider;
 import mc185249.webforms.WebFormsPreferencesManager;
 import microsoft.exchange.webservices.data.misc.IFunctions;
@@ -88,10 +89,10 @@ public class SynInventarioPartes extends AbstractThreadedSyncAdapter {
                                             InventarioProvider.CONTENT_URL,contentValues
                                     );
                                     Long.valueOf(uri.getLastPathSegment());
-                                    Log.v("NCR","nueva parte insertada.");
+
                                 }
-                                Intent i = new Intent(PARTES_SYNC);
-                                mContext.sendBroadcast(i);
+                                getContext().getContentResolver()
+                                        .notifyChange(InventarioProvider.CONTENT_URL, null, false);
                             }
                         }catch (Exception e){
                             Log.e("NCR","Unable to download file",e);
