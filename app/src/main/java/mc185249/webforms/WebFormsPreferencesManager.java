@@ -53,7 +53,7 @@ public class WebFormsPreferencesManager {
     }
 
     /**
-     * Inserta un objeto de tipo clave valor dentro del shared preference de la
+     * Inserta un objeto de tipo clave valor dentro del shared preferences de la
      * aplicacion.
      * @param key
      * clave

@@ -22,8 +22,9 @@ public class ScrollingActivityRvAdapter extends RecyclerView.Adapter<ScrollingAc
     ScrollingActivityModel model;
     Context mContext;
     public ScrollingActivityRvAdapter(Context context) {
-        this.model = new ScrollingActivityModel();
+
         this.mContext = context;
+        this.model = new ScrollingActivityModel(mContext);
     }
 
     @Override
