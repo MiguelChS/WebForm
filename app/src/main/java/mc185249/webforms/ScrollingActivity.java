@@ -191,6 +191,9 @@ public class ScrollingActivity extends AppCompatActivity {
             Intent serviceIntent = new Intent(this, EmailService.class);
             startService(serviceIntent);
             appController.initializeSync();
+            new WebFormsPreferencesManager(this).put(WebFormsPreferencesManager.IS_FIRST_TIME,true);
+            dialog = ProgressDialog.show(this, "Sincronizacion en proceso",
+                    "Aguarde mientras sincronizamos su configuracion...", true);
 
             return;
 
@@ -213,12 +216,6 @@ public class ScrollingActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-           /* Drawable drawable = getResources().getDrawable(icons[position]);
-            drawable.setBounds(0,0,36,36);
-            ImageSpan imageSpan = new ImageSpan(drawable);
-            SpannableString spannableString = new SpannableString(" ");
-            spannableString.setSpan(imageSpan,0,spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return spannableString;*/
             return tabs[position];
         }
 
@@ -321,6 +318,7 @@ public class ScrollingActivity extends AppCompatActivity {
                         rvForms.setLayoutManager(new LinearLayoutManager(
                                 getContext()
                         ));
+                        adapter.notifyDataSetChanged();
                         break;
                 }
             }

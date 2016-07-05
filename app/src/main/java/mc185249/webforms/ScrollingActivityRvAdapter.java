@@ -40,43 +40,44 @@ public class ScrollingActivityRvAdapter extends RecyclerView.Adapter<ScrollingAc
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.textView.setText(model.getText(position));
         holder.imageView.setImageResource(model.getResource(position));
+        final String text = model.getText(position);
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (position){
-                    case 0:
+                switch (model.getText(position)){
+                    case "Inventario Partes":
                         Intent i = new Intent(mContext, InventoryActivity.class);
                         mContext.startActivity(i);
                         break;
-                    case 1:
+                    case "Environmental Site":
                         Intent intent = new Intent(mContext,EnvironmentalSiteActivity.class);
                         mContext.startActivity(intent);
                         break;
-                    case 2:
+                    case "Logistics Survey":
                         Intent intent1 = new Intent(mContext,LogisticsSurveyActivity.class);
                         mContext.startActivity(intent1);
                         break;
-                    case 3:
+                    case "Mantenimiento":
                         Intent mantenimientoIntent = new Intent(mContext, MantenimientoSurveyActivity.class);
                         mContext.startActivity(mantenimientoIntent);
                         break;
-                    case 4:
+                    case "Memoria Fiscal":
                         Intent in = new Intent(mContext, memoriaFiscalActivity.class);
                         mContext.startActivity(in);
                         break;
-                    case 5:
+                    case "Cambio Pid Pad":
                         Intent intentt1 = new Intent(mContext,cambioPidPad.class);
                         mContext.startActivity(intentt1);
                         break;
-                    case 6:
+                    case "Visita Tecnica":
                         Intent intent2 = new Intent(mContext,VisitaTecnica.class);
                         mContext.startActivity(intent2);
                         break;
-                    case 7:
+                    case "Teclado Encryptor":
                         Intent intent3 = new Intent(mContext,TecladoEncryptorActivity.class);
                         mContext.startActivity(intent3);
                         break;
-                    case 8:
+                    case "Devolucion Partes":
                         Intent intent4 = new Intent(mContext, DevolucionPartesActivity.class);
                         mContext.startActivity(intent4);
                         break;
