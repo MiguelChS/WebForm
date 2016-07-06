@@ -112,10 +112,10 @@ public class AppController extends Application {
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_EXPEDITED,true
         );
-        ContentResolver.setIsSyncable(mAccount, AUTHORITY_CONTACTS,1);
+        ContentResolver.setIsSyncable(mAccount, AUTHORITY_INVENTARIO,1);
         ContentResolver.setSyncAutomatically(
                 mAccount,
-                AUTHORITY_CONTACTS,
+                AUTHORITY_INVENTARIO,
                 true
         );
         ContentResolver.requestSync(
@@ -200,6 +200,28 @@ public class AppController extends Application {
                 .build();
 
         notificationManagerCompat.notify(1, notification);
+    }
+
+    /**
+     * Inicia sync de clientes y contactos on demand
+     */
+    public void onDemandSyncClientesContactos(){
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL,true
+        );
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED,true
+        );
+        ContentResolver.setIsSyncable(mAccount, AUTHORITY_INVENTARIO,1);
+        ContentResolver.setSyncAutomatically(
+                mAccount,
+                AUTHORITY_INVENTARIO,
+                true
+        );
+        ContentResolver.requestSync(
+                AppController.mAccount,AppController.AUTHORITY_INVENTARIO,settingsBundle
+        );
     }
 
 

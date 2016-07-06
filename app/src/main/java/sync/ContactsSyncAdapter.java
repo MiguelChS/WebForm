@@ -37,7 +37,7 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
     ContentResolver mResolver;
     Context mContext;
     ContactsProvider contactsProvider;
-    public static final String SYNC_CONTACTOS = "SYNC_CONTACTS";
+
 
     public ContactsSyncAdapter(Context context, boolean autoInitialize) {
         super(context, true);

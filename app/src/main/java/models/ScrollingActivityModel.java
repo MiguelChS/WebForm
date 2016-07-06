@@ -31,7 +31,7 @@ public class ScrollingActivityModel {
                 }
                 copy(brasil);
                 break;
-            case "CH":
+            case "CL":
                 if (chile.equals("*")){
                     copyAll();
                 }
@@ -127,6 +127,7 @@ public class ScrollingActivityModel {
     }
 
     public int count(){
-        return formsPerCountry.length;
+        return formsPerCountry != null ?
+                formsPerCountry.length : 0;
     }
 }
