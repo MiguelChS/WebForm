@@ -38,6 +38,7 @@ import models.EmailSender;
 import sync.ClientsSyncAdapter;
 import sync.ContactsSyncAdapter;
 import sync.SynInventarioPartes;
+import sync.SyncResult;
 
 public class ScrollingActivity extends AppCompatActivity {
   //region sync
@@ -50,7 +51,7 @@ public class ScrollingActivity extends AppCompatActivity {
     ViewPager mPager;
     AppController appController;
     ProgressDialog dialog;
-    Boolean syncClients = false, syncContacts = false;
+    public static SyncResult.Listener mObserver;
 
 
     @Override
@@ -60,7 +61,7 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
+        mObserver = new SyncObserver();
         //region firstTime
         /**
          * SI ES LA PRIMERA VEZ QUE ENTRA MUESTRA UN POPUP Y ESPERA A QUE TERMINE DE SYNC
@@ -83,8 +84,6 @@ public class ScrollingActivity extends AppCompatActivity {
         }
         user = new WebFormsPreferencesManager(this).getUserName();
         //endregion
-
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -113,42 +112,24 @@ public class ScrollingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ContentResolver.addStatusChangeListener(
-                ContentResolver.SYNC_OBSERVER_TYPE_PENDING
-                | ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE,
-                new SsyncStatusObserver()
-        );
         }
 
-    private class SsyncStatusObserver implements android.content.SyncStatusObserver{
+    public class SyncObserver implements SyncResult.Listener{
 
         @Override
-        public void onStatusChanged(int i) {
-
-            if (i == ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE){
-                if (ContentResolver.isSyncActive(AppController.mAccount,AppController.AUTHORITY_CLIENTS)){
-                    syncClients = true;
-                    if (syncContacts
-                            && isFirstTime()){
-                        dialog.dismiss();
-                        new WebFormsPreferencesManager(ScrollingActivity.this).put(WebFormsPreferencesManager.IS_FIRST_TIME,false);
-                    }
-
-                }
-            }
-            if (i == ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE){
-                if (ContentResolver.isSyncActive(AppController.mAccount,AppController.AUTHORITY_CONTACTS)){
-                    syncContacts = true;
-                    if (syncClients
-                            && isFirstTime()){
-                        dialog.dismiss();
-                        new WebFormsPreferencesManager(ScrollingActivity.this).put(WebFormsPreferencesManager.IS_FIRST_TIME,false);
-                    }
-                }
+        public void onSuccess() {
+            if (SyncResult.STATE_CLIENTES == SyncResult.SUCCESS
+                    && SyncResult.STATE_CONTACTOS == SyncResult.SUCCESS){
+                dialog.dismiss();
+                new WebFormsPreferencesManager(ScrollingActivity.this).put(WebFormsPreferencesManager.IS_FIRST_TIME,true);
             }
         }
-    }
 
+        @Override
+        public void onError() {
+
+        }
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -190,12 +171,12 @@ public class ScrollingActivity extends AppCompatActivity {
                             csrCode);
             Intent serviceIntent = new Intent(this, EmailService.class);
             startService(serviceIntent);
-            appController.initializeSync();
+            appController.onDemandSyncClientesContactos();
             new WebFormsPreferencesManager(this).put(WebFormsPreferencesManager.IS_FIRST_TIME,true);
             dialog = ProgressDialog.show(this, "Sincronizacion en proceso",
                     "Aguarde mientras sincronizamos su configuracion...", true);
 
-            return;
+
 
         }
 

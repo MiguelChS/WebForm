@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import app.AppController;
 import mc185249.webforms.Api;
 import mc185249.webforms.ContactsProvider;
+import mc185249.webforms.ScrollingActivity;
 import mc185249.webforms.WebFormsPreferencesManager;
 import models.Contacto;
 
@@ -113,24 +114,18 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
                                         ContactsProvider.CONTENT_URI,
                                         contentValues
                                 );
-
-                                AppController.getInstance().notify(
-                                        "Contactos Actualizados",
-                                        remoteContacts.size() + " actualizados"
-                                );
                             }
                         }
                         Log.v("NCR","Contactos Sincronizados");
-                        getContext().getContentResolver()
-                                .notifyChange(ContactsProvider.CONTENT_URI, null, false);
-
+                        sync.SyncResult.STATE_CONTACTOS = sync.SyncResult.SUCCESS;
+                        ScrollingActivity.mObserver.onSuccess();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        sync.SyncResult.STATE_CONTACTOS = sync.SyncResult.ERROR;
                         Log.e("NCR","error sync contactos",error);
                         AppController.getInstance().notify(
                                 "Error Sync Contactos",

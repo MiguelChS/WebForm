@@ -206,6 +206,8 @@ public class AppController extends Application {
      * Inicia sync de clientes y contactos on demand
      */
     public void onDemandSyncClientesContactos(){
+        ACCOUNT = "dummy";
+        mAccount = createSyncAccount(this);
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_MANUAL,true

@@ -29,6 +29,7 @@ import java.util.HashMap;
 import app.AppController;
 import mc185249.webforms.Api;
 import mc185249.webforms.ClientsContentProvider;
+import mc185249.webforms.ScrollingActivity;
 import mc185249.webforms.WebFormsPreferencesManager;
 import models.Cliente;
 
@@ -51,7 +52,7 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
 /**/
 
     @Override
-    public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+    public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, final SyncResult syncResult) {
         StringBuilder stringBuilder = new StringBuilder((Api.SERVER + Api.CLIENTS + "/?CSR=@"));
         int index = stringBuilder.indexOf("@");
         stringBuilder.replace(index,(index + 1),new WebFormsPreferencesManager(mContext).getCsrCode());
@@ -101,23 +102,20 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                                         contentValues
                                 );
 
-                                AppController.getInstance().notify(
-                                        "Clientes sincronizados",
-                                        String.format("%d clientes sincronizados." , remoteClientes.size())
-                                );
+
                             }
                         }
 
                         Log.v("NCR","Clientes sincronizados");
-                        Intent i = new Intent(CLIENT_SYNC_FINISHED);
-                        mContext.sendBroadcast(i);
+                        sync.SyncResult.STATE_CLIENTES = sync.SyncResult.SUCCESS;
+                        ScrollingActivity.mObserver.onSuccess();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        sync.SyncResult.STATE_CLIENTES = sync.SyncResult.ERROR;
                         Log.e("NCR","sync clientes",error);
                         AppController.getInstance().notify(
                                 "Error Sincronizar Clientes",
