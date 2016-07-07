@@ -70,7 +70,7 @@ public class ElementAdapter extends RecyclerView.Adapter<ElementAdapter.ViewHold
     @Override
     public ElementAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                         int viewType){
-        View v = inflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.inventory_list_item,parent,false);
 
         ViewHolder vh = new ViewHolder(v);

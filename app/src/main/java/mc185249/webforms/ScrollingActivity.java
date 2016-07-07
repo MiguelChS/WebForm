@@ -1,17 +1,11 @@
 package mc185249.webforms;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SyncStatusObserver;
-import android.database.ContentObserver;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -37,21 +31,17 @@ import models.Email;
 import models.EmailSender;
 import sync.ClientsSyncAdapter;
 import sync.ContactsSyncAdapter;
-import sync.SynInventarioPartes;
-import sync.SyncResult;
 
 public class ScrollingActivity extends AppCompatActivity {
   //region sync
     private static final int REQUEST_LOGIN_CODE = 9000;
-    public static final long SYNC_INTERVAL = Long.parseLong(String.valueOf(R.string.pollFrequency));
-    public static final String AUTHORITY = "ClientsContentProvider";
     ContentResolver mResolver;
     private String user = "";
     SlidingTabLayout mTabs;
     ViewPager mPager;
     AppController appController;
     ProgressDialog dialog;
-    public static SyncResult.Listener mObserver;
+    WebFormsPagerAdapter adapter;
 
 
     @Override
@@ -61,29 +51,8 @@ public class ScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mObserver = new SyncObserver();
-        //region firstTime
-        /**
-         * SI ES LA PRIMERA VEZ QUE ENTRA MUESTRA UN POPUP Y ESPERA A QUE TERMINE DE SYNC
-         */
-        if (isFirstTime()){
-
-            dialog = ProgressDialog.show(this, "Sincronizacion en proceso",
-                    "Aguarde mientras sincronizamos su configuracion...", true);
-            }
-
-        //endregion
         appController = AppController.getInstance();
-        //region verifica existencia de credenciales NCR
-        Intent i = new Intent(this, EmailService.class);
-        if (!AppController.getInstance().checkCredentials()) {
-            showLogin();
-        } else {
-            appController.initializeSync();
-            startService(i);
-        }
-        user = new WebFormsPreferencesManager(this).getUserName();
-        //endregion
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +64,8 @@ public class ScrollingActivity extends AppCompatActivity {
 
 
         mPager = (ViewPager)findViewById(R.id.pager);
-        mPager.setAdapter(new WebFormsPagerAdapter(getSupportFragmentManager()));
+        adapter = new WebFormsPagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(adapter);
         mTabs = (SlidingTabLayout)findViewById(R.id.tabs);
         mTabs.setCustomTabView(R.layout.custom_tab_view,R.id.tabText);
         mTabs.setDistributeEvenly(true);
@@ -106,30 +76,36 @@ public class ScrollingActivity extends AppCompatActivity {
             }
         });
         mTabs.setViewPager(mPager);
+        //region verifica existencia de credenciales NCR
+        Intent i = new Intent(this, EmailService.class);
+        if (!AppController.getInstance().checkCredentials()) {
+            showLogin();
+        } else {
+            appController.initializeSync();
+            startService(i);
+        }
+        user = new WebFormsPreferencesManager(this).getUserName();
+        //endregion
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        }
-
-    public class SyncObserver implements SyncResult.Listener{
-
-        @Override
-        public void onSuccess() {
-            if (SyncResult.STATE_CLIENTES == SyncResult.SUCCESS
-                    && SyncResult.STATE_CONTACTOS == SyncResult.SUCCESS){
-                dialog.dismiss();
-                new WebFormsPreferencesManager(ScrollingActivity.this).put(WebFormsPreferencesManager.IS_FIRST_TIME,true);
+        mPager = (ViewPager)findViewById(R.id.pager);
+        adapter = new WebFormsPagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(adapter);
+        mTabs = (SlidingTabLayout)findViewById(R.id.tabs);
+        mTabs.setCustomTabView(R.layout.custom_tab_view,R.id.tabText);
+        mTabs.setDistributeEvenly(true);
+        mTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.blanco);
             }
+        });
+        mTabs.setViewPager(mPager);
         }
-
-        @Override
-        public void onError() {
-
-        }
-    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -172,11 +148,10 @@ public class ScrollingActivity extends AppCompatActivity {
             Intent serviceIntent = new Intent(this, EmailService.class);
             startService(serviceIntent);
             appController.onDemandSyncClientesContactos();
-            new WebFormsPreferencesManager(this).put(WebFormsPreferencesManager.IS_FIRST_TIME,true);
+            new WebFormsPreferencesManager(this).put(WebFormsPreferencesManager.IS_FIRST_TIME,false);
             dialog = ProgressDialog.show(this, "Sincronizacion en proceso",
                     "Aguarde mientras sincronizamos su configuracion...", true);
-
-
+            new FirstSync().execute();
 
         }
 
@@ -212,10 +187,30 @@ public class ScrollingActivity extends AppCompatActivity {
         }
     }
 
+    private class FirstSync extends AsyncTask<Void,Void,Boolean>{
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            Log.v("NCR","se llama a contactos sync adapter");
+            new ContactsSyncAdapter(ScrollingActivity.this,true).doSync();
+            Log.v("NCR","se llama a clientes sync adapter");
+            new ClientsSyncAdapter(ScrollingActivity.this,true).doSync();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            dialog.dismiss();
+
+        }
+    }
     public static class WebFormsTabsFragment extends Fragment{
 
         RecyclerView recyclerView;
+        RecyclerView rvForms;
         CustomAdapter customAdapter;
+        ScrollingActivityRvAdapter adapter;
 
         public static WebFormsTabsFragment getInstance(int position){
            WebFormsTabsFragment webFormsTabsFragment = new WebFormsTabsFragment();
@@ -225,6 +220,15 @@ public class ScrollingActivity extends AppCompatActivity {
             return webFormsTabsFragment;
         }
 
+        public  void refreshRecyclerView(Context context){
+            adapter =
+                    new ScrollingActivityRvAdapter(context);
+            rvForms.setAdapter(adapter);
+            rvForms.setLayoutManager(new LinearLayoutManager(
+                    getContext()
+            ));
+            adapter.notifyDataSetChanged();
+        }
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -292,14 +296,8 @@ public class ScrollingActivity extends AppCompatActivity {
                     default:
                         layout = inflater.inflate(R.layout.content_scrolling,container,false);
 
-                        RecyclerView rvForms = (RecyclerView)layout.findViewById(R.id.rvForms);
-                        ScrollingActivityRvAdapter adapter =
-                                new ScrollingActivityRvAdapter(getContext());
-                        rvForms.setAdapter(adapter);
-                        rvForms.setLayoutManager(new LinearLayoutManager(
-                                getContext()
-                        ));
-                        adapter.notifyDataSetChanged();
+                         rvForms = (RecyclerView)layout.findViewById(R.id.rvForms);
+                         refreshRecyclerView(getActivity().getApplicationContext());
                         break;
                 }
             }

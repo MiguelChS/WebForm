@@ -34,7 +34,7 @@ public class ClientsContentProvider extends WebFormsProvider {
       uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME,"clients",CLIENT);
         uriMatcher.addURI(PROVIDER_NAME,"clients/#",CLIENT_ID);
-    };
+    }
 
     public ClientsContentProvider() {
     }

@@ -1,0 +1,44 @@
+Async Task
+    private class LoadData extends AsyncTask<Void, Void, ArrayList<Elemento>> {
+
+        @Override
+        protected void onPreExecute() {
+            linlaHeaderProgress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected ArrayList<Elemento> doInBackground(Void... params) {
+            Log.v("NCR","Cargando...");
+            Cursor cursor = getContentResolver().query(
+                    InventarioProvider.CONTENT_URL,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+            if (cursor != null){
+                while(cursor.moveToNext()){
+                    gridArray.add(
+                            new Elemento(
+                                    cursor.getString(cursor.getColumnIndex(InventarioProvider.CLASE)),
+                                    cursor.getString(cursor.getColumnIndex(InventarioProvider.CLASEMODELO)),
+                                    cursor.getString(cursor.getColumnIndex(InventarioProvider.DESCRIPCION)),
+                                    cursor.getInt(cursor.getColumnIndex(InventarioProvider.ID)),
+                                    cursor.getString(cursor.getColumnIndex(InventarioProvider.PARTE))
+                            )
+                    );
+                }
+            }
+            return gridArray;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Elemento> aVoid) {
+            linlaHeaderProgress.setVisibility(View.GONE);
+            init();
+            mAdapter = new ElementAdapter(InventoryActivity.this,0,aVoid);
+            recycleView.setAdapter(mAdapter);
+            setProgressBarIndeterminateVisibility(false);
+            totalRegistros.setText("Total de registros: " + aVoid.size());
+        }
+    }

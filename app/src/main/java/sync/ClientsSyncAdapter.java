@@ -53,6 +53,11 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, final SyncResult syncResult) {
+        doSync();
+    }
+
+    public void doSync(){
+        Log.v("NCR","sincronizando clientes...");
         StringBuilder stringBuilder = new StringBuilder((Api.SERVER + Api.CLIENTS + "/?CSR=@"));
         int index = stringBuilder.indexOf("@");
         stringBuilder.replace(index,(index + 1),new WebFormsPreferencesManager(mContext).getCsrCode());
@@ -107,15 +112,14 @@ public class ClientsSyncAdapter extends AbstractThreadedSyncAdapter {
                         }
 
                         Log.v("NCR","Clientes sincronizados");
-                        sync.SyncResult.STATE_CLIENTES = sync.SyncResult.SUCCESS;
-                        ScrollingActivity.mObserver.onSuccess();
+
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        sync.SyncResult.STATE_CLIENTES = sync.SyncResult.ERROR;
+
                         Log.e("NCR","sync clientes",error);
                         AppController.getInstance().notify(
                                 "Error Sincronizar Clientes",

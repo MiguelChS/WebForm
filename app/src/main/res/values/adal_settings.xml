@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="AADAuthority">https://login.windows.net/common</string>
-    <string name="AADResourceId">https://graph.microsoft.com</string>
-    <string name="AADClientId">75622da2-a035-4e40-a654-306d824692d8</string>
-    <string name="AADRedirectUrl">http://localhost:8000</string>
-</resources>

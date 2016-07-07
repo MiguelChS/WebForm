@@ -59,6 +59,11 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
+        doSync();
+    }
+    public  void doSync(){
+
+        Log.v("NCR","sincronizando contactos");
         StringBuilder stringBuilder = new StringBuilder((Api.SERVER + Api.CONTACTS +
                 "/?CSR=@" ));
         int index = stringBuilder.indexOf("@");
@@ -79,10 +84,10 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
                                 JSONObject json = response.getJSONObject(i);
                                 remoteContacts.add(
                                         new Contacto(
-                                              json.getString("direcciones"),
-                                              json.getString("nombres"),
-                                              json.getString("pais"),
-                                              json.getString("numero"))
+                                                json.getString("direcciones"),
+                                                json.getString("nombres"),
+                                                json.getString("pais"),
+                                                json.getString("numero"))
                                 );
                             } catch (JSONException e) {
                                 AppController.getInstance().notify(
@@ -117,15 +122,12 @@ public class ContactsSyncAdapter extends AbstractThreadedSyncAdapter {
                             }
                         }
                         Log.v("NCR","Contactos Sincronizados");
-                        sync.SyncResult.STATE_CONTACTOS = sync.SyncResult.SUCCESS;
-                        ScrollingActivity.mObserver.onSuccess();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        sync.SyncResult.STATE_CONTACTOS = sync.SyncResult.ERROR;
                         Log.e("NCR","error sync contactos",error);
                         AppController.getInstance().notify(
                                 "Error Sync Contactos",

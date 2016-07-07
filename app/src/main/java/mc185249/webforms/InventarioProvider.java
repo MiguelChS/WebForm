@@ -35,7 +35,7 @@ public class InventarioProvider extends WebFormsProvider {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME,"inventario",INVENTARIO);
         uriMatcher.addURI(PROVIDER_NAME,"inventario/#",INVENTARIO_ID);
-    };
+    }
 
     public InventarioProvider() {
     }

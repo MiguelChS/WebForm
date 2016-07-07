@@ -37,7 +37,7 @@ public class ContactsProvider extends WebFormsProvider {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME,"contacts",CONTACTS);
         uriMatcher.addURI(PROVIDER_NAME,"contacts/#",CONTACTS_ID);
-    };
+    }
 
     public ContactsProvider() {
     }

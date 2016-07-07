@@ -45,9 +45,7 @@ public class EmailsProvider extends WebFormsProvider {
       uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME, "emails", EMAIL);
         uriMatcher.addURI(PROVIDER_NAME, "emails/#", EMAIL_ID);
-    };
-
-
+    }
 
 
     @Override

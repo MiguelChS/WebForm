@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="end|bottom"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.mc185249.webforms.FloatingActionMenu">
+    tools:context="mc185249.webforms.FloatingActionMenu">
 
 
 

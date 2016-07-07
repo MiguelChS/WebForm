@@ -62,20 +62,14 @@ public class Storage {
 
    private boolean isExternalStorageWrittable(){
        String statte = Environment.getExternalStorageState();
-       if (Environment.MEDIA_MOUNTED.equals(statte)){
-           return true;
-       }
+       return Environment.MEDIA_MOUNTED.equals(statte);
 
-       return false;
    }
 
     private boolean isExternalStorageReadable(){
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)){
-            return true;
-        }
+        return Environment.MEDIA_MOUNTED.equals(state);
 
-        return false;
     }
 
     public static Bitmap roundedCroppedImage(Bitmap bitmap)

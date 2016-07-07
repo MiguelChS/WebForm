@@ -86,11 +86,8 @@ public class EmailService extends Service {
 
     private boolean isDeviceOnline(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null){
-            return true;
-        }
+        return connectivityManager != null;
 
-        return false;
     }
 }
 
