@@ -102,7 +102,7 @@ public class ScrollingActivityRvAdapter extends RecyclerView.Adapter<ScrollingAc
     }
 
     /**
-     * Provide a direct reference to each of the views within a data item
+     * Provide a direct reference to each of the views within a data itemgit
      Used to cache the views within the item layout for fast access
       */
      public static class ViewHolder extends RecyclerView.ViewHolder {

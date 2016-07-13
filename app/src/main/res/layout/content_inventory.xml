@@ -28,21 +28,6 @@ android:orientation="vertical"
             android:layout_gravity="right"
             android:text="@string/button_search" />
 
-
-        <LinearLayout
-            android:id="@+id/linlaHeaderProgress"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
-
-                <ProgressBar
-                    android:id="@+id/pbHeaderProgress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-                </ProgressBar>
-        </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycleView"
         android:scrollbars="vertical"

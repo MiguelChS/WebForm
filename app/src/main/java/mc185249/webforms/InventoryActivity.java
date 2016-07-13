@@ -40,9 +40,7 @@ public class InventoryActivity extends AppCompatActivity {
     RecyclerView recycleView;
     ElementAdapter mAdapter;
     TextView totalRegistros;
-    android.app.ProgressDialog dialog;
 
-    LinearLayout linlaHeaderProgress;
     RecyclerView.LayoutManager mLayoutManager;
     ProgressBar progressBar;
     ClipboardManager clipboardManager;
@@ -52,7 +50,6 @@ public class InventoryActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            linlaHeaderProgress.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -83,7 +80,6 @@ public class InventoryActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<Elemento> aVoid) {
-            linlaHeaderProgress.setVisibility(View.GONE);
             init();
             mAdapter = new ElementAdapter(InventoryActivity.this,0,aVoid);
             recycleView.setAdapter(mAdapter);
@@ -98,7 +94,6 @@ public class InventoryActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             recycleView.setVisibility(View.GONE);
-            linlaHeaderProgress.setVisibility(View.VISIBLE);
             setProgressBarIndeterminateVisibility(true);
 
         }
@@ -114,8 +109,6 @@ public class InventoryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            setProgressBarIndeterminateVisibility(false);
-            linlaHeaderProgress.setVisibility(View.GONE);
             recycleView.setVisibility(View.VISIBLE);
             totalRegistros.setText("Total de registros: " + mAdapter.getItemCount());
         }
@@ -126,8 +119,6 @@ public class InventoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_inventory);
-        linlaHeaderProgress = (LinearLayout)findViewById(R.id.linlaHeaderProgress);
-        progressBar = (ProgressBar) findViewById(R.id.pbHeaderProgress);
         setProgressBarIndeterminateVisibility(true);
         filter_button = (ButtonFlat) findViewById(R.id.button_filter);
         filter_button.setOnClickListener(new View.OnClickListener() {
