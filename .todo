@@ -6,11 +6,23 @@
             al finalizar crashea cuando crea los menu o cuando se hace click en uno
         </comment>
     </note>
-    <note priority="high" time="1467905910">
+    <note priority="high" time="1467905910" done="1468243531">
         Sincronizar al cambiar CSRCODE
+        <comment>
+            asyncTask sync retorna null, habria que hacer que retorno un boolean para comprobar que se realizo correctamente, en caso de fallar deberia notificar el error al usuario.
+        </comment>
+    </note>
+    <note priority="high" time="1468238022" done="1468419122">
+        crear tablas faltantes en la base de datos del server
+        <comment>
+            Tablas creadas y web api guarda formularios
+        </comment>
     </note>
     <note priority="high" time="1467905932">
         Agregar formulario tecnical tips
+    </note>
+    <note priority="high" time="1468419212">
+        Android enviar todos los forms a web api
     </note>
     <note priority="medium" time="1467905976">
         Agregar al json FormID
